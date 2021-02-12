@@ -1,0 +1,18 @@
+.App {
+  overflow: hidden;
+}
+
+.padded {
+  padding: 5px;
+  height: 100%;
+  vertical-align: middle;
+  text-justify: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.wide {
+  max-width: 90%;
+}
