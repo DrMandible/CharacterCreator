@@ -1,18 +1,270 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+ul {
+  font-size: 1.2em;
+  margin: 0;
+  color: gray;
+}
+
+p {
+  margin: 0 0 0.5em 0;
+}
+
+br {
+  line-height: 0.1rem;
+  max-height: 0.1rem;
+  display: block;
+  margin: -10px;
+}
+
 .App {
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: black;
+  color: lightgray;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
-.padded {
-  padding: 5px;
-  height: 100%;
-  vertical-align: middle;
-  text-justify: center;
+.masonry-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.masonry-grid_column {
+  padding-left: 0.15em; /* gutter size */
+  background-clip: padding-box;
 }
 
-.flex {
+.bdr-t {
+  border-top: 1px solid gray;
+}
+
+.bdr-b {
+  border-bottom: 1px solid gray;
+}
+
+.bdr-r {
+  border-right: 1px solid gray;
+}
+
+.bdr-l {
+  border-left: 1px solid gray;
+}
+
+.bdr-rad {
+  border-radius: 25px !important;
+}
+
+.d-flex {
   display: flex;
 }
 
-.wide {
-  max-width: 90%;
+.flex-r {
+  flex-direction: row;
+}
+
+.flex-c {
+  flex-direction: columns;
+}
+
+.f-w {
+  flex-wrap: wrap;
+}
+
+.p-1 {
+  padding: 0.25em;
+}
+
+.m-1 {
+  margin: 0.25em;
+}
+
+.w {
+  width: 100%;
+}
+
+.hw {
+  width: 50%;
+}
+
+.t {
+  min-height: 100vh;
+}
+
+.t-sub {
+  font-size: 0.8rem;
+  color: rgb(173, 188, 236);
+}
+
+.vw {
+  width: 100vw;
+}
+
+.off-d {
+  position: relative;
+  top: 10px;
+}
+
+.c {
+  align-self: center;
+  justify-self: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.e {
+  align-self: flex-end;
+  justify-self: flex-end;
+  align-items: flex-end;
+  justify-items: flex-end;
+  align-content: flex-end;
+  justify-content: flex-end;
+}
+
+.f-a-s {
+  align-self: flex-start;
+  justify-self: flex-start;
+  align-items: flex-start;
+  justify-items: flex-start;
+  align-content: flex-start;
+  justify-content: flex-start;
+  text-align: flex-start;
+}
+
+.f-sb {
+  display: flex;
+  align-content: space-between;
+  justify-content: space-between;
+}
+
+.i {
+  font-style: italic;
+}
+
+.tc {
+  text-align: center;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tr {
+  text-align: left;
+}
+
+.debug {
+  background-color: yellow;
+  color: red;
+}
+
+.selected {
+  background-color: rgb(0, 0, 10);
+}
+
+.no-focus {
+  color: auto;
+}
+
+.no-focus:focus {
+  background-color: rgb(0, 0, 10);
+  box-shadow: none;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+}
+
+.no-focus:active {
+  background-color: rgb(0, 0, 10);
+  box-shadow: none;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+}
+
+.bg-rad {
+  background: rgb(35, 35, 125);
+  background: radial-gradient(
+    circle,
+    rgba(35, 35, 125, 1) 0%,
+    rgba(35, 35, 125, 0.9640231092436975) 70%,
+    rgba(35, 35, 125, 0.7707457983193278) 87%,
+    rgba(35, 35, 125, 0) 100%
+  );
+}
+
+/* LOADING SPINNER */
+
+.spinner {
+  animation: 2s linear infinite svg-animation;
+  max-width: 100px;
+}
+
+@keyframes svg-animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+circle {
+  animation: 1.4s ease-in-out infinite both circle-animation;
+  display: block;
+  fill: transparent;
+  stroke: #2f3d4c;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 280;
+  stroke-width: 10px;
+  transform-origin: 50% 50%;
+}
+
+@keyframes circle-animation {
+  0%,
+  25% {
+    stroke-dashoffset: 280;
+    transform: rotate(0);
+  }
+
+  50%,
+  75% {
+    stroke-dashoffset: 75;
+    transform: rotate(45deg);
+  }
+
+  100% {
+    stroke-dashoffset: 280;
+    transform: rotate(360deg);
+  }
 }

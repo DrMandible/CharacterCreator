@@ -1,86 +1,76 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-import { EditMove } from "./EditMove";
+import { CharacterSheet } from "./routes/CharacterSheet";
+import { CharacterSelect } from "./routes/CharacterSelect";
+import { Toolbar } from "./components/Toolbar";
 
-// MODULE SCOPE VARIABLES begin
-let characterMoves = {
-  test: {
-    moveName: "Move Name",
-    roll: true,
-    modifier: "DEX",
-    description: "test description",
-    type: "move type (basic, playbook, homebrew, etc)",
-    source: "rule source (core, 3rd party playbook, username)"
-  },
-  test2: {
-    moveName: "Move 2 Name",
-    roll: false,
-    modifier: "DEX",
-    description:
-      "Commodi sequi iure rem veniam sit quasi eos. Quaerat esse recusandae eos exercitationem quod fugiat. Ut saepe aliquid dicta. Quasi magnam harum nulla at. Magnam et vitae neque commodi harum omnis eos. Quo et est facere et consequatur fuga dolor mollitia.",
-    type: "move type (basic, playbook, homebrew, etc)",
-    source: "rule source (core, 3rd party playbook, username)"
-  }
-};
-// MODULE SCOPE VARIABLES end
+import { Login } from "./routes/Login";
+import { Friends } from "./routes/Friends";
 
-// REACT COMPONENTS begin
-const MoveList = () => {
-  const [moves, setMoves] = React.useState(characterMoves);
-  const [showAddMove, setShowAddMove] = React.useState(false);
+import { Party } from "./routes/Party";
+import { Menu } from "./routes/Menu";
+import { store } from "./data/store";
 
-  const handleNewMoveClick = (e) => {
-    setShowAddMove(true);
-  };
+import * as SC from "./styled";
 
-  return (
-    <div>
-      {showAddMove ? (
-        <EditMove
-          state={[showAddMove, setShowAddMove]}
-          moveList={[moves, setMoves]}
-        />
-      ) : (
-        <button className="btn btn-primary gx-2" onClick={handleNewMoveClick}>
-          New Move
-        </button>
-      )}
-      <div className="card-deck">
-        {Object.entries(moves).map((moveEntry) => {
-          let [moveId, move] = moveEntry;
-          return <Move move={move} key={moveId} />;
-        })}
-      </div>
-    </div>
-  );
-};
-
-const Move = (props) => {
-  const move = props.move;
-  return (
-    <div className="card">
-      <div className="card-header">
-        <b className="card-title">{move.moveName}</b>
-      </div>
-      <div className="card-body">
-        <div>Roll: {move.roll}</div>
-        <div>Modifier: {move.modifier}</div>
-        <div>Description: {move.description}</div>
-      </div>
-      <div className="card-footer">
-        <div>Type: {move.type}</div>
-        <div>Source: {move.source}</div>
-      </div>
-    </div>
-  );
-};
+const View = ({ viewComponent }) => viewComponent;
 
 export function Main() {
+  const { state, dispatch } = React.useContext(store);
+  const [activeViews, setActiveViews] = React.useState(state.view);
+
+  React.useEffect(() => {
+    if (state.view !== activeViews) {
+      console.log("state.view: ", state.view);
+      setActiveViews(state.view);
+    }
+  }, [state.view]);
+
+  const VIEWS = {
+    LOGIN: <Login />,
+    PARTY: <Party />,
+    FRIENDS: <Friends />,
+    CHARACTER_SHEET: <CharacterSheet />,
+    CHARACTER_SELECT: <CharacterSelect />,
+    MENU: <Menu />
+  };
+  var w = window.innerWidth;
+  // console.log("state.view: ", VIEWS.LOGIN);
   return (
-    <div className="p-3">
-      <MoveList />
+    <div className="d-flex f-w w c">
+      <div className="d-flex f-w f-a-s">
+        {activeViews?.length > 0 &&
+          Array.from(new Set(activeViews)).map((view, key) => {
+            console.log("view: ", view, "key: ", key);
+            return (
+              <SC.CardBorders windowwidth={w} key={key} id={key}>
+                {VIEWS[`${view}`]}
+              </SC.CardBorders>
+            );
+          })}
+      </div>
+      {/* {state.view.includes("LOGIN") && <Login />}
+      {state.view.includes("PARTY") && <Party />}
+
+      {state.view.includes("FRIENDS") && (
+        <SC.CardBorders>
+          <Friends />
+        </SC.CardBorders>
+      )}
+      {state.view.includes("CHARACTER_SHEET") && (
+        <SC.CardBorders>
+          <CharacterSheet />
+        </SC.CardBorders>
+      )}
+      {state.view.includes("CHARACTER_SELECT") && <CharacterSelect />}
+      {state.view.includes("MENU") && <Menu />} */}
+
+      {!state.view.includes("LOGIN") && (
+        <React.Fragment>
+          <SC.ToolbarMargin />
+          <Toolbar state={state} dispatch={dispatch} />
+        </React.Fragment>
+      )}
     </div>
   );
 }
-// REACT COMPONENTS end

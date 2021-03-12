@@ -1,0 +1,12 @@
+{
+  "Human": {
+    "Male": "Aseir, Haseid, Kheed, Zasheir, Fodel, Glar, Grigor, Igan, Ivor, Kosef, Mival, Pavel, Sergor, Darvin, Dorn, Evendur, Gorstag, Helm, Morn, Randal, Stedd, Ander, Blath, Bran, Frath, Geth, Lander, Luth, Malcer, Stor, Taman, Bareris, Kethoth, Mumed, Urhur, Borivik, Faurgar, Jandar, Kanithar, Madislak, Ralmevik, Shaumar, Vladislak, Chen, Chi, Fai, Jiang, Jun, Lian, Long, Meng, Shan, Wen, Anton, Diero, Marcon, Pieron, Rimardo, Romero, Salazar, Umbero",
+    "Female": "Atala, Ceidil, Hama, Jasmal, Meilil, Yasheira, Zasheida, Arveene, Esvele, Jhessail, Kerri, Lureene, Miri, Rowan, Tessele, Alethra, Kara, Katernin, Mara, Natali, Olma, Tana, Zora Betha, Cefrey, Kethra, Mara, Olga, Silifrey, Westra, Arizima, Chathi, Nephis, Nulara, Murithi, Sefris, Thola, Umara, Zolis, Hulmarra, Immith, Imzel, Navarra, Shevarra, Tammith. Yuldra, Bai, Chao, Jia, Lei, Mei, Qiao, Shui, Tai, Balama, Dona, Faila, Jalana, Luisa, Marta, Quara, Selise, Vonda",
+    "Surname": "Dumein, Jassan, Khalid, Mostana, Pashar, Rein, Amblecrown, Buckman, Dundragon, Evenwood, Greycastle, Tallstag, Bersk, Chernin, Dotsk, Kulenov, Marsk, Nemetsk, Shemov, Starag, Brightwood, Helder, Hornraven, Lackman, Storm wind, Windrivver, Anskuld, Fezim, Hahpet, Nathandem, Sepret, Chergoba, Dyernina, Ulmokina, Chien, Huang, Kao, Kung, Lao, Ling, Mei, Pin, Shin, Sum, Tan, Wan, Agosto, Astorio, Calabra, Domine, Falone, Marivaldi, Pisacar"
+  },
+  "Dwarf": {
+    "Male": "Adrik, Alberich, Baern, Barendd, Brottor, Bruenor, Dain, Darrak, Delg, Eberk, Einkil, Fargrim, Flint, Gardain, Harbek, Kildrak, Morgran, Orsik, Oskar, Rangrim, Rurik, Taklinn, Thoradin, Thorin, Tordek, Travok, Ulfgar, Veit, Vondal",
+    "Female": "Amber, Artin, Audhild, Bardryn, Diesa, Eldeth, Falkrunn, Finellen, Gunnloda, Gurdis, Helja, Hlin, Kathra, Kristryd, Ilde, Liftrasa, Mardred, Riswynn, Sannl, Torbera, Torgga, Vistra",
+    "Clan": "Balderk, Battlehammer, Brawnanvil, Dankil, Fireforge, Frostbeard, Gorunn, Holderhek, Ironfist, Loderr, Lutgehr, Rumnaheim, Strakeln, Torunn, Ungart"
+  }
+}

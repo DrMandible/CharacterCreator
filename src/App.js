@@ -1,13 +1,44 @@
 import React from "react";
+import { Router } from "@reach/router";
+
 import "./styles.css";
+import { ThemeProvider } from "styled-components";
+
+import { StateProvider } from "./data/store";
 
 import { Main } from "./Main";
 
+const THEME = {
+  main: `rgba(175, 170, 235, 1)`,
+  background: `rgba(15, 15, 25, 1)`,
+  shade: `rgba(0, 0, 0, 0.1)`,
+  bright: "rgba(255, 255, 255, 0.1)",
+  shadow: `rgba(175, 170, 235, .5)`
+};
+
 export default function App() {
   return (
-    <div className="App">
-      <Main className="wide" />
-    </div>
+    <StateProvider>
+      <ThemeProvider theme={THEME}>
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            height: "100vh",
+            width: "100vw",
+            background: THEME.background,
+            zIndex: -999
+          }}
+        />
+        <Router>
+          <Main path="/" />
+          {/* <Authenticate path="/login" /> */}
+          {/* <Login path="/login" /> */}
+          {/* <Party path="/party" /> */}
+        </Router>
+      </ThemeProvider>
+    </StateProvider>
   );
 }
 // REACT COMPONENTS end
