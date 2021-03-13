@@ -10,7 +10,6 @@
     "formik": "2.2.6",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-draggable": "4.4.3",
     "react-graph-vis": "1.0.7",
     "react-masonry-css": "1.0.14",
     "react-scripts": "4.0.0",

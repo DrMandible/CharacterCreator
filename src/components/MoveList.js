@@ -4,9 +4,6 @@ import axios from "axios";
 import { MoveCard } from "./MoveCard";
 import { EditMove } from "./EditMove";
 
-import * as SC from "../styled/index";
-import Masonry from "react-masonry-css";
-
 // MODULE SCOPE VARIABLES begin
 const URL_BASE = `https://character-companion.glitch.me/api`;
 const URL_MOVES = `${URL_BASE}/table/moves`;
