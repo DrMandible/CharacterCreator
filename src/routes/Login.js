@@ -136,10 +136,10 @@ export const Login = () => {
       <SC.SmallCard className="p-1 bdr-b bdr-t bdr-rad">
         <form onSubmit={formik.handleSubmit}>
           <SC.CardHeader className="p-1">
-            <ul className="bdr-b w">Email</ul>
+            <ul className="w">Email</ul>
             <div className="w c">
               <SC.CardInput
-                className="w c bdr-b tc"
+                className="w c tc"
                 type="text"
                 id="email"
                 name="email"
@@ -149,10 +149,10 @@ export const Login = () => {
             </div>
             <div className="p-1" />
 
-            <ul className="bdr-b w">Password</ul>
+            <ul className=" w">Password</ul>
             <div className="w c">
               <SC.CardInput
-                className="w c bdr-b tc"
+                className="w c  tc"
                 type="password"
                 id="password"
                 name="password"
@@ -165,10 +165,10 @@ export const Login = () => {
 
             {isRegistering && (
               <React.Fragment>
-                <ul className="bdr-b w">Confirm password</ul>
+                <ul className=" w">Confirm password</ul>
                 <div className="w c">
                   <SC.CardInput
-                    className="w c bdr-b tc"
+                    className="w c tc"
                     type="password"
                     id="confirmPassword"
                     name="confirmPassword"
@@ -179,10 +179,10 @@ export const Login = () => {
                 </div>
                 <div className="p-1" />
 
-                <ul className="bdr-b w">Display Name</ul>
+                <ul className="w">Display Name</ul>
                 <div className="w c">
                   <SC.CardInput
-                    className="w c bdr-b tc"
+                    className="w c tc"
                     type="text"
                     id="userName"
                     name="userName"
@@ -200,6 +200,10 @@ export const Login = () => {
               type="reset"
               className="m-1 p-1"
               onMouseUp={handleCancel}
+              style={{
+                background: "rgb(176, 147, 152",
+                color: "rgb(235, 252, 251"
+              }}
             >
               Nevermind
             </SC.Button>

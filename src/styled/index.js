@@ -67,11 +67,19 @@ export const CardBorders = styled.div`
   height: 100%;
   max-height: 75vh;
   overflow-x: hidden;
-  margin: 0.5rem;
+  margin: 1rem;
   padding: 0.5rem;
-  border: 1px solid gray;
+  border: 1px solid ${(props) => props.theme.shade};
   border-radius: 0.3rem;
-  color: lightgray;
+  color: ${(props) => props.theme.text};
+  -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+  box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+  transition: 0.3s;
+
+  &:hover {
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.83);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.83);
+  }
 `;
 
 export const DeckHeader = styled.div`
@@ -82,16 +90,17 @@ export const DeckHeader = styled.div`
 `;
 
 export const CardInput = styled.input`
-  background-color: ${(props) => props.theme.bright};
-  color: lightgray;
+  background-color: ${(props) => props.theme.shade};
+  color: ${(props) => props.theme.text};
   padding: 0.25em 0.15em 0.5em 0.25em;
   font-size: 1.25em;
+  border-radius: 2rem 0 0 2rem;
   border: none;
 `;
 
 export const CardTextArea = styled.textarea`
-  background-color: ${(props) => props.theme.bright};
-  color: lightgray;
+  background-color: ${(props) => props.theme.shade};
+  color: ${(props) => props.theme.text};
   padding: 0.25em 0.15em 0.5em 0.25em;
   border: none;
 `;
@@ -113,29 +122,31 @@ export const CardSelect = styled.select`
 
   &:hover {
     background-color: ${DARKEN};
-    box-shadow: 0 0 0 2px rgb(150, 240, 220);
-    color: lightgray;
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    color: ${(props) => props.theme.text};
     cursor: pointer;
   }
 
   &:focus {
-    color: lightgray;
+    color: ${(props) => props.theme.text};
     box-shadow: 0 0 0 1px rgb(0, 200, 50);
   }
 
   &:active {
-    color: lightgray;
+    color: ${(props) => props.theme.text};
     box-shadow: 0 0 0 1px rgb(0, 200, 50);
   }
 `;
 
 export const CardOption = styled.option`
-  background-color: rgba(50, 150, 255, 0.2);
-  color: rgba(0, 0, 255, 1);
+  background-color: ${(props) => props.theme.background};
+  color: ${(props) => props.theme.text};
   &:hover {
     background-color: ${(props) => props.theme.background};
-    box-shadow: 0 0 0 2px rgb(150, 240, 220);
-    color: lightgray;
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    color: ${(props) => props.theme.text};
     cursor: pointer;
   }
 `;
@@ -162,6 +173,8 @@ export const SmallCard = styled(Card)`
   width: 10rem;
   /* max-width: 35rem; */
   overflow-x: hidden;
+  -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+  box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
 `;
 
 export const CardHeader = styled.div`
@@ -173,7 +186,7 @@ export const CardHeader = styled.div`
 
 export const CardBodyTitle = styled.div`
   font-weight: bold;
-  color: lightgray;
+  color: ${(props) => props.theme.text};
 `;
 
 export const CardFooter = styled.div`
@@ -188,7 +201,7 @@ export const CardName = styled.div`
 `;
 
 export const CardTrigger = styled.i`
-  color: lightgray;
+  color: ${(props) => props.theme.text};
   padding: 0.5em;
   margin-top: -0.25em;
   font-weight: bold;
@@ -236,25 +249,26 @@ export const Button = styled.button`
   border-radius: 3px;
 
   /* Color the border and text with theme.main */
-  color: ${(props) => props.theme.main};
+  color: ${(props) => props.theme.text};
   border: 1px solid rgba(23, 51, 78, 1);
-  background-color: ${(props) => props.theme.bright};
+  background-color: ${(props) => props.theme.confirm};
 
   &:hover {
     background-color: ${(props) => props.theme.background};
-    box-shadow: 0 0 0 2px ${(props) => props.theme.shadow};
-    color: lightgray;
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+
     cursor: pointer;
   }
 
   &:focus {
-    color: lightgray;
-    box-shadow: 0 0 0 1px rgb(0, 200, 50);
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
   }
 
   &:active {
-    color: lightgray;
-    box-shadow: 0 0 0 1px rgb(0, 200, 50);
+    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
   }
 `;
 
@@ -289,7 +303,7 @@ export const Toolbar = styled.div`
 `;
 
 export const ToolbarBG = styled.div`
-  background-color: midnightblue;
+  color: ${(props) => props.theme.text};
   width: 100%;
   height: 40%;
   position: absolute;
@@ -306,12 +320,11 @@ export const ToolbarOption = styled.div`
   border-top: ${(props) =>
     props.currentselection ? `1px solid powderblue` : "1px solid gray"};
   padding: 0.5rem;
-  background-color: ${(props) =>
-    props.currentselection ? "rgb(50, 50, 150)" : "black"};
+  background-color: ${(props) => props.theme.shade};
+
   height: 3rem;
   width: 3rem;
   &:focus {
-    background-color: rgb(0, 0, 10);
     box-shadow: none;
     border: none;
     outline: none;
@@ -320,16 +333,14 @@ export const ToolbarOption = styled.div`
   }
 
   &:active {
-    background-color: rgb(0, 0, 10);
     box-shadow: none;
     border: none;
     outline: none;
     border-radius: 50%;
     border-top: 1px solid white;
   }
-
   &:hover {
-    background-color: rgb(50, 50, 150);
+    background-color: ${(props) => props.theme.secondary};
     border: none;
     outline: none;
     border-radius: 50%;
