@@ -307,9 +307,9 @@ export const ToolbarOption = styled.div`
   padding: 0.5rem;
   background-color: ${(props) =>
     props.currentselection ? props.theme.secondary : props.theme.shade};
-  -webkit-animation: ${slideInTopRight} 1s cubic-bezier(0.075, 0.82, 0.165, 1)
+  -webkit-animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)
     both;
-  animation: ${slideInTopRight} 1s cubic-bezier(0.075, 0.82, 0.165, 1) both;
+  animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) both;
   height: 3rem;
   width: 3rem;
   &:focus {

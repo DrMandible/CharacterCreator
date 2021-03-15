@@ -15,6 +15,8 @@ import * as SC from "./styled";
 
 const View = ({ viewComponent }) => viewComponent;
 
+const MemoizedFriends = React.memo(Friends);
+
 export function Main() {
   const { state, dispatch } = React.useContext(store);
   const [activeViews, setActiveViews] = React.useState(state.view);
@@ -29,7 +31,7 @@ export function Main() {
   const VIEWS = {
     LOGIN: <Login />,
     PARTY: <Party />,
-    FRIENDS: <Friends />,
+    FRIENDS: <MemoizedFriends />,
     CHARACTER_SHEET: <CharacterSheet />,
     CHARACTER_SELECT: <CharacterSelect />,
     MENU: <Menu />
@@ -46,7 +48,6 @@ export function Main() {
       <div className="d-flex f-w f-a-s">
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {
-            console.log("view: ", view, "key: ", key);
             return (
               <SC.CardBorders windowwidth={w} key={key} id={key}>
                 {VIEWS[`${view}`]}
@@ -54,21 +55,6 @@ export function Main() {
             );
           })}
       </div>
-      {/* {state.view.includes("LOGIN") && <Login />}
-      {state.view.includes("PARTY") && <Party />}
-
-      {state.view.includes("FRIENDS") && (
-        <SC.CardBorders>
-          <Friends />
-        </SC.CardBorders>
-      )}
-      {state.view.includes("CHARACTER_SHEET") && (
-        <SC.CardBorders>
-          <CharacterSheet />
-        </SC.CardBorders>
-      )}
-      {state.view.includes("CHARACTER_SELECT") && <CharacterSelect />}
-      {state.view.includes("MENU") && <Menu />} */}
 
       {!state.view.includes("LOGIN") && (
         <React.Fragment>
