@@ -66,9 +66,8 @@ export const Toolbar = (props) => {
       )}
 
       <SC.ToolbarOption
-        className="e"
         onClick={toggleMenuExpand}
-        // currentselection={props.state.view.includes("MENU") ? true : false}
+        currentselection={isExpanded ? true : false}
       >
         <IconMenu />
       </SC.ToolbarOption>

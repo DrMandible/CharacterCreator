@@ -26,8 +26,8 @@ const slideInTopRight = keyframes`
   opacity: 0.25;
 }
 80% {
-  -webkit-transform: scale(1.1) rotate(5deg);
-          transform: scale(1.1) rotate(5deg);
+  -webkit-transform: scale(1.05) rotate(5deg);
+          transform: scale(1.05) rotate(5deg);
 }
 100% {
   -webkit-transform: translateY(0) rotate(0deg) scale(1);
@@ -305,8 +305,11 @@ export const ToolbarOption = styled.div`
   border-top: ${(props) =>
     props.currentselection ? `1px solid powderblue` : "1px solid gray"};
   padding: 0.5rem;
-  background-color: ${(props) => props.theme.shade};
-
+  background-color: ${(props) =>
+    props.currentselection ? props.theme.secondary : props.theme.shade};
+  -webkit-animation: ${slideInTopRight} 1s cubic-bezier(0.075, 0.82, 0.165, 1)
+    both;
+  animation: ${slideInTopRight} 1s cubic-bezier(0.075, 0.82, 0.165, 1) both;
   height: 3rem;
   width: 3rem;
   &:focus {
