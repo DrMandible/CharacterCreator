@@ -4,9 +4,8 @@ import * as SC from "../styled";
 
 let styles = {
   toNodeIcon: { maxHeight: "3rem", maxWidth: "3rem!" },
-  smallText: { fontSize: "0.8rem", color: "lightgray" },
+  smallText: { fontSize: "0.8rem" },
   name: {
-    color: "rgb(195, 195, 225)",
     fontSize: "1.1rem"
   }
 };

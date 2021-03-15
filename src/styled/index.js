@@ -62,8 +62,9 @@ const DARKEN = `rgba(0, 0, 0, 0.1)`;
 
 export const CardBorders = styled.div`
   box-sizing: border-box;
-  background-color: ${(props) => props.theme.background};
-  width: ${(props) => (props.windowwidth < 600 ? "95vw" : `33vw`)};
+  background-color: ${(props) => props.theme.bright};
+  width: ${(props) =>
+    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3};
   height: 100%;
   max-height: 75vh;
   overflow-x: hidden;
@@ -116,38 +117,17 @@ export const CardSelect = styled.select`
   text-align: center;
   font-size: 1em;
   border-radius: 3px;
-  color: ${(props) => props.theme.main};
+  color: ${(props) => props.theme.text};
   border: 2px solid ${(props) => props.theme.main};
-  background-color: ${(props) => props.theme.background};
-
-  &:hover {
-    background-color: ${DARKEN};
-    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    color: ${(props) => props.theme.text};
-    cursor: pointer;
-  }
-
-  &:focus {
-    color: ${(props) => props.theme.text};
-    box-shadow: 0 0 0 1px rgb(0, 200, 50);
-  }
-
-  &:active {
-    color: ${(props) => props.theme.text};
-    box-shadow: 0 0 0 1px rgb(0, 200, 50);
-  }
 `;
 
 export const CardOption = styled.option`
-  background-color: ${(props) => props.theme.background};
+  /* background-color: ${(props) => props.theme.background}; */
   color: ${(props) => props.theme.text};
+  cursor: pointer;
   &:hover {
-    background-color: ${(props) => props.theme.background};
     -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    color: ${(props) => props.theme.text};
-    cursor: pointer;
   }
 `;
 
@@ -173,8 +153,15 @@ export const SmallCard = styled(Card)`
   width: 10rem;
   /* max-width: 35rem; */
   overflow-x: hidden;
-  -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-  box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 98%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  /* -webkit-box-shadow: -8px -8px -11px -2px rgba(0, 0, 0, 0.63);
+  box-shadow: -8px -8px -11px -2px rgba(0, 0, 0, 0.63); */
 `;
 
 export const CardHeader = styled.div`
@@ -244,20 +231,18 @@ export const Button = styled.button`
   justify-items: center;
   text-justify: center;
   text-align: center;
-  font-size: 1em;
   padding: 0.25em 1em;
-  border-radius: 3px;
+  border-radius: 5px;
 
   /* Color the border and text with theme.main */
   color: ${(props) => props.theme.text};
-  border: 1px solid rgba(23, 51, 78, 1);
+  border: 3px solid ${(props) => props.theme.main};
   background-color: ${(props) => props.theme.confirm};
 
   &:hover {
-    background-color: ${(props) => props.theme.background};
+    background-color: ${(props) => props.theme.secondary};
     -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-
     cursor: pointer;
   }
 
@@ -285,7 +270,7 @@ export const RollButton = styled(Button)`
   border: 2px solid ${(props) => props.theme.main};
   border-radius: 5px;
   font-weight: bold;
-  background-color: ${(props) => props.theme.background};
+  /* background-color: ${(props) => props.theme.background}; */
 `;
 
 export const Toolbar = styled.div`
@@ -355,7 +340,7 @@ export const ToolbarMargin = styled.div`
 `;
 
 export const SmallIcon = styled.div`
-  border: 4px solid midnightblue;
+  border: 3px solid ${(props) => props.theme.main};
   border-radius: 50%;
   width: 2.5rem;
   min-width: 2.5rem;

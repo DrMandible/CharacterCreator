@@ -23,12 +23,17 @@ export const Toolbar = (props) => {
         payload: view
       });
     }
+    setIsExpanded(false);
   };
 
   const toggleMenuExpand = () => setIsExpanded(!isExpanded);
 
+  const STYLE = {
+    justifyContent: `${isExpanded ? "space-around" : "flex-end"}`
+  };
+
   return (
-    <SC.Toolbar id="Toolbar">
+    <SC.Toolbar id="Toolbar" style={STYLE}>
       {isExpanded && (
         <React.Fragment>
           <SC.ToolbarOption

@@ -21,8 +21,8 @@ export function Main() {
 
   React.useEffect(() => {
     if (state.view !== activeViews) {
-      console.log("state.view: ", state.view);
       setActiveViews(state.view);
+      document.location.hash = String(state.view).toLowerCase();
     }
   }, [state.view]);
 
@@ -34,7 +34,12 @@ export function Main() {
     CHARACTER_SELECT: <CharacterSelect />,
     MENU: <Menu />
   };
-  var w = window.innerWidth;
+  var w =
+    window.innerWidth && document.documentElement.clientWidth
+      ? Math.min(window.innerWidth, document.documentElement.clientWidth)
+      : window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.getElementsByTagName("body")[0].clientWidth;
   // console.log("state.view: ", VIEWS.LOGIN);
   return (
     <div className="d-flex f-w w c">

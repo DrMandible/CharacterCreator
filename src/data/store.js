@@ -49,6 +49,13 @@ const cleanUser = (user) => {
   if (!user.friends) {
     user.friends = [];
   }
+
+  if (!user.friendRequests) {
+    user.friendRequests = [];
+  }
+  if (!user.friendRequestsOutgoing) {
+    user.friendRequestsOutgoing = [];
+  }
   if (typeof user.friendRequests === "string") {
     user.friendRequests =
       user.friendRequests?.split(",").map(function (item) {

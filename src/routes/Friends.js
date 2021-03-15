@@ -104,9 +104,7 @@ export const Friends = () => {
       console.log(response);
       let userIds = getReqAndFriendIds();
 
-      setSearchResults(
-        response.data.filter((value) => !userIds.includes(value.id))
-      );
+      setSearchResults(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -287,10 +285,7 @@ const UserCard = ({
   };
 
   return (
-    <SC.Card
-      className="bdr-b f-a-s f-sb m-1"
-      style={{ background: "rgba(25, 25, 65, 0.5)" }}
-    >
+    <SC.Card className="bdr-b f-a-s f-sb m-1">
       <BubbleWPortrait
         name={user.userName}
         image={

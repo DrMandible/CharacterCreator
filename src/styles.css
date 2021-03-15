@@ -12,7 +12,7 @@ html {
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-  background: #ff0000;
+  background: black;
 }
 
 body {
@@ -24,7 +24,6 @@ body {
 ul {
   font-size: 1.2em;
   margin: 0;
-  color: gray;
 }
 
 p {
@@ -43,8 +42,6 @@ br {
   padding: 0;
   min-height: 100vh;
   min-width: 100vw;
-  background-color: black;
-  color: lightgray;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
@@ -120,7 +117,7 @@ br {
 
 .t-sub {
   font-size: 0.8rem;
-  color: rgb(173, 188, 236);
+  /* color: rgb(173, 188, 236); */
 }
 
 .vw {
