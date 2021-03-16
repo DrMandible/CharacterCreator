@@ -1,4 +1,7 @@
 import React from "react";
+
+import { store } from "../data/store";
+
 import { MoveList } from "../components/MoveList";
 
 import * as SC from "../styled";
@@ -13,20 +16,15 @@ const Tabs = ({ activeTab, setActiveTab }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        minWidth: "100%"
-      }}
-    >
+    <div className="d-flex w">
       {TAB_LABELS.map((tab_label) => (
-        <div
+        <SC.SmallButton
           onClick={(e) => handleTabClick(tab_label)}
           className="p-1 m-1"
           key={tab_label}
         >
           {tab_label}
-        </div>
+        </SC.SmallButton>
       ))}
     </div>
   );
@@ -37,22 +35,14 @@ const Stats = () => {
 };
 
 export function CharacterSheet() {
+  const { state, dispatch } = React.useContext(store);
+
   const [activeTab, setActiveTab] = React.useState("Stats");
 
-  const ref = React.createRef();
-
-  React.useEffect(() => {
-    if (ref.current) {
-      console.log(ref);
-      ref.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-  }, [ref]);
+  console.log(state);
 
   return (
-    <div className="">
+    <div className="w">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === "Moves" && <MoveList />}
       {activeTab === "Stats" && <Stats />}

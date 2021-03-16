@@ -6,9 +6,10 @@ import { Toolbar } from "./components/Toolbar";
 
 import { Login } from "./routes/Login";
 import { Friends } from "./routes/Friends";
-
+import { Account } from "./components/Account";
 import { Party } from "./routes/Party";
 import { Menu } from "./routes/Menu";
+
 import { store } from "./data/store";
 
 import * as SC from "./styled";
@@ -34,6 +35,7 @@ export function Main() {
     FRIENDS: <MemoizedFriends />,
     CHARACTER_SHEET: <CharacterSheet />,
     CHARACTER_SELECT: <CharacterSelect />,
+    ACCOUNT: <Account />,
     MENU: <Menu />
   };
   var w =

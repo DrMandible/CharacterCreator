@@ -42,7 +42,7 @@ export const Friends = () => {
         userIds.push(id);
       }
     }
-    console.log("getReqAndFriendIds: ", typeof userIds, userIds);
+    // console.log("getReqAndFriendIds: ", typeof userIds, userIds);
     return [...userIds];
   };
 
@@ -89,7 +89,7 @@ export const Friends = () => {
   };
   React.useEffect(() => {
     getUsers();
-    console.log("Friends mounted - useEffect - state.user: ", state.user);
+    // console.log("Friends mounted - useEffect - state.user: ", state.user);
   }, []);
 
   const handleFriendSearch = async (e) => {
@@ -101,7 +101,7 @@ export const Friends = () => {
           "Content-Type": "application/json"
         }
       });
-      console.log(response);
+      // console.log(response);
       let userIds = getReqAndFriendIds();
 
       setSearchResults(response.data);
@@ -142,10 +142,10 @@ export const Friends = () => {
         let newSearchResults = searchResults.filter(
           (value) => !userIds.includes(value.id)
         );
-        console.log("newSearchResults:", newSearchResults);
+        // console.log("newSearchResults:", newSearchResults);
         setSearchResults(newSearchResults);
       }
-      console.log("newDispatch: ", newDispatch);
+      // console.log("newDispatch: ", newDispatch);
       dispatch(newDispatch);
       getUsers();
     } catch (err) {

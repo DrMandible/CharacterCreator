@@ -68,7 +68,8 @@ export const CardBorders = styled.div`
   height: 100%;
   max-height: 75vh;
   overflow-x: hidden;
-  margin: 1rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
   padding: 0.5rem;
   border: 1px solid ${(props) => props.theme.shade};
   border-radius: 0.3rem;
@@ -125,10 +126,10 @@ export const CardOption = styled.option`
   /* background-color: ${(props) => props.theme.background}; */
   color: ${(props) => props.theme.text};
   cursor: pointer;
-  &:hover {
+  /* &:hover {
     -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-  }
+  } */
 `;
 
 export const Card = styled.div`
@@ -241,19 +242,19 @@ export const Button = styled.button`
 
   &:hover {
     background-color: ${(props) => props.theme.secondary};
-    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
   }
 
   &:focus {
-    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 4px 4px 5px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
   }
 
   &:active {
-    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
   }
 `;
 
