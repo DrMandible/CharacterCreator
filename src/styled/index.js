@@ -74,13 +74,13 @@ export const CardBorders = styled.div`
   border: 1px solid ${(props) => props.theme.shade};
   border-radius: 0.3rem;
   color: ${(props) => props.theme.text};
-  -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
-  box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.63);
+  -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
+  box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
   transition: 0.3s;
 
   &:hover {
-    -webkit-box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.83);
-    box-shadow: 8px 8px 11px -2px rgba(0, 0, 0, 0.83);
+    -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.83);
+    box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.83);
   }
 `;
 
@@ -133,9 +133,9 @@ export const CardOption = styled.option`
 `;
 
 export const Card = styled.div`
-  -webkit-animation: ${slideInTopStraight} 1s
-    cubic-bezier(0.075, 0.82, 0.165, 1) both;
-  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 1) both;
+  -webkit-animation: ${slideInTopStraight} 0.5s
+    cubic-bezier(0.075, 0.82, 0.165, 0.9) both;
+  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 0.9) both;
   margin: 0.25em;
   border-radius: 0.3em;
   flex: 1 1 auto;
@@ -152,17 +152,7 @@ export const Card = styled.div`
 
 export const SmallCard = styled(Card)`
   width: 10rem;
-  /* max-width: 35rem; */
   overflow-x: hidden;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 98%,
-    rgba(0, 0, 0, 1) 100%
-  );
-  /* -webkit-box-shadow: -8px -8px -11px -2px rgba(0, 0, 0, 0.63);
-  box-shadow: -8px -8px -11px -2px rgba(0, 0, 0, 0.63); */
 `;
 
 export const CardHeader = styled.div`
@@ -242,19 +232,19 @@ export const Button = styled.button`
 
   &:hover {
     background-color: ${(props) => props.theme.secondary};
-    -webkit-box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
   }
 
   &:focus {
-    -webkit-box-shadow: 4px 4px 5px 11px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 2px 2px 3px 11px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
   }
 
   &:active {
-    -webkit-box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
-    box-shadow: 4px 4px 5px -2px rgba(0, 0, 0, 0.63);
+    -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
+    box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
   }
 `;
 

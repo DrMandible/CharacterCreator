@@ -47,7 +47,7 @@ export function Main() {
   // console.log("state.view: ", VIEWS.LOGIN);
   return (
     <div className="d-flex f-w w c">
-      <div className="d-flex f-w f-a-s">
+      <div className="d-flex f-w f-a-s p-1">
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {
             return (
