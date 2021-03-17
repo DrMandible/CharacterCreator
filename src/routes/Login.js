@@ -106,7 +106,15 @@ export const Login = () => {
         });
         dispatch({
           type: "ADD_VIEW",
+          payload: "ACCOUNT"
+        });
+        dispatch({
+          type: "ADD_VIEW",
           payload: "FRIENDS"
+        });
+        dispatch({
+          type: "ADD_VIEW",
+          payload: "CHARACTER_SHEET"
         });
         dispatch({
           type: "REMOVE_VIEW",

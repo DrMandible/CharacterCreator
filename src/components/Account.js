@@ -1,41 +1,45 @@
 import React from "react";
-import { useFormik } from "formik";
-import { BubbleWPortrait } from "./Bubble";
+
 import { getRandomPortrait } from "../data/charNetworkConnections";
 
 import { store } from "../data/store";
 
+import * as SC from "../styled";
+
 export function Account() {
   const { state, dispatch } = React.useContext(store);
-  const formik = useFormik({
-    initialValues: {
-      userName: state.user.userName,
-      email: state.user.email
-    },
-    onSubmit: (values) => {
-      handleSubmit(values);
-    }
-  });
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const initialValues = {
+    userName: state.user.userName,
+    email: state.user.email,
+    imageUrl:
+      state.user.image && state.user.image !== "none"
+        ? state.user.image
+        : getRandomPortrait(state.user.userName)
+  };
+
+  const handleProfilePic = (e) => {
+    console.log(e.target.files);
   };
   console.log(state.user);
-  console.log(formik);
+
   return (
-    <div className="w">
-      <form onSubmit={formik.handleSubmit}>
-        <BubbleWPortrait
-          name={formik.values.userName}
-          image={
-            formik.values.image && formik.values.image !== "none"
-              ? formik.values.image
-              : getRandomPortrait(formik.values.userName)
-          }
-          label={""}
-          fullText={formik.values.email}
-        />
-      </form>
-    </div>
+    <form>
+      <SC.SmallCard className="f-a-s w l">
+        <SC.SmallIcon style={{ height: "5rem", width: "5rem" }}>
+          <img src={initialValues.imageUrl} alt={initialValues.userName} />
+        </SC.SmallIcon>
+        <div>
+          <label>Select File</label>
+          <input
+            type="file"
+            name="profilepic"
+            onChange={(e) => handleProfilePic(e)}
+          />
+        </div>
+        <div>Name: {initialValues.userName}</div>
+        <div>Email: {initialValues.email}</div>
+      </SC.SmallCard>
+    </form>
   );
 }

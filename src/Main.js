@@ -25,8 +25,8 @@ export function Main() {
   React.useEffect(() => {
     if (state.view !== activeViews) {
       setActiveViews(state.view);
-      document.location.hash = String(state.view).toLowerCase();
     }
+    document.location.hash = String(state.view).toLowerCase();
   }, [state.view]);
 
   const VIEWS = {
