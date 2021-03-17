@@ -1,5 +1,4 @@
 import React from "react";
-import { Router } from "@reach/router";
 
 import "./styles.css";
 import { ThemeProvider } from "styled-components";
@@ -35,12 +34,7 @@ export default function App() {
             zIndex: -999
           }}
         />
-        <Router>
-          <Main path="/" />
-          {/* <Authenticate path="/login" /> */}
-          {/* <Login path="/login" /> */}
-          {/* <Party path="/party" /> */}
-        </Router>
+        <Main />
       </ThemeProvider>
     </StateProvider>
   );

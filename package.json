@@ -1,11 +1,10 @@
 {
-  "name": "Tavern",
+  "name": "tavern",
   "version": "1.0.0",
-  "description": "",
+  "description": "Social network + TTRPG character sheets + more",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "@reach/router": "1.3.4",
     "axios": "0.21.1",
     "formik": "2.2.6",
     "react": "17.0.1",
