@@ -5,7 +5,6 @@ import { store } from "../data/store";
 
 export const CharacterSelect = () => {
   const { state, dispatch } = React.useContext(store);
-  console.log(state);
   return (
     <div>
       Your characters...

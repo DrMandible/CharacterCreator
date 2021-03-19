@@ -11,13 +11,11 @@ export const Toolbar = (props) => {
   const handleClick = (e, view) => {
     e.preventDefault();
     if (props.state.view.includes(view)) {
-      console.log("REMOVE_VIEW: ", view);
       props.dispatch({
         type: "REMOVE_VIEW",
         payload: view
       });
     } else {
-      console.log("ADD_VIEW: ", view);
       props.dispatch({
         type: "ADD_VIEW",
         payload: view

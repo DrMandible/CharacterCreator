@@ -12,17 +12,17 @@
 
 */
 
-import names from './names.json';
+import names from "./names.json";
 
-import IMG_1 from '../assets/portraits/tile014.png';
-import IMG_2 from '../assets/portraits/tile081.png';
-import IMG_3 from '../assets/portraits/tile127.png';
-import IMG_4 from '../assets/portraits/tile133.png';
-import IMG_5 from '../assets/portraits/tile157.png';
-import IMG_6 from '../assets/portraits/tile209.png';
-import IMG_7 from '../assets/portraits/tile006.png';
-import IMG_8 from '../assets/portraits/tile101.png';
-import IMG_9 from '../assets/portraits/tile162.png';
+import IMG_1 from "../assets/portraits/tile014.png";
+import IMG_2 from "../assets/portraits/tile081.png";
+import IMG_3 from "../assets/portraits/tile127.png";
+import IMG_4 from "../assets/portraits/tile133.png";
+import IMG_5 from "../assets/portraits/tile157.png";
+import IMG_6 from "../assets/portraits/tile209.png";
+import IMG_7 from "../assets/portraits/tile006.png";
+import IMG_8 from "../assets/portraits/tile101.png";
+import IMG_9 from "../assets/portraits/tile162.png";
 
 const PORTRAITS = [
   IMG_1,
@@ -46,7 +46,7 @@ var randomProperty = function (obj) {
 };
 
 const getRandomName = () => {
-  let nameList = randomProperty(randomProperty(names)).split(', ');
+  let nameList = randomProperty(randomProperty(names)).split(", ");
   let name = nameList[getRandomInt(nameList.length)];
   return name;
 };
@@ -65,35 +65,35 @@ export const getRandomPortrait = (name) => {
 // TODO: Generate PARTY_INDEX from NETWORK_CONNECTIONS.connectionType === "Party"
 // TEMP: Static PARTY_INDEX
 const PARTY_INDEX = [
-  'Geterex',
-  'Fallon',
-  'Heidelburg',
-  'Jodr',
-  'Dejma',
-  'Thim'
+  "Geterex",
+  "Fallon",
+  "Heidelburg",
+  "Jodr",
+  "Dejma",
+  "Thim"
 ];
 
 const NODE_CONN_TYPES = [
-  'Party',
-  'Mount',
-  'Animal Companion',
-  'Familiar',
-  'Ally',
-  'Enemy',
-  'Patron',
-  'Lover',
-  'Spouse',
-  'Master',
-  'Apprentice',
-  'Servant',
-  'Bodyguard',
-  'Tribe',
-  'Wizard',
-  'Sibling',
-  'Shogun',
-  'Rival',
-  'Priest',
-  'Spiritual Guide'
+  "Party",
+  "Mount",
+  "Animal Companion",
+  "Familiar",
+  "Ally",
+  "Enemy",
+  "Patron",
+  "Lover",
+  "Spouse",
+  "Master",
+  "Apprentice",
+  "Servant",
+  "Bodyguard",
+  "Tribe",
+  "Wizard",
+  "Sibling",
+  "Shogun",
+  "Rival",
+  "Priest",
+  "Spiritual Guide"
 ];
 
 class Connection {
@@ -112,7 +112,7 @@ class Connection {
     this.connectionType = connectionType;
     this.category = category;
     this.user = sourceUserID;
-    this.image = image !== '' ? image : getRandomPortrait(name);
+    this.image = image !== "" ? image : getRandomPortrait(name);
     this.connections = connections;
     this.connectionText = this.handleConnectionText(
       connectionText,
@@ -120,15 +120,15 @@ class Connection {
       sourceName
     );
     this.edges = [];
-    this.hasBond = connectionText !== '';
+    this.hasBond = connectionText !== "";
   }
 
   handleConnectionText(connectionText, name, sourceName) {
     if (name === sourceName) {
-      return 'Your character';
+      return "Your character";
     }
 
-    if (connectionText !== '') {
+    if (connectionText !== "") {
       return connectionText;
     } else {
       return `${getRandomBond(name, sourceName)}`;
@@ -152,28 +152,28 @@ class Connection {
 }
 
 const SAMPLE_BONDS = [
-  '%% is puny and foolish, but amuses me.',
+  "%% is puny and foolish, but amuses me.",
   "%%'s ways are strange and confusing.",
-  '%% is always getting into trouble - I must protect them from themselves.',
-  '%% shares my hunger for glory; the earth will tremble at our passing!',
-  'This is not my first adventure with %%.',
-  'I sang songs of %% long before I ever met them inperson.',
-  '%% is often the butt of my jokes.',
-  'I am writing a ballad about the adventures of %%.',
-  '%% trusted me with a secret.',
-  '%% does not trust me, and for a good reason.',
-  '%% has insulted my deity; I do not trust them.',
-  '%% is a good and faithful person; I trust them implicitly.',
-  '%% is in constant danger, I will keep them safe.',
-  'I am working on converting %% to my faith.',
-  '%% smells more like prey than a hunter.',
-  'The spirits spoke to me of a great danger that follows %%.',
-  'I have showed %% a secret rite of the Land.',
-  '%% has tasted my blood and I theirs. We are bound by it.',
-  '%% owes me their life, whether they admit it or not.',
-  'I have sworn to protect %%.',
-  'I worry about the ability of %% to survive in the dungeon.',
-  '%% is soft, but I will make them hard like me.'
+  "%% is always getting into trouble - I must protect them from themselves.",
+  "%% shares my hunger for glory; the earth will tremble at our passing!",
+  "This is not my first adventure with %%.",
+  "I sang songs of %% long before I ever met them inperson.",
+  "%% is often the butt of my jokes.",
+  "I am writing a ballad about the adventures of %%.",
+  "%% trusted me with a secret.",
+  "%% does not trust me, and for a good reason.",
+  "%% has insulted my deity; I do not trust them.",
+  "%% is a good and faithful person; I trust them implicitly.",
+  "%% is in constant danger, I will keep them safe.",
+  "I am working on converting %% to my faith.",
+  "%% smells more like prey than a hunter.",
+  "The spirits spoke to me of a great danger that follows %%.",
+  "I have showed %% a secret rite of the Land.",
+  "%% has tasted my blood and I theirs. We are bound by it.",
+  "%% owes me their life, whether they admit it or not.",
+  "I have sworn to protect %%.",
+  "I worry about the ability of %% to survive in the dungeon.",
+  "%% is soft, but I will make them hard like me."
 ];
 
 let usedBonds = [];
@@ -203,7 +203,7 @@ const getRandomBond = (targetName, sourceName) => {
     }
   }
 
-  bond = `"${bond.replace('%%', targetName)}"`;
+  bond = `"${bond.replace("%%", targetName)}"`;
   // bondmap.get(sourceName).set(targetName, bond);
 
   return bond;
@@ -216,22 +216,15 @@ const generatePartyConnections = (sourceName, party) => {
     if (pm !== sourceName) {
       let newConnection = new Connection(
         sourceName,
-        'Party',
+        "Party",
         `${getRandomBond(pm, sourceName)}`,
-        'Player Character',
-        '',
+        "Player Character",
+        "",
         pm,
-        '',
+        "",
         new Map()
       );
       newConnections.set(pm, newConnection);
-      if (
-        newConnection.name === 'Jodr' &&
-        newConnection.sourceName === 'Dejma'
-      ) {
-        // console.log("HI!");
-        // console.log(newConnections);
-      }
     }
   }
   return newConnections;
@@ -240,17 +233,17 @@ const generatePartyConnections = (sourceName, party) => {
 const generateRandomNpcConnections = (originName) => {
   let newConnections = new Map();
   for (const connectionType of NODE_CONN_TYPES) {
-    if (connectionType === 'Party') continue;
+    if (connectionType === "Party") continue;
     if (Math.random() < 0.1) {
       const connectionName = getRandomName();
       let newConnection = new Connection(
         originName,
         connectionType,
-        '',
-        'Non-Player Character',
-        '',
+        "",
+        "Non-Player Character",
+        "",
         connectionName,
-        '',
+        "",
         new Map()
       );
       newConnections.set(connectionName, newConnection);
@@ -273,12 +266,12 @@ export const getNetworkConnections = (charName, connections = new Map()) => {
 
     let newPartyMember = new Connection(
       charName,
-      'Party',
-      '',
-      'Player Character',
-      'userName',
+      "Party",
+      "",
+      "Player Character",
+      "userName",
       partyMemberName,
-      '',
+      "",
       CONNECTIONS
     );
     connections.set(partyMemberName, newPartyMember);

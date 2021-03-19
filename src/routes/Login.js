@@ -24,8 +24,6 @@ export const Login = () => {
   const { state, dispatch } = React.useContext(store);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  console.log(state);
-
   const [isRegistering, setIsRegistering] = React.useState(false);
   const [serverMessage, setServerMessage] = React.useState(null);
   const formik = useFormik({
@@ -56,7 +54,6 @@ export const Login = () => {
   };
 
   const handleSubmit = () => {
-    // console.log("** handleSubmit values**\n", values, "\n** **\n");
     const register = async () => {
       let validationErrs = validate();
       if (validationErrs.length > 0) return;
@@ -72,7 +69,6 @@ export const Login = () => {
           }
         });
         setServerMessage("Registration Successful!");
-        console.log("isSubmitting", false);
         setIsSubmitting(false);
         formik.resetForm();
         formik.values.email = response.email;
@@ -95,7 +91,6 @@ export const Login = () => {
           }
         });
         setServerMessage("Success!");
-        console.log(response);
         dispatch({
           type: "LOGIN",
           payload: await response.data.user
@@ -104,35 +99,18 @@ export const Login = () => {
           type: "SET_SESSION",
           payload: await response.data.accessToken
         });
-        dispatch({
-          type: "ADD_VIEW",
-          payload: "ACCOUNT"
-        });
-        dispatch({
-          type: "ADD_VIEW",
-          payload: "FRIENDS"
-        });
-        dispatch({
-          type: "ADD_VIEW",
-          payload: "CHARACTER_SHEET"
-        });
-        dispatch({
-          type: "REMOVE_VIEW",
-          payload: "LOGIN"
-        });
-        console.log("isSubmitting", false);
         setIsSubmitting(false);
+        dispatch({
+          type: "SET_VIEW",
+          payload: ["CHAT"]
+        });
+        // ["CHAT", "ACCOUNT", "FRIENDS", "CHARACTER_SHEET"]
       } catch (e) {
         setServerMessage("Could not login");
       }
     };
-    console.log("isSubmitting", true);
     setIsSubmitting(true);
     isRegistering ? register() : login();
-  };
-
-  const handleCancel = (values) => {
-    // console.log(values);
   };
 
   const handleRegisterToggle = () => {
@@ -204,7 +182,7 @@ export const Login = () => {
             )}
           </SC.CardHeader>
           <SC.CardFooter className="d-flex w">
-            <SC.Button
+            {/* <SC.Button
               type="reset"
               className="m-1 p-1"
               onMouseUp={handleCancel}
@@ -214,7 +192,7 @@ export const Login = () => {
               }}
             >
               Nevermind
-            </SC.Button>
+            </SC.Button> */}
             <SC.Button
               disabled={!(formik.isValid && formik.dirty)}
               className="m-1 p-1"

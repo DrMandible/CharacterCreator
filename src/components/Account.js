@@ -18,10 +18,9 @@ export function Account() {
         : getRandomPortrait(state.user.userName)
   };
 
-  const handleProfilePic = (e) => {
-    console.log(e.target.files);
-  };
-  console.log(state.user);
+  // const handleProfilePic = (e) => {
+  //   console.log(e.target.files);
+  // };
 
   return (
     <form>
@@ -29,15 +28,17 @@ export function Account() {
         <SC.SmallIcon style={{ height: "5rem", width: "5rem" }}>
           <img src={initialValues.imageUrl} alt={initialValues.userName} />
         </SC.SmallIcon>
-        <div>
+        {/* <div>
           <label>Select File</label>
           <input
             type="file"
             name="profilepic"
             onChange={(e) => handleProfilePic(e)}
           />
-        </div>
-        <div>Name: {initialValues.userName}</div>
+        </div> */}
+        <b>
+          <div>Name: {initialValues.userName}</div>
+        </b>
         <div>Email: {initialValues.email}</div>
       </SC.SmallCard>
     </form>

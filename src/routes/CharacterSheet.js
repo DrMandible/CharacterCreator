@@ -9,8 +9,6 @@ import * as SC from "../styled";
 const TAB_LABELS = ["Stats", "Moves"];
 
 const Tabs = ({ activeTab, setActiveTab }) => {
-  console.log(activeTab);
-
   const handleTabClick = (tab_label) => {
     setActiveTab(tab_label);
   };
@@ -37,7 +35,7 @@ const Stats = () => {
 export function CharacterSheet() {
   const { state, dispatch } = React.useContext(store);
 
-  const [activeTab, setActiveTab] = React.useState("Stats");
+  const [activeTab, setActiveTab] = React.useState("Moves");
 
   console.log(state);
 

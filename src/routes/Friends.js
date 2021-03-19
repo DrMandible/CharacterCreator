@@ -56,7 +56,7 @@ export const Friends = () => {
     setIsLoading(true);
     let userIds = getReqAndFriendIds();
 
-    if (userIds.length > 0) {
+    if (userIds?.length > 0) {
       try {
         const response = await axios.get(URL_USERS_BY_ID(userIds), {
           headers: {

@@ -176,7 +176,6 @@ export const Party = (props) => {
       if (state.character.connections.has(selectedNodeName)) {
         // 1st degree connection
         let newSelectedNode = state.character.connections.get(selectedNodeName);
-        console.log(newSelectedNode);
         setSelectedNode(newSelectedNode, 1);
       } else {
         for (let [sourceName, conn] of state.character.connections) {

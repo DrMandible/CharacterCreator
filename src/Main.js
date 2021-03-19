@@ -9,6 +9,7 @@ import { Friends } from "./routes/Friends";
 import { Account } from "./components/Account";
 import { Party } from "./routes/Party";
 import { Menu } from "./routes/Menu";
+import { Chat } from "./components/Chat";
 
 import { store } from "./data/store";
 
@@ -36,7 +37,8 @@ export function Main() {
     CHARACTER_SHEET: <CharacterSheet />,
     CHARACTER_SELECT: <CharacterSelect />,
     ACCOUNT: <Account />,
-    MENU: <Menu />
+    MENU: <Menu />,
+    CHAT: <Chat />
   };
   var w =
     window.innerWidth && document.documentElement.clientWidth
@@ -47,7 +49,7 @@ export function Main() {
   // console.log("state.view: ", VIEWS.LOGIN);
   return (
     <div className="d-flex f-w w c">
-      <div className="d-flex f-w f-a-s p-1">
+      <div className="f-w f-a-s p-1">
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {
             return (

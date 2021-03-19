@@ -28,18 +28,26 @@ const FullText = ({ fullText }) => (
   <div className="t-sub p-1 e tr">{fullText}</div>
 );
 
-export const BubbleWPortrait = ({ name, image, label, fullText }) => (
-  <div className="d-flex w">
-    {image && <Portrait image={image} />}
-    <div className={`d-flex w f-w`}>
-      <div className={`d-flex w f-sb`}>
-        <Name className={`d-flex w`} name={name} />
-        <div>
-          <Label label={label} />
+export const BubbleWPortrait = (props) => {
+  // name, image, label, fullText
+  const name = props.name;
+  const image = props.image;
+  const label = props.label;
+  const fullText = props.fullText;
+  return (
+    <div className="d-flex w" style={{ zIndex: 999 }}>
+      {image && <Portrait image={image} />}
+      <div className={`d-flex w f-w`}>
+        <div className={`d-flex w f-sb c`}>
+          <Name className={`d-flex w`} name={name} />
+          <div>
+            <Label label={label} />
+            {props.children}
+          </div>
         </div>
-      </div>
 
-      {fullText !== "" && <FullText fullText={fullText} />}
+        {fullText !== "" && <FullText fullText={fullText} />}
+      </div>
     </div>
-  </div>
-);
+  );
+};

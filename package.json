@@ -12,6 +12,7 @@
     "react-graph-vis": "1.0.7",
     "react-masonry-css": "1.0.14",
     "react-scripts": "4.0.0",
+    "socket.io-client": "4.0.0",
     "styled-components": "5.2.1"
   },
   "devDependencies": {

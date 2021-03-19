@@ -79,8 +79,8 @@ export const CardBorders = styled.div`
   transition: 0.3s;
 
   &:hover {
-    -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.83);
-    box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.83);
+    -webkit-box-shadow: 3px 3px 4px -2px rgba(0, 0, 0, 0.83);
+    box-shadow: 3px 3px 4px -2px rgba(0, 0, 0, 0.83);
   }
 `;
 
@@ -231,7 +231,7 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.confirm};
 
   &:hover {
-    background-color: ${(props) => props.theme.secondary};
+    background-color: ${(props) => props.theme.bright};
     -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
@@ -265,6 +265,7 @@ export const RollButton = styled(Button)`
 `;
 
 export const Toolbar = styled.div`
+  pointer-events: none;
   padding: 0.2rem;
   overflow: hidden;
   position: fixed;
