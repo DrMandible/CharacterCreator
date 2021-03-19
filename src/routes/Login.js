@@ -102,7 +102,7 @@ export const Login = () => {
         setIsSubmitting(false);
         dispatch({
           type: "SET_VIEW",
-          payload: ["CHAT"]
+          payload: ["CHAT", "ACCOUNT", "FRIENDS", "CHARACTER_SHEET"]
         });
         // ["CHAT", "ACCOUNT", "FRIENDS", "CHARACTER_SHEET"]
       } catch (e) {

@@ -5,11 +5,13 @@ import { ReactComponent as IconCharacterSheet } from "../assets/doc.svg";
 import { ReactComponent as IconParty } from "../assets/group.svg";
 import { ReactComponent as IconMenu } from "../assets/menu.svg";
 import { ReactComponent as IconAccount } from "../assets/account.svg";
+import { ReactComponent as IconChat } from "../assets/chat.svg";
 
 export const Toolbar = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const handleClick = (e, view) => {
     e.preventDefault();
+    console.log(props.state.view);
     if (props.state.view.includes(view)) {
       props.dispatch({
         type: "REMOVE_VIEW",
@@ -17,8 +19,8 @@ export const Toolbar = (props) => {
       });
     } else {
       props.dispatch({
-        type: "ADD_VIEW",
-        payload: view
+        type: "ADD_VIEWS",
+        payload: [view]
       });
     }
     setIsExpanded(false);
@@ -50,6 +52,13 @@ export const Toolbar = (props) => {
             }
           >
             <IconParty />
+          </SC.ToolbarOption>
+
+          <SC.ToolbarOption
+            onMouseUp={(e) => handleClick(e, "CHAT")}
+            currentselection={props.state.view.includes("CHAT") ? true : false}
+          >
+            <IconChat />
           </SC.ToolbarOption>
 
           <SC.ToolbarOption
