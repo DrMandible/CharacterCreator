@@ -39,11 +39,11 @@ export const BubbleWPortrait = (props) => {
       {image && <Portrait image={image} />}
       <div className={`d-flex w f-w`}>
         <div className={`d-flex w f-sb c`}>
-          <Name className={`d-flex w`} name={name} />
           <div>
+            <Name className={`d-flex w`} name={name} />
             <Label label={label} />
-            {props.children}
           </div>
+          <div>{props.children}</div>
         </div>
 
         {fullText !== "" && <FullText fullText={fullText} />}

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { store } from "../data/store";
 
+import { ChatRoom } from "./ChatRoom";
 import { BubbleWPortrait } from "./Bubble";
 import { getRandomPortrait } from "../data/charNetworkConnections";
 
@@ -19,38 +20,6 @@ const sampleChatRoom = {
   label: "Public Tavern",
   description: "The only brew for the brave and true...."
 };
-
-// export const ChatList = (props) => {
-//   const roomList = props.roomList;
-//   if (!roomList) return '';
-//   const { state, dispatch } = useContext(store);
-
-//   return (
-//     <SC.Card>
-//       <SC.CardHeader>CHAT</SC.CardHeader>
-
-//       <div id="chatCategories">
-//         <div>
-//           <div className="bdr-b m-1">Taverns:</div>
-//           {roomList?.length > 0 &&
-//             roomList.map((room) => (
-//               <BubbleWPortrait
-//                 key={room.id}
-//                 name={room.name}
-//                 image={sampleChatRoom.image}
-//                 label={room.type}
-//                 description={room.description}
-//               >
-//                 <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
-//                   JOIN
-//                 </SC.SmallButton>
-//               </BubbleWPortrait>
-//             ))}
-//         </div>
-//       </div>
-//     </SC.Card>
-//   );
-// };
 
 export const ChatMessages = ({ messages }) => {
   if (!messages) return "";
@@ -80,6 +49,7 @@ export const Chat = () => {
   const [room, setRoom] = useState(-1);
   const [newMessage, setNewMessage] = useState("");
   const [primus, setPrimus] = useState(state.primusConnections[0]);
+  const [inRooms, setInRooms] = useState([]);
 
   useEffect(() => {
     if (state.user.id && primus) {
@@ -138,23 +108,14 @@ export const Chat = () => {
   const handleJoin = async (e, id) => {
     console.log(`${name} joining chat room. Room id: ${id}`);
     primus.write({ action: "JOIN", room: id });
-    // console.log(primus);
+    let newInRooms = [...inRooms, id];
+    setInRooms(newInRooms);
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    console.log(newMessage);
-    primus.write({
-      action: "NEW_MESSAGE",
-      room: room.id,
-      message: [state.user.id, newMessage]
-    });
-    document.getElementById("message-input").value = "";
-  };
-
-  const handleTyping = (e) => {
-    console.log(e.target.value);
-    setNewMessage(e.target.value);
+  const handleLeave = async (e, id) => {
+    primus.write({ action: "LEAVE", room: id });
+    let newInRooms = inRooms.filter((room) => room !== id);
+    setInRooms(newInRooms);
   };
 
   return (
@@ -163,38 +124,34 @@ export const Chat = () => {
 
       <div id="chatCategories">
         <div>
-          <div className="bdr-b m-1">Taverns:</div>
           {roomList?.length > 0 &&
             roomList.map((room) => (
-              <BubbleWPortrait
-                onClick={(e) => handleJoin(room.id)}
-                key={room.id}
-                name={room.name}
-                image={sampleChatRoom.image}
-                label={room.type}
-                fullText={room.description}
-              >
-                <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
-                  JOIN
-                </SC.SmallButton>
-              </BubbleWPortrait>
+              <div className="">
+                <BubbleWPortrait
+                  onClick={(e) => handleJoin(room.id)}
+                  key={room.id}
+                  name={room.name}
+                  image={sampleChatRoom.image}
+                  label={room.type}
+                >
+                  {!inRooms.includes(room.id) ? (
+                    <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
+                      ENTER
+                    </SC.SmallButton>
+                  ) : (
+                    <SC.SmallButton onClick={(e) => handleLeave(e, room.id)}>
+                      LEAVE
+                    </SC.SmallButton>
+                  )}
+                </BubbleWPortrait>
+                {inRooms.includes(room.id) && (
+                  <div>
+                    <ChatRoom room={room} primus={primus} />
+                  </div>
+                )}
+              </div>
             ))}
         </div>
-      </div>
-
-      <div>
-        {room && (
-          <div key={room.name}>
-            <div>{room.name}</div>
-
-            <ChatMessages messages={room.chat} handleJoin={handleJoin} />
-
-            <form onSubmit={handleSendMessage}>
-              <input type="text" id="message-input" onChange={handleTyping} />
-              <input type="submit" value="Send" />
-            </form>
-          </div>
-        )}
       </div>
     </SC.Card>
   );
