@@ -1,7 +1,7 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from "react";
 
-import * as utils from './utils';
-import { Character } from './character';
+import * as utils from "./utils";
+import { Character } from "./character";
 
 const initialState = {
   user: {
@@ -15,7 +15,7 @@ const initialState = {
     friendRequestsOutgoing: []
   },
   session: null,
-  view: ['LOGIN'],
+  view: ["LOGIN"],
   primusConnections: []
   // helpTerm: null,
   // showNewRoll: false,
@@ -42,27 +42,28 @@ export const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
     const currentState = { ...state };
     switch (action.type) {
-      case 'LOGIN':
+      case "LOGIN":
         currentState.user = utils.cleanUser(action.payload);
         currentState.primusConnections = utils.addPrimusConnection({});
         return currentState;
-      case 'SET_SESSION':
+      case "SET_SESSION":
         currentState.session = action.payload;
         return currentState;
-      case 'SET_VIEW':
+      case "SET_VIEW":
         currentState.view = action.payload;
         return currentState;
-      case 'ADD_VIEWS':
+      case "ADD_VIEWS":
         currentState.view = Array.from(
           new Set([...currentState.view, action.payload])
         );
+        console.log(currentState.view);
         return currentState;
-      case 'REMOVE_VIEW':
+      case "REMOVE_VIEW":
         currentState.view = Array.from(
           new Set(removeItemOnce(currentState.view, action.payload))
         );
         return currentState;
-      case 'SET_FRIEND_REQS':
+      case "SET_FRIEND_REQS":
         currentState.user.friendRequests = utils.cleanIntArray(
           action.friendRequests
         );
@@ -73,25 +74,25 @@ export const StateProvider = ({ children }) => {
           currentState.user.friends = utils.cleanIntArray(action.friends);
         }
         return currentState;
-      case 'ADD_FRIEND_REQ_OUT':
+      case "ADD_FRIEND_REQ_OUT":
         currentState.friendRequestsOutgoing.push(action.payload);
         return currentState;
-      case 'ADD_FRIEND_REQ_IN':
+      case "ADD_FRIEND_REQ_IN":
         currentState.friendRequests.push(action.payload);
         return currentState;
-      case 'REMOVE_FRIEND_REQ_OUT':
+      case "REMOVE_FRIEND_REQ_OUT":
         currentState.friendRequestsOutgoing = removeItemOnce(
           currentState.friendRequestsOutgoing,
           action.payload
         );
         return currentState;
-      case 'REMOVE_FRIEND_REQ_IN':
+      case "REMOVE_FRIEND_REQ_IN":
         currentState.friendRequests = removeItemOnce(
           currentState.friendRequests,
           action.payload
         );
         return currentState;
-      case 'SET_PLAYBOOK':
+      case "SET_PLAYBOOK":
         currentState.character.playbook = action.payload;
         return currentState;
       // case "SET_HELP_TERM":
@@ -103,13 +104,13 @@ export const StateProvider = ({ children }) => {
       //   currentState.modal.key = action.key;
       //   currentState.modal.value = action.value;
       //   return currentState;
-      case 'SET_NAME':
+      case "SET_NAME":
         currentState.character.name = action.payload;
         return currentState;
-      case 'SET_STAT':
+      case "SET_STAT":
         currentState.character.stats[action.stat] = action.payload;
         return currentState;
-      case 'SET_CUSTOM_MOVE':
+      case "SET_CUSTOM_MOVE":
         return currentState;
       // case "SET_THEME":
       //   currentState.theme[action.target] = action.value;

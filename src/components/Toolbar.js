@@ -20,7 +20,7 @@ export const Toolbar = (props) => {
     } else {
       props.dispatch({
         type: "ADD_VIEWS",
-        payload: [view]
+        payload: view
       });
     }
     setIsExpanded(false);
@@ -62,7 +62,7 @@ export const Toolbar = (props) => {
           </SC.ToolbarOption>
 
           <SC.ToolbarOption
-            onClick={(e) => handleClick(e, "ACCOUNT")}
+            onMouseUp={(e) => handleClick(e, "ACCOUNT")}
             currentselection={
               props.state.view.includes("ACCOUNT") ? true : false
             }

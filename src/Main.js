@@ -15,8 +15,6 @@ import { store } from "./data/store";
 
 import * as SC from "./styled";
 
-const View = ({ viewComponent }) => viewComponent;
-
 const MemoizedFriends = React.memo(Friends);
 
 export function Main() {
