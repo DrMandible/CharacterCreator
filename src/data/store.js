@@ -44,7 +44,6 @@ export const StateProvider = ({ children }) => {
     switch (action.type) {
       case "LOGIN":
         currentState.user = utils.cleanUser(action.payload);
-        currentState.primusConnections = utils.addPrimusConnection({});
         return currentState;
       case "SET_SESSION":
         currentState.session = action.payload;

@@ -1,10 +1,10 @@
-import Primus from '../data/primus';
+// import Primus from "../primus/primus";
 
 export const cleanIntArray = (array) => {
   let newArray = array || [];
-  if (typeof newArray === 'string') {
+  if (typeof newArray === "string") {
     newArray =
-      array.split(',').map(function (item) {
+      array.split(",").map(function (item) {
         return parseInt(item, 10);
       }) || [];
   }
@@ -16,17 +16,17 @@ export const cleanIntArray = (array) => {
 };
 
 export const addPrimusConnection = (primusConnections) => {
-  console.log('adding Primus Connection');
-  const URL_PRIMUS_CONNECTION =
-    'https://character-companion.glitch.me/api/chat/connect';
-
-  let newPrimus = new Primus(URL_PRIMUS_CONNECTION);
-  if (primusConnections?.length > 0) {
-    primusConnections.push(newPrimus);
-  } else {
-    primusConnections = [newPrimus];
-  }
-  return primusConnections;
+  // console.log("adding Primus Connection");
+  // const URL_PRIMUS_CONNECTION =
+  //   "https://character-companion.glitch.me/api/chat/connect";
+  // let newPrimus = new Primus(URL_PRIMUS_CONNECTION);
+  // if (primusConnections?.length > 0) {
+  //   primusConnections.push(newPrimus);
+  // } else {
+  //   primusConnections = [newPrimus];
+  // }
+  // console.log(primusConnections);
+  // return primusConnections;
 };
 
 export const cleanUser = (user) => {
@@ -44,27 +44,27 @@ export const cleanUser = (user) => {
     user.friendRequestsOutgoing = [];
   }
 
-  if (typeof user.friendRequests === 'string') {
+  if (typeof user.friendRequests === "string") {
     user.friendRequests =
-      user.friendRequests?.split(',').map(function (item) {
+      user.friendRequests?.split(",").map(function (item) {
         return parseInt(item, 10);
       }) || [];
     if (Number.isNaN(user.friendRequests[0])) {
       user.friendRequests = [];
     }
   }
-  if (typeof user.friendRequestsOutgoing === 'string') {
+  if (typeof user.friendRequestsOutgoing === "string") {
     user.friendRequestsOutgoing =
-      user.friendRequestsOutgoing?.split(',').map(function (item) {
+      user.friendRequestsOutgoing?.split(",").map(function (item) {
         return parseInt(item, 10);
       }) || [];
     if (Number.isNaN(user.friendRequestsOutgoing[0])) {
       user.friendRequestsOutgoing = [];
     }
   }
-  if (typeof user.friends === 'string') {
+  if (typeof user.friends === "string") {
     user.friends =
-      user.friends?.split(',').map(function (item) {
+      user.friends?.split(",").map(function (item) {
         return parseInt(item, 10);
       }) || [];
     if (Number.isNaN(user.friends[0])) {
