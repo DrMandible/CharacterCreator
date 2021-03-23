@@ -17,6 +17,8 @@ export const ChatRoomList = (props) => {
   const CHAT_ROOM_LIST = props.chatroomlist;
   let primus = props.primus;
 
+  console.log(CHAT_ROOM_LIST);
+
   const handleJoin = async (e, id) => {
     // console.log(`${name} joining chat room. Room id: ${id}`);
     primus.write({ action: "JOIN", room: id });
@@ -69,22 +71,18 @@ export const Chat = () => {
 
   useEffect(() => {
     if (primus) {
-      console.log("useEffect fired...");
-      console.log(primus);
+      // console.log("useEffect fired...");
+      // console.log(primus);
 
       primus.on("data", function message(data) {
         switch (data.action) {
           case "GET_ROOMS":
-            console.log("GET_ROOMS", data.payload);
+            // console.log("GET_ROOMS", data.payload);
             setRoomList(data.payload);
-            console.log(data.payload);
+            // console.log(data.payload);
             break;
           case "JOIN":
-            console.log("JOIN", data.payload);
-            setRoom(data.payload);
-            break;
-          case "NEW_MESSAGE":
-            console.log("NEW_MESSAGE", data.payload);
+            // console.log("JOIN", data.payload);
             setRoom(data.payload);
             break;
           default:
@@ -92,14 +90,14 @@ export const Chat = () => {
         }
       });
       primus.on("open", function open() {
-        console.log("Connection is alive and kicking");
+        // console.log("Connection is alive and kicking");
         primus.write({ action: "GET_ROOMS", id: state.user.id });
       });
       primus.on("connection", function () {
-        console.log("primus connected");
+        // console.log("primus connected");
       });
       primus.on("error", function error(err) {
-        console.error("Something horrible has happened", err.stack);
+        // console.error("Something horrible has happened", err.stack);
       });
       primus.on("reconnect", function (opts) {
         // console.log("Reconnection attempt started");
