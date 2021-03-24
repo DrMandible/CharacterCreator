@@ -49,8 +49,10 @@ export const StateProvider = ({ children }) => {
         currentState.session = action.payload;
         return currentState;
       case "SET_PRIMUS_CONNECTION":
-        console.log("SET_PRIMUS_CONNECTION", action.payload);
-        currentState.primusConnection = action.payload;
+        if (!currentState.primusConnection) {
+          console.log("SET_PRIMUS_CONNECTION", action.payload);
+          currentState.primusConnection = action.payload;
+        }
         return currentState;
       case "SET_VIEW":
         currentState.view = action.payload;

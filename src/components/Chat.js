@@ -110,6 +110,7 @@ export const Chat = () => {
     }
     if (primus) {
       if (!roomList) {
+        console.log("get rooms");
         primus.write({
           action: "GET_ROOMS",
           id: state.user.id
@@ -155,7 +156,7 @@ export const Chat = () => {
         // console.log("Connection closed");
       });
     }
-  }, [primus]);
+  }, [primus, state.primusConnection]);
 
   return (
     <SC.Card>
