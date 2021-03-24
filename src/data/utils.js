@@ -1,5 +1,3 @@
-// import Primus from "../primus/primus";
-
 export const cleanIntArray = (array) => {
   let newArray = array || [];
   if (typeof newArray === "string") {
@@ -13,20 +11,6 @@ export const cleanIntArray = (array) => {
   }
   // console.log('newArray: ', typeof newArray, newArray);
   return newArray;
-};
-
-export const addPrimusConnection = (primusConnections) => {
-  // console.log("adding Primus Connection");
-  // const URL_PRIMUS_CONNECTION =
-  //   "https://character-companion.glitch.me/api/chat/connect";
-  // let newPrimus = new Primus(URL_PRIMUS_CONNECTION);
-  // if (primusConnections?.length > 0) {
-  //   primusConnections.push(newPrimus);
-  // } else {
-  //   primusConnections = [newPrimus];
-  // }
-  // console.log(primusConnections);
-  // return primusConnections;
 };
 
 export const cleanUser = (user) => {

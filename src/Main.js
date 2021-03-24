@@ -1,4 +1,5 @@
 import React from "react";
+import Primus from "./primus/primus";
 
 import { CharacterSheet } from "./routes/CharacterSheet";
 import { CharacterSelect } from "./routes/CharacterSelect";
@@ -16,6 +17,32 @@ import { store } from "./data/store";
 import * as SC from "./styled";
 
 const MemoizedFriends = React.memo(Friends);
+
+const URL_PRIMUS_CONNECTION =
+  "https://character-companion.glitch.me/api/chat/connect";
+
+const PrimusConnection = () => {
+  const { state, dispatch } = React.useContext(store);
+
+  const [primus, setPrimus] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      console.log("starting new primus connection");
+      const result = await new Primus(URL_PRIMUS_CONNECTION);
+      console.log("setPrimus", result);
+      setPrimus(result);
+      dispatch({
+        type: "SET_PRIMUS_CONNECTION",
+        payload: result
+      });
+    };
+
+    fetchData();
+  }, []);
+
+  return <div />;
+};
 
 export function Main() {
   const { state, dispatch } = React.useContext(store);
@@ -60,6 +87,7 @@ export function Main() {
 
       {!state.view.includes("LOGIN") && (
         <React.Fragment>
+          <PrimusConnection />
           <SC.ToolbarMargin />
           <Toolbar state={state} dispatch={dispatch} />
         </React.Fragment>

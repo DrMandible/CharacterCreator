@@ -16,7 +16,7 @@ const initialState = {
   },
   session: null,
   view: ["LOGIN"],
-  primusConnections: []
+  primusConnection: null
   // helpTerm: null,
   // showNewRoll: false,
   // theme: {
@@ -47,6 +47,10 @@ export const StateProvider = ({ children }) => {
         return currentState;
       case "SET_SESSION":
         currentState.session = action.payload;
+        return currentState;
+      case "SET_PRIMUS_CONNECTION":
+        console.log("SET_PRIMUS_CONNECTION", action.payload);
+        currentState.primusConnection = action.payload;
         return currentState;
       case "SET_VIEW":
         currentState.view = action.payload;

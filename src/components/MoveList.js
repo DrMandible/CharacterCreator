@@ -39,9 +39,9 @@ export const MoveList = () => {
       setData({ moves: newMoves, isFetching: false });
       setMoves(newMoves);
 
-      console.log(newMoves);
+      // console.log(newMoves);
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       setData({ moves: data.moves, isFetching: false });
     }
   };
