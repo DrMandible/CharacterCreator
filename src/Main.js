@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import Primus from "./primus/primus";
 
 import { CharacterSheet } from "./routes/CharacterSheet";
@@ -22,11 +22,12 @@ const URL_PRIMUS_CONNECTION =
   "https://character-companion.glitch.me/api/chat/connect";
 
 const PrimusConnection = () => {
-  const { state, dispatch } = React.useContext(store);
+  const { state, dispatch } = useContext(store);
 
-  const [primus, setPrimus] = React.useState(null);
+  const [primus, setPrimus] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (primus) return;
     const fetchData = async () => {
       console.log("starting new primus connection");
       const result = await new Primus(URL_PRIMUS_CONNECTION);
@@ -45,10 +46,10 @@ const PrimusConnection = () => {
 };
 
 export function Main() {
-  const { state, dispatch } = React.useContext(store);
-  const [activeViews, setActiveViews] = React.useState(state.view);
+  const { state, dispatch } = useContext(store);
+  const [activeViews, setActiveViews] = useState(state.view);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (state.view !== activeViews) {
       setActiveViews(state.view);
     }

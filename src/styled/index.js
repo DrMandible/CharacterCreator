@@ -133,9 +133,9 @@ export const CardOption = styled.option`
 `;
 
 export const Card = styled.div`
-  -webkit-animation: ${slideInTopStraight} 0.5s
+  /* -webkit-animation: ${slideInTopStraight} 0.5s
     cubic-bezier(0.075, 0.82, 0.165, 0.9) both;
-  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 0.9) both;
+  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 0.9) both; */
   margin: 0.25em;
   border-radius: 0.3em;
   flex: 1 1 auto;
@@ -209,9 +209,9 @@ export const SlideDown = styled.div`
 `;
 
 export const Button = styled.button`
-  -webkit-animation: ${slideInTopStraight} 1s
+  /* -webkit-animation: ${slideInTopStraight} 1s
     cubic-bezier(0.075, 0.82, 0.165, 1) both;
-  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 1) both;
+  animation: ${slideInTopStraight} 1s cubic-bezier(0.075, 0.82, 0.165, 1) both; */
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -250,6 +250,7 @@ export const Button = styled.button`
 
 export const SmallButton = styled(Button)`
   padding: 0.15rem;
+  margin: 0.15rem;
   width: 100%;
   height: auto;
   font-size: 0.9rem;

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { store } from "../data/store";
 
 import * as SC from "../styled";
@@ -6,8 +6,8 @@ import * as SC from "../styled";
 export const ChatRoom = ({ room, primus }) => {
   const { state, dispatch } = useContext(store);
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useState(room.logs);
-
+  const [messages, setMessages] = useState(null);
+  // console.log(messages);
   const handleMessageClick = (id) => {
     console.log("clicked message id: ", id);
   };
@@ -32,44 +32,35 @@ export const ChatRoom = ({ room, primus }) => {
   };
 
   useEffect(() => {
+    console.log("room: ", room);
     if (primus) {
       primus.on("data", function message(data) {
         switch (data.action) {
-          case "LEAVE":
-            // console.log("LEAVE", data.payload);
-            // setRoom(data.payload);
-            break;
           case "NEW_MESSAGE":
-            if (data.room === room.id) {
-              // console.log("NEW_MESSAGE", data.payload);
-              let newMessages = {
-                ...messages,
-                [Object.keys(data.payload)[0]]: Object.values(data.payload)[0]
-              };
-              setMessages(newMessages);
-            }
+            console.log("ChatRoom - NEW_MESSAGE", data.payload);
+            // if (data.room === room.id) {
+            let newMessages = JSON.parse(data.payload.logs);
+            console.log("newMessages", data.payload);
+
+            setMessages(newMessages);
+            // }
             break;
-          case "JOIN":
-            if (data.payload?.id === room.id) {
-              // console.log("ChatRoom - JOIN", data.payload.logs);
-              setMessages(data.payload.logs);
-            }
-            break;
+
           default:
             break;
         }
       });
     }
-  }, [primus]);
+  }, [primus, room]);
 
   return (
     <SC.Card>
       {room && (
         <div key={room.name}>
           {/* <ChatMessages messages={messages} /> */}
-          {messages &&
-            messages.map((messageData) => {
-              // console.log("messageData", messageData);
+          {room.logs &&
+            Object.entries(room.logs).map(([messageIndex, messageData]) => {
+              console.log("messageData", messageData);
               return (
                 <Message
                   key={messageData.id}
@@ -91,6 +82,7 @@ export const ChatRoom = ({ room, primus }) => {
 };
 
 const Message = React.memo(({ messagetext, userName, messageId, onClick }) => {
+  // console.log(messagetext, userName, messageId, onClick);
   return (
     <div onClick={() => onClick(messageId)}>
       <b>{userName}:</b> {messagetext}

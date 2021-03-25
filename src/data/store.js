@@ -12,7 +12,14 @@ const initialState = {
     characters: [],
     friends: [],
     friendRequests: [],
-    friendRequestsOutgoing: []
+    friendRequestsOutgoing: [],
+    image: null,
+    description: null,
+    invitedChats: null,
+    bannedChats: null,
+    connectedChats: null,
+    joinedChats: null,
+    blockedUsers: null
   },
   session: null,
   view: ["LOGIN"],
@@ -96,6 +103,9 @@ export const StateProvider = ({ children }) => {
           currentState.friendRequests,
           action.payload
         );
+        return currentState;
+      case "UPDATE_JOINED_CHATS":
+        currentState.joinedChats = action.payload;
         return currentState;
       case "SET_PLAYBOOK":
         currentState.character.playbook = action.payload;
