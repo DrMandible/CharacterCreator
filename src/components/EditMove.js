@@ -116,7 +116,7 @@ export const EditMove = (props) => {
 
   React.useEffect(() => {
     setIsRolled(formik.values.modifier === INITIAL_VALUES.modifier);
-    console.log(formik.initialValues);
+    // console.log(formik.initialValues);
   }, [formik.values]);
 
   return (

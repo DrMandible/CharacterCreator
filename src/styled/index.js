@@ -63,8 +63,10 @@ const DARKEN = `rgba(0, 0, 0, 0.1)`;
 export const CardBorders = styled.div`
   box-sizing: border-box;
   background-color: ${(props) => props.theme.bright};
-  width: ${(props) =>
-    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3};
+  min-width: ${(props) =>
+    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
+  max-width: ${(props) =>
+    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
   height: 100%;
   max-height: 75vh;
   overflow-x: hidden;
@@ -336,13 +338,14 @@ export const ToolbarMargin = styled.div`
 `;
 
 export const SmallIcon = styled.div`
-  border: 3px solid ${(props) => props.theme.main};
+  border: 2px solid ${(props) => props.theme.main};
   border-radius: 50%;
   width: 2.5rem;
   min-width: 2.5rem;
   height: 2.5rem;
   min-height: 2.5rem;
   overflow: hidden;
+  margin: 0.05rem;
 
   img {
     width: 100%;

@@ -29,9 +29,9 @@ const PrimusConnection = () => {
   useEffect(() => {
     if (primus) return;
     const fetchData = async () => {
-      console.log("starting new primus connection");
+      // console.log("starting new primus connection");
       const result = await new Primus(URL_PRIMUS_CONNECTION);
-      console.log("setPrimus", result);
+      // console.log("setPrimus", result);
       setPrimus(result);
       dispatch({
         type: "SET_PRIMUS_CONNECTION",
@@ -48,13 +48,15 @@ const PrimusConnection = () => {
 export function Main() {
   const { state, dispatch } = useContext(store);
   const [activeViews, setActiveViews] = useState(state.view);
+  const [prevView, setPrevView] = useState(null);
 
   useEffect(() => {
+    document.location.hash = String(state.view).toLowerCase();
+
     if (state.view !== activeViews) {
       setActiveViews(state.view);
     }
-    document.location.hash = String(state.view).toLowerCase();
-  }, [state.view]);
+  }, [state.view, activeViews]);
 
   const VIEWS = {
     LOGIN: <Login />,

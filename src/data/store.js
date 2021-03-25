@@ -23,6 +23,7 @@ const initialState = {
   },
   session: null,
   view: ["LOGIN"],
+  prevView: null,
   primusConnection: null
   // helpTerm: null,
   // showNewRoll: false,
@@ -57,7 +58,7 @@ export const StateProvider = ({ children }) => {
         return currentState;
       case "SET_PRIMUS_CONNECTION":
         if (!currentState.primusConnection) {
-          console.log("SET_PRIMUS_CONNECTION", action.payload);
+          // console.log("SET_PRIMUS_CONNECTION", action.payload);
           currentState.primusConnection = action.payload;
         }
         return currentState;
@@ -68,7 +69,7 @@ export const StateProvider = ({ children }) => {
         currentState.view = Array.from(
           new Set([...currentState.view, action.payload])
         );
-        console.log(currentState.view);
+        // console.log(currentState.view);
         return currentState;
       case "REMOVE_VIEW":
         currentState.view = Array.from(

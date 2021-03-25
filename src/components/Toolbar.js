@@ -11,7 +11,7 @@ export const Toolbar = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const handleClick = (e, view) => {
     e.preventDefault();
-    console.log(props.state.view);
+    // console.log(props.state.view);
     if (props.state.view.includes(view)) {
       props.dispatch({
         type: "REMOVE_VIEW",

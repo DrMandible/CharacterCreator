@@ -136,6 +136,7 @@ br {
   justify-items: center;
   align-content: center;
   justify-content: center;
+  text-align: center;
 }
 
 .e {
@@ -145,6 +146,7 @@ br {
   justify-items: flex-end;
   align-content: flex-end;
   justify-content: flex-end;
+  text-align: right;
 }
 
 .f-a-s {
@@ -154,7 +156,7 @@ br {
   justify-items: flex-start;
   align-content: flex-start;
   justify-content: flex-start;
-  text-align: flex-start;
+  text-align: left;
 }
 
 .f-sb {

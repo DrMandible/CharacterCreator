@@ -2,179 +2,179 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { store } from "../data/store";
 
-import { ChatRoom } from "./ChatRoom";
-import { BubbleWPortrait } from "./Bubble";
+// import { ChatRoom } from "./ChatRoom";
+// import { BubbleWPortrait } from "./Bubble";
 import { getRandomPortrait } from "../data/charNetworkConnections";
 
 import * as SC from "../styled";
 
-export const ChatRoomList = (props) => {
-  const [inRooms, setInRooms] = useState([]);
-  const [chatLogs, setChatLogs] = useState({});
+// export const ChatRoomList = (props) => {
+//   const [inRooms, setInRooms] = useState([]);
+//   const [chatLogs, setChatLogs] = useState({});
 
-  useEffect(() => {
-    if (props.primus) {
-      props.primus.on("data", function (data) {
-        switch (data.action) {
-          case "JOIN":
-            console.log("ChatRoomList - JOIN", data.payload);
-            let joinedRoom = data.payload;
-            joinedRoom.logs = JSON.parse(data.payload.logs);
-            let joinedRoomId = joinedRoom.id;
-            let newInRooms = [...inRooms, joinedRoom];
-            console.log("newInRooms", newInRooms);
+//   useEffect(() => {
+//     if (props.primus) {
+//       props.primus.on("data", function (data) {
+//         switch (data.action) {
+//           case "JOIN":
+//             console.log("ChatRoomList - JOIN", data.payload);
+//             let joinedRoom = data.payload;
+//             joinedRoom.logs = JSON.parse(data.payload.logs);
+//             let joinedRoomId = joinedRoom.id;
+//             let newInRooms = [...inRooms, joinedRoom];
+//             console.log("newInRooms", newInRooms);
 
-            setInRooms(newInRooms);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  });
+//             setInRooms(newInRooms);
+//             break;
+//           default:
+//             break;
+//         }
+//       });
+//     }
+//   });
 
-  if (!props.chatroomlist) return "";
+//   if (!props.chatroomlist) return "";
 
-  // console.log(props.chatroomlist);
+//   // console.log(props.chatroomlist);
 
-  const handleJoin = async (e, id) => {
-    props.primus.write({ action: "JOIN", room: id });
-  };
+//   const handleJoin = async (e, id) => {
+//     props.primus.write({ action: "JOIN", room: id });
+//   };
 
-  const handleLeave = async (e, id) => {
-    props.primus.write({ action: "LEAVE", room: id });
-    let newInRooms = inRooms.filter((room) => room.id !== id);
-    setInRooms(newInRooms);
-  };
+//   const handleLeave = async (e, id) => {
+//     props.primus.write({ action: "LEAVE", room: id });
+//     let newInRooms = inRooms.filter((room) => room.id !== id);
+//     setInRooms(newInRooms);
+//   };
 
-  const handleDestroyRoom = async (e, id) => {
-    console.log("destroying room: ", id);
-    props.primus.write({ action: "DESTROY_ROOMS", rooms: [id] });
-  };
+//   const handleDestroyRoom = async (e, id) => {
+//     console.log("destroying room: ", id);
+//     props.primus.write({ action: "DESTROY_ROOMS", rooms: [id] });
+//   };
 
-  return Object.values(props.chatroomlist).map((room) => {
-    // console.log(room);
-    return (
-      <div key={room.id} className="">
-        <BubbleWPortrait
-          onClick={(e) => handleJoin(room.id)}
-          key={room.id}
-          name={room.name}
-          image={getRandomPortrait(room.name)}
-          label={room.type}
-        >
-          <div className="d-flex f-s-b p-1">
-            {!inRooms.map((inRoom) => inRoom.id).includes(room.id) ? (
-              <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
-                ENTER
-              </SC.SmallButton>
-            ) : (
-              <SC.SmallButton onClick={(e) => handleLeave(e, room.id)}>
-                LEAVE
-              </SC.SmallButton>
-            )}
-            <SC.SmallButton
-              style={{
-                marginLeft: "0.1rem",
-                minHeight: "2rem",
-                width: "2rem",
-                minWidth: "2rem"
-              }}
-              onClick={(e) => handleDestroyRoom(e, room.id)}
-            >
-              <div className="tc">
-                <span role="img" aria-label="Delete Room">
-                  ❌
-                </span>
-              </div>
-            </SC.SmallButton>
-          </div>
-        </BubbleWPortrait>
-        {inRooms.map((room) => {
-          console.log("inRooms.map((room) =>", room);
-          return (
-            <div key={room.id}>
-              <ChatRoom room={room} primus={props.primus} />
-            </div>
-          );
-        })}
-      </div>
-    );
-  });
-};
+//   return Object.values(props.chatroomlist).map((room) => {
+//     // console.log(room);
+//     return (
+//       <div key={room.id} className="">
+//         <BubbleWPortrait
+//           onClick={(e) => handleJoin(room.id)}
+//           key={room.id}
+//           name={room.name}
+//           image={getRandomPortrait(room.name)}
+//           label={room.type}
+//         >
+//           <div className="d-flex f-s-b p-1">
+//             {!inRooms.map((inRoom) => inRoom.id).includes(room.id) ? (
+//               <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
+//                 ENTER
+//               </SC.SmallButton>
+//             ) : (
+//               <SC.SmallButton onClick={(e) => handleLeave(e, room.id)}>
+//                 LEAVE
+//               </SC.SmallButton>
+//             )}
+//             <SC.SmallButton
+//               style={{
+//                 marginLeft: "0.1rem",
+//                 minHeight: "2rem",
+//                 width: "2rem",
+//                 minWidth: "2rem"
+//               }}
+//               onClick={(e) => handleDestroyRoom(e, room.id)}
+//             >
+//               <div className="tc">
+//                 <span role="img" aria-label="Delete Room">
+//                   ❌
+//                 </span>
+//               </div>
+//             </SC.SmallButton>
+//           </div>
+//         </BubbleWPortrait>
+//         {inRooms.map((room) => {
+//           console.log("inRooms.map((room) =>", room);
+//           return (
+//             <div key={room.id}>
+//               <ChatRoom room={room} primus={props.primus} />
+//             </div>
+//           );
+//         })}
+//       </div>
+//     );
+//   });
+// };
 
-export const Chatb = () => {
-  const { state, dispatch } = useContext(store);
-  const [primus, setPrimus] = useState(null);
+// export const Chatb = () => {
+//   const { state, dispatch } = useContext(store);
+//   const [primus, setPrimus] = useState(null);
 
-  const [roomList, setRoomList] = useState(null);
+//   const [roomList, setRoomList] = useState(null);
 
-  const [showRoomList, setShowRoomList] = useState(true);
+//   const [showRoomList, setShowRoomList] = useState(true);
 
-  const handleCreateRoom = async (e) => {
-    console.log("creating room...");
-    state.primusConnection.write({
-      id: state.user.id,
-      action: "CREATE_ROOM",
-      roomName: "JBG's Stone Inn",
-      roomType: "Public Tavern"
-    });
-  };
+//   const handleCreateRoom = async (e) => {
+//     console.log("creating room...");
+//     state.primusConnection.write({
+//       id: state.user.id,
+//       action: "CREATE_ROOM",
+//       roomName: "JBG's Stone Inn",
+//       roomType: "Public Tavern"
+//     });
+//   };
 
-  const toggleShowRoomList = () => setShowRoomList(!showRoomList);
+//   const toggleShowRoomList = () => setShowRoomList(!showRoomList);
 
-  useEffect(() => {
-    if (!primus) {
-      if (state?.primusConnection) {
-        // console.log(state.primusConnection);
-        setPrimus(state.primusConnection);
-      }
-    }
-    if (primus) {
-      if (!roomList) {
-        console.log("get rooms");
-        primus.write({
-          action: "GET_ROOMS",
-          id: state.user.id
-        });
-      }
-      primus.on("data", function (data) {
-        // console.log(data.action);
-        switch (data.action) {
-          case "GET_ROOMS":
-            // console.log("GET_ROOMS", data.payload);
-            setRoomList(data.payload);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  }, [primus, state.primusConnection]);
+//   useEffect(() => {
+//     if (!primus) {
+//       if (state?.primusConnection) {
+//         // console.log(state.primusConnection);
+//         setPrimus(state.primusConnection);
+//       }
+//     }
+//     if (primus) {
+//       if (!roomList) {
+//         console.log("get rooms");
+//         primus.write({
+//           action: "GET_ROOMS",
+//           id: state.user.id
+//         });
+//       }
+//       primus.on("data", function (data) {
+//         // console.log(data.action);
+//         switch (data.action) {
+//           case "GET_ROOMS":
+//             // console.log("GET_ROOMS", data.payload);
+//             setRoomList(data.payload);
+//             break;
+//           default:
+//             break;
+//         }
+//       });
+//     }
+//   }, [primus, state.primusConnection]);
 
-  return (
-    <SC.Card>
-      <SC.CardHeader>
-        <div className="d-flex f-sb w">
-          <div>CHAT</div>
-          <div>
-            <SC.SmallButton onClick={toggleShowRoomList}>
-              {showRoomList ? "hide room list" : "show room list"}
-            </SC.SmallButton>
-          </div>
-          <div>
-            <SC.SmallButton onClick={handleCreateRoom}>
-              Create room
-            </SC.SmallButton>
-          </div>
-        </div>
-      </SC.CardHeader>
-      {showRoomList && roomList && primus && (
-        <ChatRoomList chatroomlist={roomList} primus={primus} />
-      )}
-    </SC.Card>
-  );
-};
+//   return (
+//     <SC.Card>
+//       <SC.CardHeader>
+//         <div className="d-flex f-sb w">
+//           <div>CHAT</div>
+//           <div>
+//             <SC.SmallButton onClick={toggleShowRoomList}>
+//               {showRoomList ? "hide room list" : "show room list"}
+//             </SC.SmallButton>
+//           </div>
+//           <div>
+//             <SC.SmallButton onClick={handleCreateRoom}>
+//               Create room
+//             </SC.SmallButton>
+//           </div>
+//         </div>
+//       </SC.CardHeader>
+//       {showRoomList && roomList && primus && (
+//         <ChatRoomList chatroomlist={roomList} primus={primus} />
+//       )}
+//     </SC.Card>
+//   );
+// };
 
 export const Chat = () => {
   const { state, dispatch } = useContext(store);
@@ -182,6 +182,9 @@ export const Chat = () => {
 
   const [userRooms, setUserRooms] = useState(null);
   const [joinedChats, setJoinedChats] = useState(null);
+  const [chatLogs, setChatLogs] = useState(null);
+
+  const [openChatRooms, setOpenChatRooms] = useState([]);
 
   const handleJoin = async (e, id) => {
     primus.write({ action: "JOIN", roomId: id, userId: state.user.id });
@@ -192,7 +195,7 @@ export const Chat = () => {
     state.primusConnection.write({
       userId: state.user.id,
       action: "CREATE_ROOM",
-      roomName: "tavern abc",
+      roomName: "Pistol Pete's",
       roomType: "Public Tavern"
     });
   };
@@ -212,7 +215,14 @@ export const Chat = () => {
         setPrimus(state.primusConnection);
       }
     }
+
+    if (!joinedChats) {
+      setJoinedChats(state.user.joinedChats);
+    }
+
     if (primus) {
+      console.log(state.user);
+
       if (!userRooms) {
         getRooms();
       }
@@ -224,11 +234,13 @@ export const Chat = () => {
             setUserRooms(data.payload);
             break;
           case "JOIN":
+            console.log("JOIN", data.payload);
             await dispatch({
               type: "UPDATE_JOINED_CHATS",
               payload: data.payload
             });
-            await getRooms();
+
+            setOpenChatRooms(data.payload);
             break;
           case "LEAVE":
             await dispatch({
@@ -238,50 +250,97 @@ export const Chat = () => {
             await getRooms();
             break;
           case "NEW_CHAT_LOGS":
-            console.log("NEW_CHAT_LOGS", "payload", data.payload);
+            console.log("data.logs", typeof data.logs, data.logs);
+            let newChatLogs = {
+              ...chatLogs,
+              [data.roomId]: data.logs
+            };
+            console.log("newChatLogs", typeof newChatLogs, newChatLogs);
+            setChatLogs(newChatLogs);
             break;
           default:
             break;
         }
       });
     }
-  }, [primus, state.primusConnection, state.user.joinedChats]);
+  }, [primus, state.primusConnection]);
 
   if (!userRooms) return <></>;
 
   return (
-    <div>
-      <SC.SmallButton onClick={handleCreateRoom}>Create Room</SC.SmallButton>
-      <ChatList list={userRooms} handleJoin={handleJoin} />
-      <JoinedChats joinedChats={state.user.joinedChats} />
+    <div style={{ display: "relative" }} className="d-flex flex-r w">
+      <ChatList list={userRooms} handleJoin={handleJoin}>
+        <SC.SmallButton onClick={handleCreateRoom}>Create Room</SC.SmallButton>
+      </ChatList>
+      <ChatRoom openChatRooms={openChatRooms} />
+      {chatLogs && <ChatLogs chatLogs={chatLogs} />}
     </div>
   );
 };
 
-const JoinedChats = ({ joinedChats }) => {
-  console.log("JoinedChats: ", joinedChats);
+const lg = (thingName, thing) => {
+  console.log(`\n*** ${thingName}: TYPE: ${typeof thing} VALUE: ${thing}`);
+};
+
+const ChatRoom = ({ openChatRooms }) => {
+  lg("oepnChatRooms", openChatRooms);
+
+  return <div />;
+};
+
+const ChatLogs = ({ chatLogs }) => {
+  console.log("chatLogs", typeof chatLogs, chatLogs);
   return (
-    <ul>
-      {JSON.parse(joinedChats).map((room) => (
-        <div key={room}>{room}</div>
-      ))}
-    </ul>
+    <div>
+      {Object.keys(chatLogs).map((roomId) => {
+        // console.log(
+        //   "chatLogs[roomId]",
+        //   typeof chatLogs[roomId],
+        //   chatLogs[roomId]
+        // );
+        return (
+          <div
+            className="p-1 m-1"
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+            key={roomId}
+          >
+            {chatLogs[roomId].map((log) => {
+              // console.log("log", typeof log, log);
+              return (
+                <div className="d-flex" key={log.id}>
+                  <b>{`${log.userName}: `}</b>
+                  <div className="fw" style={{ paddingLeft: "0.1rem" }}>
+                    {log.message}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
-const ChatList = ({ list, handleJoin }) => (
-  <ul>
-    {list.map((room) => (
-      <BubbleWPortrait
-        key={room.id}
-        name={room.name}
-        image={getRandomPortrait(room.name)}
-        label={room.type}
-      >
-        <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
-          JOIN
+const ChatList = (props) => {
+  const list = props.list;
+  const handleJoin = props.handleJoin;
+  return (
+    <div style={{ maxWidth: "60%" }}>
+      {list.map((room) => (
+        <SC.SmallButton onClick={(e) => handleJoin(e, room.id)} key={room.id}>
+          <div className="d-flex f-a-s w">
+            <div className="f-a-s">
+              <SC.SmallIcon>
+                <img src={getRandomPortrait(room.name)} alt={room.name} />
+              </SC.SmallIcon>
+            </div>
+            <label className="f-a-s">{room.name}</label>
+            <div className="w" />
+          </div>
         </SC.SmallButton>
-      </BubbleWPortrait>
-    ))}
-  </ul>
-);
+      ))}
+      {props.children}
+    </div>
+  );
+};

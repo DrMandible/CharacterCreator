@@ -37,8 +37,6 @@ export function CharacterSheet() {
 
   const [activeTab, setActiveTab] = React.useState("Moves");
 
-  console.log(state);
-
   return (
     <div className="w">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
