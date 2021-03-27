@@ -184,10 +184,21 @@ export const Chat = () => {
   const [joinedChats, setJoinedChats] = useState(null);
   const [chatLogs, setChatLogs] = useState(null);
 
-  const [openChatRooms, setOpenChatRooms] = useState([]);
+  const [activeChatRoom, setActiveChatRoom] = useState([]);
 
-  const handleJoin = async (e, id) => {
-    primus.write({ action: "JOIN", roomId: id, userId: state.user.id });
+  const [showChatList, setShowChatList] = useState(true);
+
+  const handleSetActiveChat = async (e, roomId) => {
+    let newActiveChatRoom = {
+      id: roomId
+    };
+  };
+
+  const handleHideChatList = () => setShowChatList(false);
+  const handleShowChatList = () => setShowChatList(true);
+
+  const handleJoin = async (e, roomId) => {
+    primus.write({ action: "JOIN", roomId: roomId, userId: state.user.id });
   };
 
   const handleCreateRoom = async () => {
@@ -206,6 +217,20 @@ export const Chat = () => {
       id: state.user.id,
       filter: []
     });
+  };
+
+  const handleSendMessage = async (e, roomId, newMessage) => {
+    e.preventDefault();
+    // console.log(newMessage);
+    primus.write({
+      id: state.user.id,
+      action: "NEW_MESSAGE",
+      roomId: roomId,
+      message: newMessage,
+      userId: state.user.id,
+      userName: state.user.name
+    });
+    document.getElementById("message-input").value = "";
   };
 
   useEffect(() => {
@@ -239,8 +264,6 @@ export const Chat = () => {
               type: "UPDATE_JOINED_CHATS",
               payload: data.payload
             });
-
-            setOpenChatRooms(data.payload);
             break;
           case "LEAVE":
             await dispatch({
@@ -251,10 +274,7 @@ export const Chat = () => {
             break;
           case "NEW_CHAT_LOGS":
             console.log("data.logs", typeof data.logs, data.logs);
-            let newChatLogs = {
-              ...chatLogs,
-              [data.roomId]: data.logs
-            };
+            let newChatLogs = data.logs;
             console.log("newChatLogs", typeof newChatLogs, newChatLogs);
             setChatLogs(newChatLogs);
             break;
@@ -268,56 +288,89 @@ export const Chat = () => {
   if (!userRooms) return <></>;
 
   return (
-    <div style={{ display: "relative" }} className="d-flex flex-r w">
-      <ChatList list={userRooms} handleJoin={handleJoin}>
-        <SC.SmallButton onClick={handleCreateRoom}>Create Room</SC.SmallButton>
-      </ChatList>
-      <ChatRoom openChatRooms={openChatRooms} />
-      {chatLogs && <ChatLogs chatLogs={chatLogs} />}
+    <div
+      style={{ position: "relative", height: "70vh", boxSizing: "border-box" }}
+      className="d-flex w"
+    >
+      <div
+        onClick={handleHideChatList}
+        style={{
+          position: "absolute",
+          width: "100%",
+          bottom: 0,
+          boxSizing: "border-box"
+        }}
+      >
+        <ChatRoom
+          room={activeChatRoom}
+          handleSendMessage={handleSendMessage}
+          chatLogs={chatLogs}
+        />
+      </div>
+
+      {showChatList ? (
+        <ChatList
+          list={userRooms}
+          handleJoin={handleJoin}
+          handleSetActiveChat={handleSetActiveChat}
+        >
+          <SC.SmallButton onClick={handleCreateRoom}>
+            Create Room
+          </SC.SmallButton>
+        </ChatList>
+      ) : (
+        <SC.SmallButton
+          style={{ height: "2rem", position: "absolute", top: 0, right: 0 }}
+          onClick={handleShowChatList}
+        >
+          Chats
+        </SC.SmallButton>
+      )}
     </div>
   );
 };
 
-const lg = (thingName, thing) => {
-  console.log(`\n*** ${thingName}: TYPE: ${typeof thing} VALUE: ${thing}`);
-};
+const ChatRoom = (props) => {
+  const [newMessage, setNewMessage] = useState(null);
 
-const ChatRoom = ({ openChatRooms }) => {
-  lg("oepnChatRooms", openChatRooms);
-
-  return <div />;
+  const handleTyping = (e) => {
+    // console.log(e.target.value);
+    setNewMessage(e.target.value);
+  };
+  return (
+    <div className="w">
+      {props.chatLogs && <ChatLogs chatLogs={props.chatLogs} />}
+      <div className="d-flex">
+        <input
+          style={{
+            flexGrow: 1
+          }}
+        />
+        <SC.SmallButton style={{ maxWidth: "4rem" }}>Send</SC.SmallButton>
+      </div>
+    </div>
+  );
 };
 
 const ChatLogs = ({ chatLogs }) => {
   console.log("chatLogs", typeof chatLogs, chatLogs);
   return (
     <div>
-      {Object.keys(chatLogs).map((roomId) => {
-        // console.log(
-        //   "chatLogs[roomId]",
-        //   typeof chatLogs[roomId],
-        //   chatLogs[roomId]
-        // );
-        return (
-          <div
-            className="p-1 m-1"
-            style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
-            key={roomId}
-          >
-            {chatLogs[roomId].map((log) => {
-              // console.log("log", typeof log, log);
-              return (
-                <div className="d-flex" key={log.id}>
-                  <b>{`${log.userName}: `}</b>
-                  <div className="fw" style={{ paddingLeft: "0.1rem" }}>
-                    {log.message}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+      <div
+        className="p-1"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+        key={chatLogs.id}
+      >
+        {chatLogs.map((log) => {
+          // console.log("log", typeof log, log);
+          return (
+            <div className="d-flex" key={log.id}>
+              <b>{`${log.userName}: `}</b>
+              <div style={{ marginLeft: "0.1rem" }}>{log.message}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -326,7 +379,8 @@ const ChatList = (props) => {
   const list = props.list;
   const handleJoin = props.handleJoin;
   return (
-    <div style={{ maxWidth: "60%" }}>
+    <div style={{ width: "60%", position: "absolute", right: 0 }}>
+      {props.children}
       {list.map((room) => (
         <SC.SmallButton onClick={(e) => handleJoin(e, room.id)} key={room.id}>
           <div className="d-flex f-a-s w">
@@ -340,7 +394,6 @@ const ChatList = (props) => {
           </div>
         </SC.SmallButton>
       ))}
-      {props.children}
     </div>
   );
 };

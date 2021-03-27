@@ -36,6 +36,47 @@ const slideInTopRight = keyframes`
 }
 `;
 
+const expandDown = keyframes`
+{
+  0% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+    opacity: 1;
+  }
+
+}
+`;
+
+const slideInBlurredRight = keyframes`{
+  0% {
+    -webkit-transform: translateX(1000px) scaleX(2.5) scaleY(0.2);
+            transform: translateX(1000px) scaleX(2.5) scaleY(0.2);
+    -webkit-transform-origin: 0% 50%;
+            transform-origin: 0% 50%;
+    -webkit-filter: blur(40px);
+            filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-filter: blur(0);
+            filter: blur(0);
+    opacity: 1;
+  }
+}`;
+
 export const pulse = keyframes`
   0% {
     opacity: 0.4
@@ -61,14 +102,17 @@ const fadeOut = keyframes`
 const DARKEN = `rgba(0, 0, 0, 0.1)`;
 
 export const CardBorders = styled.div`
-  box-sizing: border-box;
   background-color: ${(props) => props.theme.bright};
   min-width: ${(props) =>
     props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
   max-width: ${(props) =>
     props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
+  width: ${(props) =>
+    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
   height: 100%;
   max-height: 75vh;
+  overflow-y: wrap;
+
   overflow-x: hidden;
   margin-left: 0.5rem;
   margin-top: 0.5rem;
@@ -233,7 +277,7 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.confirm};
 
   &:hover {
-    background-color: ${(props) => props.theme.bright};
+    background-color: rgb(175, 200, 220);
     -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
