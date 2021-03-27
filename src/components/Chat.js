@@ -258,7 +258,7 @@ export const Chat = () => {
             setUserRooms(data.payload);
             break;
           case "JOIN":
-            console.log("JOIN", data.payload);
+            // console.log("JOIN", data.payload);
             await dispatch({
               type: "UPDATE_JOINED_CHATS",
               payload: data.payload
@@ -273,9 +273,9 @@ export const Chat = () => {
             await getRooms();
             break;
           case "NEW_CHAT_LOGS":
-            console.log("data.logs", typeof data.logs, data.logs);
+            // console.log("data.logs", typeof data.logs, data.logs);
             let newChatLogs = data.logs;
-            console.log("newChatLogs", typeof newChatLogs, newChatLogs);
+            // console.log("newChatLogs", typeof newChatLogs, newChatLogs);
             setChatLogs(newChatLogs);
             break;
           default:
@@ -286,7 +286,7 @@ export const Chat = () => {
   }, [primus, state.primusConnection]);
 
   if (!userRooms) return <></>;
-  console.log(userRooms);
+  // console.log(userRooms);
   getRoomName(userRooms, 60);
   return (
     <div
@@ -299,15 +299,15 @@ export const Chat = () => {
           handleJoin={handleJoin}
           handleSetActiveChat={handleSetActiveChat}
         >
-          <SC.SmallButton onClick={handleCreateRoom}>
+          {/* <SC.SmallButton onClick={handleCreateRoom}>
             Create Room
-          </SC.SmallButton>
+          </SC.SmallButton> */}
         </ChatList>
       ) : (
         <SC.SmallButton
           style={{
             width: "4rem",
-            height: "2rem",
+            height: "1.5rem",
             position: "absolute",
             top: "-.5rem",
             right: "-.5rem"
@@ -332,7 +332,20 @@ export const Chat = () => {
             room={activeChatRoom}
             handleSendMessage={handleSendMessage}
             chatLogs={chatLogs}
-          />
+          >
+            {chatLogs &&
+              chatLogs.map((log) => {
+                // console.log("log", typeof log, log);
+                return (
+                  <div className="d-flex" key={log.id}>
+                    <div style={{ whiteSpace: "nowrap" }}>
+                      <b>{`${log.userName}: `}</b>{" "}
+                    </div>
+                    <div style={{ marginLeft: "0.1rem" }}>{log.message}</div>
+                  </div>
+                );
+              })}
+          </ChatRoom>
         </div>
       )}
     </div>
@@ -341,7 +354,6 @@ export const Chat = () => {
 
 const ChatRoom = (props) => {
   const [newMessage, setNewMessage] = useState(null);
-  // console.log("ChatRoom props", props);
 
   const handleTyping = (e) => {
     if (e.key === "Enter") {
@@ -353,8 +365,9 @@ const ChatRoom = (props) => {
   };
   return (
     <div className="w">
-      {props.roomName}
-      {props.chatLogs && <ChatLogs chatLogs={props.chatLogs} />}
+      <b className="bdr-b">{props.roomName}</b>
+      {props.children}
+      {/* {props.chatLogs && <ChatLogs chatLogs={props.chatLogs} />} */}
       <div className="d-flex">
         <input
           id="message-input"
