@@ -176,6 +176,12 @@ import * as SC from "../styled";
 //   );
 // };
 
+const getRoomName = (userRooms, roomId) => {
+  for (let room of userRooms) {
+    if (room.id === roomId) return room.name;
+  }
+};
+
 export const Chat = () => {
   const { state, dispatch } = useContext(store);
   const [primus, setPrimus] = useState(null);
@@ -184,21 +190,18 @@ export const Chat = () => {
   const [joinedChats, setJoinedChats] = useState(null);
   const [chatLogs, setChatLogs] = useState(null);
 
-  const [activeChatRoom, setActiveChatRoom] = useState([]);
+  const [activeChatRoom, setActiveChatRoom] = useState(null);
 
   const [showChatList, setShowChatList] = useState(true);
 
-  const handleSetActiveChat = async (e, roomId) => {
-    let newActiveChatRoom = {
-      id: roomId
-    };
-  };
+  const handleSetActiveChat = async (roomId) => setActiveChatRoom(roomId);
 
   const handleHideChatList = () => setShowChatList(false);
   const handleShowChatList = () => setShowChatList(true);
 
   const handleJoin = async (e, roomId) => {
     primus.write({ action: "JOIN", roomId: roomId, userId: state.user.id });
+    setActiveChatRoom(roomId);
   };
 
   const handleCreateRoom = async () => {
@@ -219,9 +222,7 @@ export const Chat = () => {
     });
   };
 
-  const handleSendMessage = async (e, roomId, newMessage) => {
-    e.preventDefault();
-    // console.log(newMessage);
+  const handleSendMessage = async (roomId, newMessage) => {
     primus.write({
       id: state.user.id,
       action: "NEW_MESSAGE",
@@ -246,8 +247,6 @@ export const Chat = () => {
     }
 
     if (primus) {
-      console.log(state.user);
-
       if (!userRooms) {
         getRooms();
       }
@@ -265,6 +264,7 @@ export const Chat = () => {
               payload: data.payload
             });
             break;
+
           case "LEAVE":
             await dispatch({
               type: "UPDATE_JOINED_CHATS",
@@ -286,28 +286,13 @@ export const Chat = () => {
   }, [primus, state.primusConnection]);
 
   if (!userRooms) return <></>;
-
+  console.log(userRooms);
+  getRoomName(userRooms, 60);
   return (
     <div
       style={{ position: "relative", height: "70vh", boxSizing: "border-box" }}
       className="d-flex w"
     >
-      <div
-        onClick={handleHideChatList}
-        style={{
-          position: "absolute",
-          width: "100%",
-          bottom: 0,
-          boxSizing: "border-box"
-        }}
-      >
-        <ChatRoom
-          room={activeChatRoom}
-          handleSendMessage={handleSendMessage}
-          chatLogs={chatLogs}
-        />
-      </div>
-
       {showChatList ? (
         <ChatList
           list={userRooms}
@@ -320,11 +305,35 @@ export const Chat = () => {
         </ChatList>
       ) : (
         <SC.SmallButton
-          style={{ height: "2rem", position: "absolute", top: 0, right: 0 }}
+          style={{
+            width: "4rem",
+            height: "2rem",
+            position: "absolute",
+            top: "-.5rem",
+            right: "-.5rem"
+          }}
           onClick={handleShowChatList}
         >
           Chats
         </SC.SmallButton>
+      )}
+
+      {activeChatRoom && (
+        <div
+          onClick={handleHideChatList}
+          style={{
+            width: "100%",
+            bottom: 0,
+            boxSizing: "border-box"
+          }}
+        >
+          <ChatRoom
+            roomName={getRoomName(userRooms, activeChatRoom)}
+            room={activeChatRoom}
+            handleSendMessage={handleSendMessage}
+            chatLogs={chatLogs}
+          />
+        </div>
       )}
     </div>
   );
@@ -332,33 +341,46 @@ export const Chat = () => {
 
 const ChatRoom = (props) => {
   const [newMessage, setNewMessage] = useState(null);
+  // console.log("ChatRoom props", props);
 
   const handleTyping = (e) => {
-    // console.log(e.target.value);
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      props.handleSendMessage(props.room, newMessage);
+    }
     setNewMessage(e.target.value);
   };
   return (
     <div className="w">
+      {props.roomName}
       {props.chatLogs && <ChatLogs chatLogs={props.chatLogs} />}
       <div className="d-flex">
         <input
+          id="message-input"
+          onChange={handleTyping}
           style={{
             flexGrow: 1
           }}
         />
-        <SC.SmallButton style={{ maxWidth: "4rem" }}>Send</SC.SmallButton>
+        <SC.SmallButton
+          onClick={(e) => props.handleSendMessage(props.room, newMessage)}
+          style={{ maxWidth: "4rem" }}
+        >
+          Send
+        </SC.SmallButton>
       </div>
     </div>
   );
 };
 
 const ChatLogs = ({ chatLogs }) => {
-  console.log("chatLogs", typeof chatLogs, chatLogs);
   return (
-    <div>
+    <div className="f-s-b" style={{ display: "flex", flexDirection: "column" }}>
       <div
         className="p-1"
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+        // style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
+        // style={{ position: "sticky", bottom: 0, height: "70vh" }}
         key={chatLogs.id}
       >
         {chatLogs.map((log) => {
@@ -379,7 +401,13 @@ const ChatList = (props) => {
   const list = props.list;
   const handleJoin = props.handleJoin;
   return (
-    <div style={{ width: "60%", position: "absolute", right: 0 }}>
+    <div
+      style={{
+        width: "75%",
+        position: "absolute",
+        right: "-.2rem"
+      }}
+    >
       {props.children}
       {list.map((room) => (
         <SC.SmallButton onClick={(e) => handleJoin(e, room.id)} key={room.id}>
@@ -389,8 +417,7 @@ const ChatList = (props) => {
                 <img src={getRandomPortrait(room.name)} alt={room.name} />
               </SC.SmallIcon>
             </div>
-            <label className="f-a-s">{room.name}</label>
-            <div className="w" />
+            <p className="f-a-s w">{room.name}</p>
           </div>
         </SC.SmallButton>
       ))}
