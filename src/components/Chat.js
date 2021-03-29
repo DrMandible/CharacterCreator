@@ -263,6 +263,7 @@ export const Chat = () => {
               type: "UPDATE_JOINED_CHATS",
               payload: data.payload
             });
+            setShowChatList(false);
             break;
 
           case "LEAVE":
@@ -337,9 +338,9 @@ export const Chat = () => {
               chatLogs.map((log) => {
                 // console.log("log", typeof log, log);
                 return (
-                  <div className="d-flex" key={log.id}>
+                  <div className="d-flex f-a-s" key={log.id}>
                     <div style={{ whiteSpace: "nowrap" }}>
-                      <b>{`${log.userName}: `}</b>{" "}
+                      <b>{`${log.userName}: `}</b>
                     </div>
                     <div style={{ marginLeft: "0.1rem" }}>{log.message}</div>
                   </div>
@@ -382,29 +383,6 @@ const ChatRoom = (props) => {
         >
           Send
         </SC.SmallButton>
-      </div>
-    </div>
-  );
-};
-
-const ChatLogs = ({ chatLogs }) => {
-  return (
-    <div className="f-s-b" style={{ display: "flex", flexDirection: "column" }}>
-      <div
-        className="p-1"
-        // style={{ backgroundColor: "rgba(255, 255, 255, 0.8)" }}
-        // style={{ position: "sticky", bottom: 0, height: "70vh" }}
-        key={chatLogs.id}
-      >
-        {chatLogs.map((log) => {
-          // console.log("log", typeof log, log);
-          return (
-            <div className="d-flex" key={log.id}>
-              <b>{`${log.userName}: `}</b>
-              <div style={{ marginLeft: "0.1rem" }}>{log.message}</div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );

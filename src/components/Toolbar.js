@@ -33,7 +33,7 @@ export const Toolbar = (props) => {
   };
 
   return (
-    <SC.Toolbar id="Toolbar" style={STYLE}>
+    <SC.Toolbar isexpanded={isExpanded} id="Toolbar" style={STYLE}>
       {isExpanded && (
         <React.Fragment>
           <SC.ToolbarOption
@@ -78,7 +78,7 @@ export const Toolbar = (props) => {
       >
         <IconMenu />
       </SC.ToolbarOption>
-      <SC.ToolbarBG />
+      {/* <SC.ToolbarBG /> */}
     </SC.Toolbar>
   );
 };

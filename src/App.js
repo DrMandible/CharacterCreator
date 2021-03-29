@@ -10,7 +10,7 @@ import { Main } from "./Main";
 const THEME = {
   main: `rgba(95, 84, 73, 1)`,
   background: `rgba(235, 252, 251, 1)`,
-  shade: `rgba(0, 0, 0, 0.1)`,
+  shade: `rgba(0, 0, 0, 0.3)`,
   bright: "rgba(255, 255, 255, 0.1)",
   shadow: `rgba(175, 170, 235, .5)`,
   confirm: `rgba(206, 223, 217, 1)`,

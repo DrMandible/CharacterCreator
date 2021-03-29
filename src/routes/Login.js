@@ -75,6 +75,7 @@ export const Login = () => {
         formik.resetForm();
         formik.values.email = response.email;
       } catch (e) {
+        setIsSubmitting(false);
         setServerMessage("Could not Register");
       }
     };
@@ -108,6 +109,7 @@ export const Login = () => {
         });
         // ["CHAT", "ACCOUNT", "FRIENDS", "CHARACTER_SHEET"]
       } catch (e) {
+        setIsSubmitting(false);
         setServerMessage("Could not login");
       }
     };
@@ -219,7 +221,11 @@ export const Login = () => {
             </div>
           </SC.CardFooter>
         </form>
-        {serverMessage && <div className="d-flex w c">{serverMessage}</div>}
+        {serverMessage && (
+          <SC.CardFooter className="d-flex w">
+            <div className="d-flex w c p-1 m-1">{serverMessage}</div>
+          </SC.CardFooter>
+        )}
       </SC.SmallCard>
     </div>
   );

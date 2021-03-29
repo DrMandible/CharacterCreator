@@ -103,12 +103,11 @@ const DARKEN = `rgba(0, 0, 0, 0.1)`;
 
 export const CardBorders = styled.div`
   background-color: ${(props) => props.theme.bright};
-  min-width: ${(props) =>
+  /* min-width: ${(props) =>
     props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
   max-width: ${(props) =>
-    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
-  width: ${(props) =>
-    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important;
+    props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important; */
+  width: ${(props) => (props.windowwidth < 600 ? "95vw" : "33vw")};
   height: 100%;
   max-height: 75vh;
   overflow-y: wrap;
@@ -317,23 +316,12 @@ export const Toolbar = styled.div`
   overflow: hidden;
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
+  height: ${(props) => (props.isexpanded ? "90vh" : "auto")};
   display: flex;
-  justify-content: space-around;
-  box-sizing: border-box;
-
-  /* pointer-events: none; */
-`;
-
-export const ToolbarBG = styled.div`
-  color: ${(props) => props.theme.text};
-  width: 100%;
-  height: 40%;
-  position: absolute;
-  bottom: 0;
-  z-index: -1;
-  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: space-between;
+  /* box-sizing: border-box; */
 `;
 
 export const ToolbarOption = styled.div`

@@ -71,17 +71,25 @@ export function Main() {
   var w =
     window.innerWidth && document.documentElement.clientWidth
       ? Math.min(window.innerWidth, document.documentElement.clientWidth)
-      : window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.getElementsByTagName("body")[0].clientWidth;
-  // console.log("state.view: ", VIEWS.LOGIN);
+      : Math.min(
+          window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.getElementsByTagName("body")[0].clientWidth
+        );
+  console.log("w", typeof w, w);
+  let cardWidth = w < 600 ? "95vw" : "33vw";
   return (
-    <div className="d-flex f-w w c">
-      <div className="f-w f-a-s p-1">
+    <div className="d-flex f-w w c flex-c">
+      <div className="d-flex f-w w p-1 c">
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {
             return (
-              <SC.CardBorders windowwidth={w} key={key} id={key}>
+              <SC.CardBorders
+                cardwidth={cardWidth}
+                windowwidth={w}
+                key={key}
+                id={key}
+              >
                 {VIEWS[`${view}`]}
               </SC.CardBorders>
             );
