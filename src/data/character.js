@@ -29,7 +29,7 @@ let showStatsOptions = {
 };
 
 export const Character = () => {
-  let name = "Fallon";
+  let name = "Mordekai the Magnificent";
   let playbook = "Barbarian";
   let lineage = "Midlander";
 
@@ -46,6 +46,16 @@ export const Character = () => {
       }
     }
   };
+
+  let party = [
+    name,
+    "Geterex",
+    "Fallon",
+    "Heidelburg",
+    "Jodr",
+    "Dejma",
+    "Thim"
+  ];
 
   getStats();
   // for (let abil of dwAbilities) {
@@ -67,7 +77,8 @@ export const Character = () => {
   let playerMoves = [];
 
   // let getPlaybookMoves = () => allPlaybookMoves[playbook];
-  let connections = getNetworkConnections(name);
+  console.log("creating connections...");
+  let connections = getNetworkConnections(name, party);
   let image = connections.get(name).image;
   // console.log(name, connections);
 
@@ -81,6 +92,7 @@ export const Character = () => {
     dwBasicMoves,
     challenges,
     connections,
-    journalEntries
+    journalEntries,
+    party
   };
 };

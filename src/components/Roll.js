@@ -219,15 +219,16 @@ const RollSetup = (props) => {
           </div>
         </div>
       </div>
-
-      <div className="d-flex w" style={{ visible: false }}>
-        <textarea
-          className="d-flex w"
-          type="text"
-          placeholder="Custom modifier description (optional) "
-          onChange={handleUserModDescription}
-        />
-      </div>
+      {userModValue !== 0 && (
+        <div className="d-flex w" style={{ visible: false }}>
+          <textarea
+            className="d-flex w"
+            type="text"
+            placeholder="Custom modifier description (optional) "
+            onChange={handleUserModDescription}
+          />
+        </div>
+      )}
 
       {/* *** SOCIAL - SHARE SCOPE *** */}
       {/* <div className="d-flex">

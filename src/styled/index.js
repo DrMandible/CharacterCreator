@@ -310,6 +310,8 @@ export const RollButton = styled(SmallButton)`
   font-weight: bold;
   width: 2rem;
   height: 2rem;
+  padding: 0;
+  margin: 0;
   /* background-color: ${(props) => props.theme.background}; */
 `;
 
@@ -326,11 +328,11 @@ export const Toolbar = styled.div`
 `;
 
 export const ToolbarOption = styled.div`
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   pointer-events: auto;
   cursor: pointer;
   border-radius: 50%;
-  border: 1px solid ${(props) => props.theme.text};
+  border: 2px solid ${(props) => props.theme.text};
   padding: 0.5rem;
   margin: 0.5rem;
   background-color: ${(props) =>
@@ -342,25 +344,23 @@ export const ToolbarOption = styled.div`
   width: 3rem;
   &:focus {
     box-shadow: none;
-    border: none;
+    border: 1px solid ${(props) => props.theme.text};
     outline: none;
     border-radius: 50%;
-    border-top: 1px solid white;
   }
 
   &:active {
     box-shadow: none;
-    border: none;
+    border: 1px solid ${(props) => props.theme.text};
     outline: none;
     border-radius: 50%;
-    border-top: 1px solid white;
   }
   &:hover {
-    background-color: ${(props) => props.theme.secondary};
-    border: none;
+    background-color: ${(props) =>
+      props.currentselection ? props.theme.secondary : props.theme.selected};
+    border: 1px solid ${(props) => props.theme.text};
     outline: none;
     border-radius: 50%;
-    border-top: 1px solid powderblue;
   }
 `;
 

@@ -224,7 +224,7 @@ const ChatRoom = (props) => {
       <b className="bdr-b">{props.roomName}</b>
       {props.children}
       {/* {props.chatLogs && <ChatLogs chatLogs={props.chatLogs} />} */}
-      <div className="d-flex">
+      <div className="d-flex" style={{ marginTop: "0.2rem" }}>
         <input
           id="message-input"
           onKeyDown={(e) => handleKey(e)}
@@ -232,20 +232,27 @@ const ChatRoom = (props) => {
             flexGrow: 1
           }}
         />
-        <SC.SmallButton
-          onClick={(e) =>
-            props.handleSendMessage(
-              props.primus,
-              props.userName,
-              props.userId,
-              props.room,
-              newMessage
-            )
-          }
-          style={{ maxWidth: "4rem" }}
-        >
-          Send
-        </SC.SmallButton>
+        <div>
+          {/* *** TOGGLE SEND MESSAGE OUT-OF-CHARACTER || IN-CHARACTER *** */}
+          {/* <select defaultValue={state.user.userName}>
+            <option>{state.user.userName}</option>
+            <option>{state.user.character.name}</option>
+          </select> */}
+          <SC.SmallButton
+            onClick={(e) =>
+              props.handleSendMessage(
+                props.primus,
+                props.userName,
+                props.userId,
+                props.room,
+                newMessage
+              )
+            }
+            style={{ maxWidth: "4rem" }}
+          >
+            Send
+          </SC.SmallButton>
+        </div>
       </div>
     </div>
   );

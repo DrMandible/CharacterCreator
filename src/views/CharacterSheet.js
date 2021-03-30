@@ -85,6 +85,7 @@ const Vitals = (props) => {
     <tr>
       {props.labels.map((label) => (
         <td
+          className="f-a-s"
           key={label}
           style={{
             fontSize: "0.9rem",
@@ -97,35 +98,114 @@ const Vitals = (props) => {
     </tr>
   );
 
-  const ValueRow = (props) => (
-    <tr>
-      {props.values.map((value) => (
-        <td key={value} className="bdr-b c">
-          <b>{value}</b>
-        </td>
-      ))}
-    </tr>
-  );
+  const ValueRow = (props) => {
+    const [isEditing, setIsEditing] = useState(false);
+    const [newValue, setNewValue] = useState(null);
+
+    const handleEdit = (value, index) => {
+      if (props.canEdit) {
+        console.log("editing: ", props.labels[index]);
+        setIsEditing(props.labels[index]);
+      }
+    };
+
+    const handleSaveEdit = async (e, index) => {
+      e.preventDefault();
+      switch (props.labels[index]) {
+        case "Name":
+          props.handleSaveEdit({
+            type: "SET_NAME",
+            payload: newValue
+          });
+          break;
+        default:
+          break;
+      }
+      // console.log(newMessage);
+      // primus.write({
+      //   id: state.user.id,
+      //   action: "NEW_MESSAGE",
+      //   roomId: room.id,
+      //   message: newMessage,
+      //   userId: state.user.id,
+      //   userName: state.user.name
+      // });
+      console.log("newValue", newValue);
+      // props.values[index] = newValue;
+      // document.getElementById(`${isEditing}-input`).value = newValue;
+      setIsEditing(false);
+    };
+
+    const handleEditing = (newValue) => setNewValue(newValue);
+
+    useEffect(() => {}, [newValue]);
+
+    return (
+      <tr>
+        {props.values.map((value, index) => {
+          if (isEditing && isEditing === props.labels[index]) {
+            return (
+              <td
+                key={index}
+                className="bdr-b c"
+                style={{
+                  fontSize: `${[...value].length > 12 ? "1rem" : "1.1rem"}`
+                }}
+              >
+                <form onSubmit={(e) => handleSaveEdit(e, index)}>
+                  <input
+                    id={`${props.labels[index]}-input`}
+                    placeholder={value}
+                    onChange={(e) => handleEditing(e.target.value)}
+                  ></input>
+                </form>
+              </td>
+            );
+          }
+          return (
+            <td
+              onClick={(e) => handleEdit(value, index)}
+              key={index}
+              className="bdr-b c"
+              style={{
+                fontSize: `${[...value].length > 12 ? "1rem" : "1.1rem"}`
+              }}
+            >
+              <b>{value}</b>
+            </td>
+          );
+        })}
+      </tr>
+    );
+  };
   return (
     <div className="w">
-      <table className="w f-a-s">
+      <table className="w">
         <tbody>
-          <ValueRow values={[props.state.user.character.name]} />
+          <ValueRow
+            values={[props.state.user.character.name]}
+            labels={["Name"]}
+            canEdit={true}
+            handleSaveEdit={props.handleSaveEdit}
+          />
           <LabelRow labels={["Name"]} />
         </tbody>
       </table>
-      <table className="w f-a-s">
-        <tbody>
-          <ValueRow values={["16", "0"]} />
-          <LabelRow labels={["HP", "Armor"]} />
+      <table className="w">
+        <tbody className="w">
+          <ValueRow
+            values={["16", "16", "d6", "0"]}
+            labels={["HP", "Current", "Damage", "Armor"]}
+          />
+          <LabelRow labels={["HP", "Current", "Damage", "Armor"]} />
         </tbody>
       </table>
-      <table className="w f-a-s">
+      {/* <table className="w f-a-s">
         <tbody>
-          <ValueRow values={["d6"]} />
-          <LabelRow labels={["Damage"]} />
+          <ValueRow values={["d6", "0"]} />
+          <LabelRow labels={["Damage", "Armor"]} />
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };
@@ -185,6 +265,8 @@ export function CharacterSheet() {
     }
   };
 
+  const handleSaveEdit = (newDispatch) => dispatch(newDispatch);
+
   console.log(state.user.character);
 
   useEffect(() => {}, [newRoll]);
@@ -214,8 +296,8 @@ export function CharacterSheet() {
       {activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
 
       {activeTab === "Stats" && (
-        <div className="d-flex" style={{ fontSize: "1.2rem" }}>
-          <Vitals state={state} />
+        <div style={{ fontSize: "1.2rem" }}>
+          <Vitals state={state} handleSaveEdit={handleSaveEdit} />
           <Stats stats={state.user.character.stats} handleRoll={handleRoll} />
         </div>
       )}

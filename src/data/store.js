@@ -129,7 +129,7 @@ export const StateProvider = ({ children }) => {
       //   currentState.modal.value = action.value;
       //   return currentState;
       case "SET_NAME":
-        currentState.character.name = action.payload;
+        currentState.user.character.name = action.payload;
         return currentState;
       case "SET_STAT":
         currentState.character.stats[action.stat] = action.payload;

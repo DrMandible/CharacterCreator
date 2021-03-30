@@ -252,15 +252,15 @@ const generateRandomNpcConnections = (originName) => {
   return newConnections;
 };
 
-export const getNetworkConnections = (charName, connections = new Map()) => {
+export const getNetworkConnections = (
+  charName,
+  party,
+  connections = new Map()
+) => {
   // TODO: FETCH from SERVER;
   // TEMP: Randomly Generating CONNECTIONS
-
-  for (let partyMemberName of PARTY_INDEX) {
-    const PARTY_CONNECTIONS = generatePartyConnections(
-      partyMemberName,
-      PARTY_INDEX
-    );
+  for (let partyMemberName of party) {
+    const PARTY_CONNECTIONS = generatePartyConnections(partyMemberName, party);
     const NPC_CONNECTIONS = generateRandomNpcConnections(partyMemberName);
     const CONNECTIONS = new Map([...PARTY_CONNECTIONS, ...NPC_CONNECTIONS]);
 
