@@ -36,25 +36,97 @@ const Tabs = ({ activeTab, setActiveTab }) => {
 
 const Stats = (props) => {
   return (
-    <table className="d-flex f-a-s p-1" style={{ fontSize: "1.2rem" }}>
+    <table className="e">
       <tbody>
         {Object.entries(props.stats).map(([statName, statValue]) => (
-          <tr className="d-flex f-a-s" key={statName}>
+          <tr className="e" key={statName}>
             <td>
               <b>{statName}: </b>
             </td>
-            <td className="indent w">
+            {/* <td className="indent w">
               <div className="e">{statValue}</div>
-            </td>
-            <td className="d-flex">
-              <SC.RollButton>
-                <Die onClick={(e) => props.handleRoll(statName, statValue)} />
+            </td> */}
+            <td className="d-flex w e">
+              <SC.RollButton
+                onClick={(e) => props.handleRoll(statName, statValue)}
+              >
+                <div className="f-a-s w" style={{ position: "relative" }}>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0
+                    }}
+                  >
+                    <Die />
+                  </div>
+                  <div
+                    className="d-flex w c"
+                    style={{
+                      position: "absolute",
+                      top: "0.2rem",
+                      left: 0
+                    }}
+                  >
+                    {statValue}
+                  </div>
+                </div>
               </SC.RollButton>
             </td>
           </tr>
         ))}
       </tbody>
     </table>
+  );
+};
+
+const Vitals = (props) => {
+  const LabelRow = (props) => (
+    <tr>
+      {props.labels.map((label) => (
+        <td
+          key={label}
+          style={{
+            fontSize: "0.9rem",
+            fontStyle: "italic"
+          }}
+        >
+          {label}
+        </td>
+      ))}
+    </tr>
+  );
+
+  const ValueRow = (props) => (
+    <tr>
+      {props.values.map((value) => (
+        <td key={value} className="bdr-b c">
+          <b>{value}</b>
+        </td>
+      ))}
+    </tr>
+  );
+  return (
+    <div className="w">
+      <table className="w f-a-s">
+        <tbody>
+          <ValueRow values={[props.state.user.character.name]} />
+          <LabelRow labels={["Name"]} />
+        </tbody>
+      </table>
+      <table className="w f-a-s">
+        <tbody>
+          <ValueRow values={["16", "0"]} />
+          <LabelRow labels={["HP", "Armor"]} />
+        </tbody>
+      </table>
+      <table className="w f-a-s">
+        <tbody>
+          <ValueRow values={["d6"]} />
+          <LabelRow labels={["Damage"]} />
+        </tbody>
+      </table>
+    </div>
   );
 };
 
@@ -137,15 +209,15 @@ export function CharacterSheet() {
         }}
       >
         <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div>
-          <b>{state.user.character.name}</b>
-        </div>
       </SC.SolidBackground>
 
       {activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
 
       {activeTab === "Stats" && (
-        <Stats stats={state.user.character.stats} handleRoll={handleRoll} />
+        <div className="d-flex" style={{ fontSize: "1.2rem" }}>
+          <Vitals state={state} />
+          <Stats stats={state.user.character.stats} handleRoll={handleRoll} />
+        </div>
       )}
 
       {activeTab === "Journal" && (

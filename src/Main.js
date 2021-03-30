@@ -1,15 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import Primus from "./primus/primus";
 
-import { CharacterSheet } from "./routes/CharacterSheet";
-import { CharacterSelect } from "./routes/CharacterSelect";
+import { CharacterSheet } from "./views/CharacterSheet";
+import { CharacterSelect } from "./views/CharacterSelect";
 import { Toolbar } from "./components/Toolbar";
 
-import { Login } from "./routes/Login";
-import { Friends } from "./routes/Friends";
+import { Login } from "./views/Login";
+import { Friends } from "./views/Friends";
 import { Account } from "./components/Account";
-import { Party } from "./routes/Party";
-import { Menu } from "./routes/Menu";
+import { Party } from "./views/Party";
+import { Menu } from "./views/Menu";
 import { Chat } from "./components/Chat";
 
 import { store } from "./data/store";
@@ -80,7 +80,7 @@ export function Main() {
             document.documentElement.clientWidth ||
             document.getElementsByTagName("body")[0].clientWidth
         );
-  console.log("w", typeof w, w);
+  // console.log("w", typeof w, w);
   let cardWidth = w < 700 ? "95vw" : "33vw";
   return (
     <div className="d-flex f-w w c flex-c">
