@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { store } from "../data/store";
 
 import { getRandomPortrait } from "../data/charNetworkConnections";
+import { Tabs } from "./Tabs";
 
 import * as SC from "../styled";
 
@@ -47,6 +48,8 @@ export const Chat = () => {
 
   const [showChatList, setShowChatList] = useState(true);
 
+  const [activeTab, setActiveTab] = useState("Rooms");
+
   const handleSetActiveChat = async (roomId) => setActiveChatRoom(roomId);
 
   const handleHideChatList = () => setShowChatList(false);
@@ -55,6 +58,7 @@ export const Chat = () => {
   const handleJoin = async (e, roomId) => {
     primus.write({ action: "JOIN", roomId: roomId, userId: state.user.id });
     setActiveChatRoom(roomId);
+    setActiveTab("Chat");
   };
 
   const handleCreateRoom = async () => {
@@ -131,11 +135,17 @@ export const Chat = () => {
   // console.log(userRooms);
   getRoomName(userRooms, 60);
   return (
-    <div
-      style={{ position: "relative", height: "70vh", boxSizing: "border-box" }}
-      className="d-flex w"
-    >
-      {showChatList ? (
+    <div>
+      <div style={{ position: "relative" }}>
+        <div style={{ position: "sticky", top: 0 }}>
+          <Tabs
+            tabLabels={["Chat", "Rooms"]}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />{" "}
+        </div>
+      </div>
+      {activeTab === "Rooms" ? (
         <ChatList
           primus={primus}
           list={userRooms}
@@ -161,7 +171,7 @@ export const Chat = () => {
         </SC.SmallButton>
       )}
 
-      {primus && activeChatRoom && (
+      {primus && activeTab === "Chat" && (
         <div
           onClick={handleHideChatList}
           style={{
@@ -262,13 +272,7 @@ const ChatList = (props) => {
   const list = props.list;
   const handleJoin = props.handleJoin;
   return (
-    <div
-      style={{
-        width: "85%",
-        position: "absolute",
-        right: "-.2rem"
-      }}
-    >
+    <div>
       {props.children}
       {list.map((room) => (
         <div className="d-flex f-a-s w p-1" key={room.id}>

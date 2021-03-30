@@ -4,35 +4,11 @@ import { ReactComponent as Die } from "../assets/die.svg";
 
 import { store } from "../data/store";
 
+import { Tabs } from "../components/Tabs";
 import { MoveList } from "../components/MoveList";
 import { Roll } from "../components/Roll";
 
 import * as SC from "../styled";
-
-const TAB_LABELS = ["Stats", "Moves", "Journal"];
-
-const Tabs = ({ activeTab, setActiveTab }) => {
-  const handleTabClick = (tab_label) => {
-    setActiveTab(tab_label);
-  };
-
-  return (
-    <div className="d-flex w">
-      {TAB_LABELS.map((tab_label) => {
-        return (
-          <SC.SmallButton
-            onClick={(e) => handleTabClick(tab_label)}
-            className="p-1 m-1"
-            key={tab_label}
-            isactive={activeTab === tab_label}
-          >
-            {tab_label}
-          </SC.SmallButton>
-        );
-      })}
-    </div>
-  );
-};
 
 const Stats = (props) => {
   return (
@@ -155,7 +131,7 @@ const Vitals = (props) => {
                 <form onSubmit={(e) => handleSaveEdit(e, index)}>
                   <input
                     id={`${props.labels[index]}-input`}
-                    placeholder={value}
+                    defaultValue={value}
                     onChange={(e) => handleEditing(e.target.value)}
                   ></input>
                 </form>
@@ -241,6 +217,8 @@ export function CharacterSheet() {
   const [activeTab, setActiveTab] = React.useState("Moves");
   const [newRoll, setNewRoll] = React.useState(false);
 
+  const TAB_LABELS = ["Stats", "Moves", "Journal"];
+
   const handleRoll = (
     statName = "",
     statValue = "",
@@ -281,27 +259,22 @@ export function CharacterSheet() {
           handleRoll={handleRoll}
         />
       )}
-      <SC.SolidBackground
-        className="w bdr-b"
-        style={{
-          margin: 0,
-          padding: 0,
-          position: "sticky",
-          top: 0
-        }}
-      >
-        <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      </SC.SolidBackground>
-
-      {activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
-
+      <div style={{ position: "relative" }}>
+        <div style={{ position: "sticky", top: 0 }}>
+          <Tabs
+            tabLabels={TAB_LABELS}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        </div>
+      </div>
+      .{activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
       {activeTab === "Stats" && (
         <div style={{ fontSize: "1.2rem" }}>
           <Vitals state={state} handleSaveEdit={handleSaveEdit} />
           <Stats stats={state.user.character.stats} handleRoll={handleRoll} />
         </div>
       )}
-
       {activeTab === "Journal" && (
         <Journal journalEntries={state.user.character.journalEntries} />
       )}

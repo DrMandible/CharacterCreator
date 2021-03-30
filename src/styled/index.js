@@ -113,8 +113,7 @@ export const CardBorders = styled.div`
   overflow-y: wrap;
 
   overflow-x: hidden;
-  margin-left: 1rem;
-  margin-top: 1rem;
+  margin: 1rem 0.5rem;
   border: 2px solid ${(props) => props.theme.shade};
   border-radius: 0.3rem;
   color: ${(props) => props.theme.text};
