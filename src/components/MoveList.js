@@ -18,7 +18,7 @@ const COLUMN_BREAKPOINTS = {
 // MODULE SCOPE VARIABLES end
 
 // REACT COMPONENTS begin
-export const MoveList = () => {
+export const MoveList = (props) => {
   const [moves, setMoves] = React.useState([]);
   const [showAddMove, setShowAddMove] = React.useState(false);
   const [data, setData] = React.useState({
@@ -91,6 +91,7 @@ export const MoveList = () => {
                 key={moveId}
                 state={[showAddMove, setShowAddMove]}
                 moveList={[moves, setMoves]}
+                handleRoll={props.handleRoll}
               />
             );
           })}

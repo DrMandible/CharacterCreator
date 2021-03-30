@@ -59,6 +59,10 @@ br {
   background-clip: padding-box;
 }
 
+.indent {
+  padding-left: 0.25rem;
+}
+
 .bdr-t {
   border-top: 1px solid gray;
 }

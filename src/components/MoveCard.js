@@ -56,7 +56,7 @@ export const MoveCard = (props) => {
   };
 
   return (
-    <div className="d-flex f-w w c">
+    <div className="d-flex f-w w  f-a-s">
       {isEditing ? (
         <EditMove
           move={move}
@@ -71,7 +71,12 @@ export const MoveCard = (props) => {
             <SC.CardTrigger className="bdr-b bdr-t">
               {move.trigger}
               {move.roll && (
-                <SC.RollButton className="m-1">{move.modifier}</SC.RollButton>
+                <SC.RollButton
+                  onClick={(e) => props.handleRoll("", "", move.modifier)}
+                  className="m-1"
+                >
+                  {move.modifier}
+                </SC.RollButton>
               )}
             </SC.CardTrigger>
           </SC.CardHeader>
@@ -79,19 +84,19 @@ export const MoveCard = (props) => {
             {move.roll && (
               <div>
                 <MultiLine txt={move.successDescription}>
-                  <div className="d-flex">
+                  <div className="d-flex f-a-s">
                     <ul className="bdr-b w">10+</ul>
                   </div>
                 </MultiLine>
 
                 <MultiLine txt={move.swcDescription}>
-                  <div className="d-flex">
+                  <div className="d-flex f-a-s">
                     <ul className="bdr-b w">7 to 9</ul>
                   </div>
                 </MultiLine>
 
                 <MultiLine txt={move.failDescription}>
-                  <div className="d-flex">
+                  <div className="d-flex f-a-s">
                     <ul className="bdr-b w">6-</ul>
                   </div>
                 </MultiLine>
@@ -99,7 +104,7 @@ export const MoveCard = (props) => {
             )}
             {isShowAll && (
               <React.Fragment>
-                <div className="d-flex">
+                <div className="d-flex f-a-s">
                   <ul className="bdr-b w">Description</ul>
                 </div>
                 <MultiLine txt={move.description} />

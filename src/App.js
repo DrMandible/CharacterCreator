@@ -16,7 +16,8 @@ const THEME = {
   confirm: `rgba(206, 223, 217, 1)`,
   text: `rgba(81, 37, 0, 1)`,
   secondary: `rgb(176, 147, 152)`,
-  warning: `rgb(159, 74, 84)`
+  warning: `rgb(159, 74, 84)`,
+  selected: `rgb(175, 200, 220)`
 };
 
 export default function App() {

@@ -2,184 +2,37 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { store } from "../data/store";
 
-// import { ChatRoom } from "./ChatRoom";
-// import { BubbleWPortrait } from "./Bubble";
 import { getRandomPortrait } from "../data/charNetworkConnections";
 
 import * as SC from "../styled";
-
-// export const ChatRoomList = (props) => {
-//   const [inRooms, setInRooms] = useState([]);
-//   const [chatLogs, setChatLogs] = useState({});
-
-//   useEffect(() => {
-//     if (props.primus) {
-//       props.primus.on("data", function (data) {
-//         switch (data.action) {
-//           case "JOIN":
-//             console.log("ChatRoomList - JOIN", data.payload);
-//             let joinedRoom = data.payload;
-//             joinedRoom.logs = JSON.parse(data.payload.logs);
-//             let joinedRoomId = joinedRoom.id;
-//             let newInRooms = [...inRooms, joinedRoom];
-//             console.log("newInRooms", newInRooms);
-
-//             setInRooms(newInRooms);
-//             break;
-//           default:
-//             break;
-//         }
-//       });
-//     }
-//   });
-
-//   if (!props.chatroomlist) return "";
-
-//   // console.log(props.chatroomlist);
-
-//   const handleJoin = async (e, id) => {
-//     props.primus.write({ action: "JOIN", room: id });
-//   };
-
-//   const handleLeave = async (e, id) => {
-//     props.primus.write({ action: "LEAVE", room: id });
-//     let newInRooms = inRooms.filter((room) => room.id !== id);
-//     setInRooms(newInRooms);
-//   };
-
-//   const handleDestroyRoom = async (e, id) => {
-//     console.log("destroying room: ", id);
-//     props.primus.write({ action: "DESTROY_ROOMS", rooms: [id] });
-//   };
-
-//   return Object.values(props.chatroomlist).map((room) => {
-//     // console.log(room);
-//     return (
-//       <div key={room.id} className="">
-//         <BubbleWPortrait
-//           onClick={(e) => handleJoin(room.id)}
-//           key={room.id}
-//           name={room.name}
-//           image={getRandomPortrait(room.name)}
-//           label={room.type}
-//         >
-//           <div className="d-flex f-s-b p-1">
-//             {!inRooms.map((inRoom) => inRoom.id).includes(room.id) ? (
-//               <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
-//                 ENTER
-//               </SC.SmallButton>
-//             ) : (
-//               <SC.SmallButton onClick={(e) => handleLeave(e, room.id)}>
-//                 LEAVE
-//               </SC.SmallButton>
-//             )}
-//             <SC.SmallButton
-//               style={{
-//                 marginLeft: "0.1rem",
-//                 minHeight: "2rem",
-//                 width: "2rem",
-//                 minWidth: "2rem"
-//               }}
-//               onClick={(e) => handleDestroyRoom(e, room.id)}
-//             >
-//               <div className="tc">
-//                 <span role="img" aria-label="Delete Room">
-//                   ❌
-//                 </span>
-//               </div>
-//             </SC.SmallButton>
-//           </div>
-//         </BubbleWPortrait>
-//         {inRooms.map((room) => {
-//           console.log("inRooms.map((room) =>", room);
-//           return (
-//             <div key={room.id}>
-//               <ChatRoom room={room} primus={props.primus} />
-//             </div>
-//           );
-//         })}
-//       </div>
-//     );
-//   });
-// };
-
-// export const Chatb = () => {
-//   const { state, dispatch } = useContext(store);
-//   const [primus, setPrimus] = useState(null);
-
-//   const [roomList, setRoomList] = useState(null);
-
-//   const [showRoomList, setShowRoomList] = useState(true);
-
-//   const handleCreateRoom = async (e) => {
-//     console.log("creating room...");
-//     state.primusConnection.write({
-//       id: state.user.id,
-//       action: "CREATE_ROOM",
-//       roomName: "JBG's Stone Inn",
-//       roomType: "Public Tavern"
-//     });
-//   };
-
-//   const toggleShowRoomList = () => setShowRoomList(!showRoomList);
-
-//   useEffect(() => {
-//     if (!primus) {
-//       if (state?.primusConnection) {
-//         // console.log(state.primusConnection);
-//         setPrimus(state.primusConnection);
-//       }
-//     }
-//     if (primus) {
-//       if (!roomList) {
-//         console.log("get rooms");
-//         primus.write({
-//           action: "GET_ROOMS",
-//           id: state.user.id
-//         });
-//       }
-//       primus.on("data", function (data) {
-//         // console.log(data.action);
-//         switch (data.action) {
-//           case "GET_ROOMS":
-//             // console.log("GET_ROOMS", data.payload);
-//             setRoomList(data.payload);
-//             break;
-//           default:
-//             break;
-//         }
-//       });
-//     }
-//   }, [primus, state.primusConnection]);
-
-//   return (
-//     <SC.Card>
-//       <SC.CardHeader>
-//         <div className="d-flex f-sb w">
-//           <div>CHAT</div>
-//           <div>
-//             <SC.SmallButton onClick={toggleShowRoomList}>
-//               {showRoomList ? "hide room list" : "show room list"}
-//             </SC.SmallButton>
-//           </div>
-//           <div>
-//             <SC.SmallButton onClick={handleCreateRoom}>
-//               Create room
-//             </SC.SmallButton>
-//           </div>
-//         </div>
-//       </SC.CardHeader>
-//       {showRoomList && roomList && primus && (
-//         <ChatRoomList chatroomlist={roomList} primus={primus} />
-//       )}
-//     </SC.Card>
-//   );
-// };
 
 const getRoomName = (userRooms, roomId) => {
   for (let room of userRooms) {
     if (room.id === roomId) return room.name;
   }
+};
+
+const handleDestroyRoom = async (primus, id) => {
+  console.log("destroying room: ", id);
+  primus.write({ action: "DESTROY_ROOMS", rooms: [id] });
+};
+
+export const handleSendMessage = async (
+  primus,
+  userName,
+  userId,
+  roomId,
+  newMessage
+) => {
+  primus.write({
+    id: userId,
+    action: "NEW_MESSAGE",
+    roomId: roomId,
+    message: newMessage,
+    userId: userId,
+    userName: userName
+  });
+  document.getElementById("message-input").value = "";
 };
 
 export const Chat = () => {
@@ -220,18 +73,6 @@ export const Chat = () => {
       id: state.user.id,
       filter: []
     });
-  };
-
-  const handleSendMessage = async (roomId, newMessage) => {
-    primus.write({
-      id: state.user.id,
-      action: "NEW_MESSAGE",
-      roomId: roomId,
-      message: newMessage,
-      userId: state.user.id,
-      userName: state.user.name
-    });
-    document.getElementById("message-input").value = "";
   };
 
   useEffect(() => {
@@ -296,13 +137,14 @@ export const Chat = () => {
     >
       {showChatList ? (
         <ChatList
+          primus={primus}
           list={userRooms}
           handleJoin={handleJoin}
           handleSetActiveChat={handleSetActiveChat}
         >
-          {/* <SC.SmallButton onClick={handleCreateRoom}>
+          <SC.SmallButton onClick={handleCreateRoom}>
             Create Room
-          </SC.SmallButton> */}
+          </SC.SmallButton>
         </ChatList>
       ) : (
         <SC.SmallButton
@@ -319,7 +161,7 @@ export const Chat = () => {
         </SC.SmallButton>
       )}
 
-      {activeChatRoom && (
+      {primus && activeChatRoom && (
         <div
           onClick={handleHideChatList}
           style={{
@@ -329,8 +171,11 @@ export const Chat = () => {
           }}
         >
           <ChatRoom
+            primus={primus}
             roomName={getRoomName(userRooms, activeChatRoom)}
             room={activeChatRoom}
+            userId={state.user.id}
+            userName={state.user.userName}
             handleSendMessage={handleSendMessage}
             chatLogs={chatLogs}
           >
@@ -354,15 +199,25 @@ export const Chat = () => {
 };
 
 const ChatRoom = (props) => {
+  const [lastKey, setLastKey] = useState(null);
   const [newMessage, setNewMessage] = useState(null);
 
-  const handleTyping = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      props.handleSendMessage(props.room, newMessage);
+  useEffect(() => {
+    if (lastKey && lastKey === 13) {
+      props.handleSendMessage(
+        props.primus,
+        props.userName,
+        props.userId,
+        props.room,
+        newMessage
+      );
+      setLastKey(null);
     }
+  }, [lastKey]);
+
+  const handleKey = (e) => {
     setNewMessage(e.target.value);
+    setLastKey(e.keyCode);
   };
   return (
     <div className="w">
@@ -372,13 +227,21 @@ const ChatRoom = (props) => {
       <div className="d-flex">
         <input
           id="message-input"
-          onChange={handleTyping}
+          onKeyDown={(e) => handleKey(e)}
           style={{
             flexGrow: 1
           }}
         />
         <SC.SmallButton
-          onClick={(e) => props.handleSendMessage(props.room, newMessage)}
+          onClick={(e) =>
+            props.handleSendMessage(
+              props.primus,
+              props.userName,
+              props.userId,
+              props.room,
+              newMessage
+            )
+          }
           style={{ maxWidth: "4rem" }}
         >
           Send
@@ -394,23 +257,50 @@ const ChatList = (props) => {
   return (
     <div
       style={{
-        width: "75%",
+        width: "85%",
         position: "absolute",
         right: "-.2rem"
       }}
     >
       {props.children}
       {list.map((room) => (
-        <SC.SmallButton onClick={(e) => handleJoin(e, room.id)} key={room.id}>
-          <div className="d-flex f-a-s w">
-            <div className="f-a-s">
-              <SC.SmallIcon>
-                <img src={getRandomPortrait(room.name)} alt={room.name} />
-              </SC.SmallIcon>
+        <div className="d-flex f-a-s w p-1" key={room.id}>
+          <SC.SmallButton onClick={(e) => handleJoin(e, room.id)}>
+            <div className="d-flex f-a-s w">
+              <div className="f-a-s">
+                <SC.SmallIcon>
+                  <img src={getRandomPortrait(room.name)} alt={room.name} />
+                </SC.SmallIcon>
+              </div>
+              <p className="f-a-s w">{room.name}</p>
             </div>
-            <p className="f-a-s w">{room.name}</p>
-          </div>
-        </SC.SmallButton>
+          </SC.SmallButton>
+
+          {/* *** DESTROY ROOM *** */}
+          {/* <SC.SmallButton
+            style={{
+              margin: 0,
+              padding: 0,
+              minHeight: "1.5rem",
+              height: "1.5rem",
+              width: "1.5rem",
+              minWidth: "1.5rem"
+            }}
+            onClick={(e) => handleDestroyRoom(props.primus, room.id)}
+          >
+            <div
+              className="tc"
+              style={{
+                margin: 0,
+                padding: 0
+              }}
+            >
+              <span role="img" aria-label="Delete Room">
+                ❌
+              </span>
+            </div>
+          </SC.SmallButton> */}
+        </div>
       ))}
     </div>
   );

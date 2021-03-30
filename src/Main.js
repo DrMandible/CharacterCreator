@@ -30,12 +30,16 @@ const PrimusConnection = () => {
     if (primus) return;
     const fetchData = async () => {
       // console.log("starting new primus connection");
-      const result = await new Primus(URL_PRIMUS_CONNECTION);
+      const newPrimusConnection = await new Primus(URL_PRIMUS_CONNECTION);
       // console.log("setPrimus", result);
-      setPrimus(result);
-      dispatch({
+      setPrimus(newPrimusConnection);
+      await dispatch({
         type: "SET_PRIMUS_CONNECTION",
-        payload: result
+        payload: newPrimusConnection
+      });
+      await newPrimusConnection.write({
+        action: "INITIALIZE",
+        payload: "test123"
       });
     };
 
@@ -77,10 +81,10 @@ export function Main() {
             document.getElementsByTagName("body")[0].clientWidth
         );
   console.log("w", typeof w, w);
-  let cardWidth = w < 600 ? "95vw" : "33vw";
+  let cardWidth = w < 700 ? "95vw" : "33vw";
   return (
     <div className="d-flex f-w w c flex-c">
-      <div className="d-flex f-w w p-1 c">
+      <div className="d-flex f-w w p-1 c" style={{ alignItems: "flex-start" }}>
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {
             return (

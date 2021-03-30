@@ -113,10 +113,9 @@ export const CardBorders = styled.div`
   overflow-y: wrap;
 
   overflow-x: hidden;
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid ${(props) => props.theme.shade};
+  margin-left: 1rem;
+  margin-top: 1rem;
+  border: 2px solid ${(props) => props.theme.shade};
   border-radius: 0.3rem;
   color: ${(props) => props.theme.text};
   -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
@@ -276,7 +275,7 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.confirm};
 
   &:hover {
-    background-color: rgb(175, 200, 220);
+    background-color: ${(props) => props.theme.selected};
     -webkit-box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     box-shadow: 2px 2px 3px -2px rgba(0, 0, 0, 0.63);
     cursor: pointer;
@@ -300,13 +299,17 @@ export const SmallButton = styled(Button)`
   height: auto;
   font-size: 0.9rem;
   overflow: hidden;
+
+  background-color: ${(props) =>
+    (props.isactive && props.theme.selected) || props.theme.confirm};
 `;
 
-export const RollButton = styled(Button)`
-  background-color: ${(props) => props.theme.shade};
+export const RollButton = styled(SmallButton)`
   border: 2px solid ${(props) => props.theme.main};
-  border-radius: 5px;
+  border-radius: 50%;
   font-weight: bold;
+  width: 2rem;
+  height: 2rem;
   /* background-color: ${(props) => props.theme.background}; */
 `;
 
@@ -317,10 +320,8 @@ export const Toolbar = styled.div`
   position: fixed;
   bottom: 0;
   right: 0;
-  height: ${(props) => (props.isexpanded ? "90vh" : "auto")};
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   /* box-sizing: border-box; */
 `;
 
@@ -329,11 +330,11 @@ export const ToolbarOption = styled.div`
   pointer-events: auto;
   cursor: pointer;
   border-radius: 50%;
-  border-top: ${(props) =>
-    props.currentselection ? `1px solid powderblue` : "1px solid gray"};
+  border: 1px solid ${(props) => props.theme.text};
   padding: 0.5rem;
+  margin: 0.5rem;
   background-color: ${(props) =>
-    props.currentselection ? props.theme.secondary : props.theme.shade};
+    props.currentselection ? props.theme.selected : props.theme.secondary};
   -webkit-animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)
     both;
   animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) both;
@@ -416,4 +417,8 @@ export const BackgroundWrapper = styled.div`
     background-color: rgba(125, 0, 245, 0.6);
     color: black;
   }
+`;
+
+export const SolidBackground = styled.div`
+  background-color: ${(props) => props.theme.background};
 `;

@@ -1,14 +1,12 @@
 import React, { createContext, useReducer } from "react";
 
 import * as utils from "./utils";
-import { Character } from "./character";
 
 const initialState = {
   user: {
     id: null,
     userName: null,
     loggedIn: false,
-    character: Character(),
     characters: [],
     friends: [],
     friendRequests: [],
@@ -48,6 +46,8 @@ function removeItemOnce(arr, value) {
 
 export const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
+    console.log(action);
+
     const currentState = { ...state };
     switch (action.type) {
       case "LOGIN":
@@ -107,6 +107,14 @@ export const StateProvider = ({ children }) => {
         return currentState;
       case "UPDATE_JOINED_CHATS":
         currentState.joinedChats = action.payload;
+        return currentState;
+      case "ADD_JOURNAL_ENTRY":
+        console.log("ADD_JOURNAL_ENTRY");
+        console.log(
+          "currentState.user.character.journalEntries",
+          currentState.user.character.journalEntries
+        );
+        currentState.user.character.journalEntries.push(action.payload);
         return currentState;
       case "SET_PLAYBOOK":
         currentState.character.playbook = action.payload;

@@ -1,3 +1,5 @@
+import { Character } from "./character";
+
 export const cleanIntArray = (array) => {
   let newArray = array || [];
   if (typeof newArray === "string") {
@@ -26,6 +28,10 @@ export const cleanUser = (user) => {
   }
   if (!user.friendRequestsOutgoing) {
     user.friendRequestsOutgoing = [];
+  }
+
+  if (!user.character) {
+    user.character = Character();
   }
 
   if (typeof user.friendRequests === "string") {
