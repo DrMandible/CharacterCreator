@@ -11,149 +11,166 @@ import { Roll } from "../components/Roll";
 import * as SC from "../styled";
 
 const Stats = (props) => {
+  let topVals = [
+    Object.values(props.stats)[0],
+    Object.values(props.stats)[1],
+    Object.values(props.stats)[2]
+  ];
+
+  let botVals = [
+    Object.values(props.stats)[3],
+    Object.values(props.stats)[4],
+    Object.values(props.stats)[5]
+  ];
+
+  let topLabels = [
+    Object.keys(props.stats)[0],
+    Object.keys(props.stats)[1],
+    Object.keys(props.stats)[2]
+  ];
+  let botLabels = [
+    Object.keys(props.stats)[3],
+    Object.keys(props.stats)[4],
+    Object.keys(props.stats)[5]
+  ];
+
+  let topStats = [
+    Object.entries(props.stats)[0],
+    Object.entries(props.stats)[1],
+    Object.entries(props.stats)[2]
+  ];
+  let botStats = [
+    Object.entries(props.stats)[3],
+    Object.entries(props.stats)[4],
+    Object.entries(props.stats)[5]
+  ];
+
   return (
-    <table className="e">
-      <tbody>
-        {Object.entries(props.stats).map(([statName, statValue]) => (
-          <tr className="e" key={statName}>
-            <td>
-              <b>{statName}: </b>
-            </td>
-            {/* <td className="indent w">
-              <div className="e">{statValue}</div>
-            </td> */}
-            <td className="d-flex w e">
-              <SC.RollButton
-                onClick={(e) => props.handleRoll(statName, statValue)}
+    <div>
+      <table className="w c" style={{ borderTop: "3px double gray" }}>
+        <tbody>
+          <ValueRow values={topVals} labels={topLabels} />
+          <LabelRow labels={topLabels} />
+          <ButtonRow stats={topStats} handleRoll={props.handleRoll} />
+        </tbody>
+      </table>
+      <table className="w c" style={{ borderTop: "3px double gray" }}>
+        <tbody>
+          <ValueRow values={botVals} labels={botLabels} />
+          <LabelRow labels={botLabels} />
+          <ButtonRow stats={botStats} handleRoll={props.handleRoll} />
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const ButtonRow = (props) => (
+  <tr>
+    {props.stats.map(([statName, statValue]) => (
+      <td className="c" key={statName}>
+        <div className="d-flex w c">
+          <SC.RollButton onClick={(e) => props.handleRoll(statName, statValue)}>
+            <div className="f-a-s w" style={{ position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0
+                }}
               >
-                <div className="f-a-s w" style={{ position: "relative" }}>
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0
-                    }}
-                  >
-                    <Die />
-                  </div>
-                  <div
-                    className="d-flex w c"
-                    style={{
-                      position: "absolute",
-                      top: "0.2rem",
-                      left: 0
-                    }}
-                  >
-                    {statValue}
-                  </div>
-                </div>
-              </SC.RollButton>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+                <Die />
+              </div>
+            </div>
+          </SC.RollButton>
+        </div>
+      </td>
+    ))}
+  </tr>
+);
+
+const LabelRow = (props) => (
+  <tr className="w">
+    {props.labels.map((label) => (
+      <td
+        className="c"
+        key={label}
+        style={{
+          fontSize: "0.9rem",
+          fontStyle: "italic",
+          width: `${100 / props.labels.length}%`
+        }}
+      >
+        {label}
+      </td>
+    ))}
+  </tr>
+);
+
+const ValueRow = (props) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [newValue, setNewValue] = useState(null);
+
+  const handleEdit = (value, index) => {
+    if (props.canEdit) {
+      console.log("editing: ", props.labels[index]);
+      setIsEditing(props.labels[index]);
+    }
+  };
+
+  const handleSaveEdit = async (e, index) => {
+    e.preventDefault();
+    switch (props.labels[index]) {
+      case "Name":
+        props.handleSaveEdit({
+          type: "SET_NAME",
+          payload: newValue
+        });
+        break;
+      default:
+        break;
+    }
+    setIsEditing(false);
+  };
+
+  const handleEditing = (newValue) => setNewValue(newValue);
+
+  useEffect(() => {
+    if (isEditing) {
+      let currentInput = document.getElementById(`${isEditing}-input`);
+    }
+  }, [newValue]);
+
+  return (
+    <tr>
+      {props.values.map((value, index) => {
+        return isEditing && isEditing === props.labels[index] ? (
+          <td key={index} className="bdr-b c" style={{ fontSize: "1.1rem" }}>
+            <form onSubmit={(e) => handleSaveEdit(e, index)}>
+              <input
+                id={`${props.labels[index]}-input`}
+                defaultValue={value}
+                onChange={(e) => handleEditing(e.target.value)}
+                className="c"
+              ></input>
+            </form>
+          </td>
+        ) : (
+          <td
+            onClick={(e) => handleEdit(value, index)}
+            key={index}
+            className="bdr-b c"
+            style={{ fontSize: "1.1rem" }}
+          >
+            <b>{value}</b>
+          </td>
+        );
+      })}
+    </tr>
   );
 };
 
 const Vitals = (props) => {
-  const LabelRow = (props) => (
-    <tr>
-      {props.labels.map((label) => (
-        <td
-          className="f-a-s"
-          key={label}
-          style={{
-            fontSize: "0.9rem",
-            fontStyle: "italic"
-          }}
-        >
-          {label}
-        </td>
-      ))}
-    </tr>
-  );
-
-  const ValueRow = (props) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [newValue, setNewValue] = useState(null);
-
-    const handleEdit = (value, index) => {
-      if (props.canEdit) {
-        console.log("editing: ", props.labels[index]);
-        setIsEditing(props.labels[index]);
-      }
-    };
-
-    const handleSaveEdit = async (e, index) => {
-      e.preventDefault();
-      switch (props.labels[index]) {
-        case "Name":
-          props.handleSaveEdit({
-            type: "SET_NAME",
-            payload: newValue
-          });
-          break;
-        default:
-          break;
-      }
-      // console.log(newMessage);
-      // primus.write({
-      //   id: state.user.id,
-      //   action: "NEW_MESSAGE",
-      //   roomId: room.id,
-      //   message: newMessage,
-      //   userId: state.user.id,
-      //   userName: state.user.name
-      // });
-      console.log("newValue", newValue);
-      // props.values[index] = newValue;
-      // document.getElementById(`${isEditing}-input`).value = newValue;
-      setIsEditing(false);
-    };
-
-    const handleEditing = (newValue) => setNewValue(newValue);
-
-    useEffect(() => {}, [newValue]);
-
-    return (
-      <tr>
-        {props.values.map((value, index) => {
-          if (isEditing && isEditing === props.labels[index]) {
-            return (
-              <td
-                key={index}
-                className="bdr-b c"
-                style={{
-                  fontSize: `${[...value].length > 12 ? "1rem" : "1.1rem"}`
-                }}
-              >
-                <form onSubmit={(e) => handleSaveEdit(e, index)}>
-                  <input
-                    id={`${props.labels[index]}-input`}
-                    defaultValue={value}
-                    onChange={(e) => handleEditing(e.target.value)}
-                  ></input>
-                </form>
-              </td>
-            );
-          }
-          return (
-            <td
-              onClick={(e) => handleEdit(value, index)}
-              key={index}
-              className="bdr-b c"
-              style={{
-                fontSize: `${[...value].length > 12 ? "1rem" : "1.1rem"}`
-              }}
-            >
-              <b>{value}</b>
-            </td>
-          );
-        })}
-      </tr>
-    );
-  };
   return (
     <div className="w">
       <table className="w">
@@ -176,45 +193,34 @@ const Vitals = (props) => {
           <LabelRow labels={["HP", "Current", "Damage", "Armor"]} />
         </tbody>
       </table>
-      {/* <table className="w f-a-s">
-        <tbody>
-          <ValueRow values={["d6", "0"]} />
-          <LabelRow labels={["Damage", "Armor"]} />
-        </tbody>
-      </table> */}
     </div>
   );
 };
 
-const ROLL_SCOPES = ["just me", "my campaign"];
+// const ROLL_SCOPES = ["just me", "my campaign"];
 
 const Journal = (props) => {
-  if (props.journalEntries.length === 0) {
-    return <div>My adventures lie ahead...</div>;
-  }
-
+  console.log(props.journalEntries);
   return (
     <div>
-      {Object.entries(props.journalEntries).map(([key, entry]) => (
-        <div key={key} className="p-1 f-a-s">
-          <div>
-            {key} - Rolled: {entry.statName}
+      {props.journalEntries.length !== 0 ? (
+        Object.entries(props.journalEntries).map(([key, entry]) => (
+          <div key={key} className="p-1 f-a-s">
+            {entry.description && <div>{entry.description}</div>}
+            <div className="indent">Rolled: {entry.statName}</div>
+            <div className="indent">Result: {entry.total}</div>
           </div>
-          <div className="indent">Result: {entry.rollResult}</div>
-          {entry.userModDescription && (
-            <div className="indent">
-              Description: {entry.userModDescription}
-            </div>
-          )}
-        </div>
-      ))}
+        ))
+      ) : (
+        <div>My adventures lie ahead...</div>
+      )}
     </div>
   );
 };
 
 export function CharacterSheet() {
   const { state, dispatch } = React.useContext(store);
-  const [activeTab, setActiveTab] = React.useState("Moves");
+  const [activeTab, setActiveTab] = React.useState("Stats");
   const [newRoll, setNewRoll] = React.useState(false);
 
   const TAB_LABELS = ["Stats", "Moves", "Journal"];
@@ -245,7 +251,7 @@ export function CharacterSheet() {
 
   const handleSaveEdit = (newDispatch) => dispatch(newDispatch);
 
-  console.log(state.user.character);
+  // console.log(state.user.character);
 
   useEffect(() => {}, [newRoll]);
 
@@ -259,16 +265,12 @@ export function CharacterSheet() {
           handleRoll={handleRoll}
         />
       )}
-      <div style={{ position: "relative" }}>
-        <div style={{ position: "sticky", top: 0 }}>
-          <Tabs
-            tabLabels={TAB_LABELS}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-        </div>
-      </div>
-      .{activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
+      <Tabs
+        tabLabels={TAB_LABELS}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
+      {activeTab === "Moves" && <MoveList handleRoll={handleRoll} />}
       {activeTab === "Stats" && (
         <div style={{ fontSize: "1.2rem" }}>
           <Vitals state={state} handleSaveEdit={handleSaveEdit} />
@@ -276,7 +278,12 @@ export function CharacterSheet() {
         </div>
       )}
       {activeTab === "Journal" && (
-        <Journal journalEntries={state.user.character.journalEntries} />
+        <Journal
+          journalEntries={[
+            ...(state.user.character.journalEntries || []),
+            ...(state.user.character.rolls || [])
+          ]}
+        />
       )}
     </div>
   );

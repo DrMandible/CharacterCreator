@@ -12,7 +12,7 @@ const URL_BASE = `https://character-companion.glitch.me/api`;
 const URL_USERS = `${URL_BASE}/users`;
 const URL_LOGIN = `${URL_BASE}/login`;
 
-const DEFAULT_VIEW = ["CHAT", "CHARACTER_SHEET"];
+const DEFAULT_VIEW = ["CHARACTER_SHEET"];
 
 export const useUser = () => {
   const [userData, setUserData] = React.useState({

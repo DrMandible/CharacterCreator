@@ -4,8 +4,10 @@ import Graph from "react-graph-vis";
 import { store } from "../data/store";
 
 import { Connections } from "../components/Connections";
+import { getRandomPortrait } from "../data/charNetworkConnections";
 
 const addConnections = (nodes, edges, connections, distance) => {
+  // console.log("addConnections: ", nodes, edges, connections, distance);
   for (let [name, conn] of connections) {
     addNode(nodes, conn, distance, connections, name);
     addEdge(conn, name, distance, edges);
@@ -103,17 +105,30 @@ function addNode(nodes, conn, distance, connections, name) {
   if (conn.connectionType === "Party") {
     font = "18px arial gold";
   }
-
+  let newNode;
   if (!sourceNodeExists) {
+    console.log("find ?'s connections", conn.sourceName);
+    console.log(connections);
     let newSourceNode = connections.get(conn.sourceName);
-    let newNode = {
-      id: newSourceNode.name,
-      label: newSourceNode.name,
-      group: newSourceNode.sourceName,
-      shape: "circularImage",
-      image: newSourceNode.image,
-      font: font
-    };
+    if (newSourceNode) {
+      newNode = {
+        id: newSourceNode.name,
+        label: newSourceNode.name,
+        group: newSourceNode.sourceName,
+        shape: "circularImage",
+        image: newSourceNode.image,
+        font: font
+      };
+    } else {
+      newNode = {
+        id: `unknown-${i}`,
+        label: `unknown-${i}`,
+        group: `unknown-${i}`,
+        shape: "circularImage",
+        image: getRandomPortrait(`unknown-${i}`),
+        font: font
+      };
+    }
     nodes.push(newNode);
     conn.setNode(newNode);
     // console.log(conn);
@@ -157,7 +172,7 @@ let initGraphOptions = {
 export const Party = (props) => {
   const { state, dispatch } = React.useContext(store);
   const [activeNode, setActiveNode] = React.useState(
-    state.character?.connections?.get(state.character?.name)
+    state.user.character?.connections?.get(state.user.character?.name)
   );
   const [selectedNode, setSelectedNode] = React.useState();
   const [graph, setGraph] = React.useState(
@@ -173,12 +188,14 @@ export const Party = (props) => {
         return;
       }
       let selectedNodeName = nodes[0];
-      if (state.character.connections.has(selectedNodeName)) {
+      if (state.user.character.connections.has(selectedNodeName)) {
         // 1st degree connection
-        let newSelectedNode = state.character.connections.get(selectedNodeName);
+        let newSelectedNode = state.user.character.connections.get(
+          selectedNodeName
+        );
         setSelectedNode(newSelectedNode, 1);
       } else {
-        for (let [sourceName, conn] of state.character.connections) {
+        for (let [sourceName, conn] of state.user.character.connections) {
           if (conn.connections.has(selectedNodeName)) {
             // 2nd degree connection
             setSelectedNode(conn.connections.get(selectedNodeName), 2);
@@ -188,7 +205,9 @@ export const Party = (props) => {
     }
   };
 
-  React.useEffect(() => {}, [graphOptions.layout.hierarchical.enabled]);
+  React.useEffect(() => {
+    console.log(state.user.character.connections);
+  }, [state.user.character.connections]);
 
   return (
     <div className="t w c">

@@ -6,14 +6,15 @@ export const Tabs = ({ tabLabels, activeTab, setActiveTab }) => {
   };
 
   return (
-    <div className="d-flex w" style={{ position: "relative" }}>
+    <div className="d-flex w" style={{ position: "sticky", top: 0 }}>
       <SC.SolidBackground
         className="w bdr-b"
         style={{
           margin: 0,
           padding: 0,
           position: "sticky",
-          top: 0
+          top: 0,
+          height: "100%"
         }}
       >
         <div className="d-flex w">

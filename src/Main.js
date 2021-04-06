@@ -11,6 +11,7 @@ import { Account } from "./components/Account";
 import { Party } from "./views/Party";
 import { Menu } from "./views/Menu";
 import { Chat } from "./components/Chat";
+import { Campaign } from "./components/Campaign";
 
 import { store } from "./data/store";
 
@@ -70,7 +71,8 @@ export function Main() {
     CHARACTER_SELECT: <CharacterSelect />,
     ACCOUNT: <Account />,
     MENU: <Menu />,
-    CHAT: <Chat />
+    CHAT: <Chat />,
+    CAMPAIGN: <Campaign />
   };
   var w =
     window.innerWidth && document.documentElement.clientWidth
@@ -83,7 +85,7 @@ export function Main() {
   // console.log("w", typeof w, w);
   let cardWidth = w < 700 ? "95vw" : "33vw";
   return (
-    <div className="d-flex f-w w c flex-c">
+    <div id="main-root" className="d-flex f-w w c flex-c">
       <div className="d-flex f-w w p-1 c" style={{ alignItems: "flex-start" }}>
         {activeViews?.length > 0 &&
           Array.from(new Set(activeViews)).map((view, key) => {

@@ -72,7 +72,9 @@ export const MoveCard = (props) => {
               {move.trigger}
               {move.roll && (
                 <SC.RollButton
-                  onClick={(e) => props.handleRoll("", "", move.modifier)}
+                  onClick={(e) =>
+                    props.handleRoll("", "", move.modifier, "", move.moveName)
+                  }
                   className="m-1"
                 >
                   {move.modifier}

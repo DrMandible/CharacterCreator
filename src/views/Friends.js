@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 
 import "../styles.css";
@@ -8,6 +8,7 @@ import { getRandomPortrait } from "../data/charNetworkConnections";
 
 import { BubbleWPortrait } from "../components/Bubble";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import { Tabs } from "../components/Tabs";
 
 const URL_BASE = `https://character-companion.glitch.me/api`;
 const URL_USERS = `${URL_BASE}/users`;
@@ -19,13 +20,16 @@ const URL_UNFRIEND = (fromUserId, toUserId) =>
   `${URL_BASE}/unfriend/${fromUserId}/${toUserId}`;
 
 export const Friends = () => {
-  const { state, dispatch } = React.useContext(store);
+  const { state, dispatch } = useContext(store);
+  const [primus, setPrimus] = useState(null);
 
-  const [searchResults, setSearchResults] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [isSearching, setIsSearching] = React.useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const [users, setUsers] = React.useState({
+  const [activeTab, setActiveTab] = useState("Friends");
+
+  const [users, setUsers] = useState({
     friends: [],
     reqsOut: [],
     reqsIn: []
@@ -42,72 +46,102 @@ export const Friends = () => {
         userIds.push(id);
       }
     }
-    // console.log("getReqAndFriendIds: ", typeof userIds, userIds);
+    console.log("getReqAndFriendIds: ", typeof userIds, userIds);
     return [...userIds];
   };
 
   const getUsers = async () => {
-    if (
-      !state.user.friendRequestsOutgoing ||
-      !state.user.friendRequests ||
-      !state.user.friends
-    )
-      return [];
+    // if (
+    //   !state.user.friendRequestsOutgoing &&
+    //   !state.user.friendRequests &&
+    //   !state.user.friends
+    // )
+    //   return [];
+    console.log("getUsers...");
     setIsLoading(true);
     let userIds = getReqAndFriendIds();
 
     if (userIds?.length > 0) {
       try {
-        const response = await axios.get(URL_USERS_BY_ID(userIds), {
-          headers: {
-            "Content-Type": "application/json"
-          }
+        await state.primusConnection.write({
+          userId: state.user.id,
+          action: "GET_USERS",
+          payload: userIds
         });
-        // console.log('getUsers server res: ', response);
-        let friends = [],
-          reqsIn = [],
-          reqsOut = [];
-        for (let user of response.data) {
-          if (state.user.friends.includes(user.id)) friends.push(user);
-          if (state.user.friendRequests.includes(user.id)) reqsIn.push(user);
-          if (state.user.friendRequestsOutgoing.includes(user.id))
-            reqsOut.push(user);
-        }
-        let newUsers = {
-          friends: friends,
-          reqsOut: reqsOut,
-          reqsIn: reqsIn
-        };
-
-        setUsers(newUsers);
-        setIsLoading(false);
       } catch (e) {
         console.error(e);
       }
     }
     setIsLoading(false);
   };
-  React.useEffect(() => {
-    getUsers();
-    // console.log("Friends mounted - useEffect - state.user: ", state.user);
-  }, []);
+
+  const handleGetUsers = async (data) => {
+    let friends = [],
+      reqsIn = [],
+      reqsOut = [];
+    for (let user of data) {
+      if (state.user.friends.includes(user.id)) friends.push(user);
+      if (state.user.friendRequests.includes(user.id)) reqsIn.push(user);
+      if (state.user.friendRequestsOutgoing.includes(user.id))
+        reqsOut.push(user);
+    }
+    let newUsers = {
+      friends: friends,
+      reqsOut: reqsOut,
+      reqsIn: reqsIn
+    };
+    setUsers(newUsers);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (!primus) {
+      if (state?.primusConnection) {
+        setPrimus(state.primusConnection);
+        getUsers();
+      }
+    }
+
+    if (primus) {
+      primus.on("data", async function (data) {
+        // console.log(data.action);
+        switch (data.action) {
+          case "SEND_FRIEND_REQUEST":
+            break;
+          case "ACCEPT_FRIEND_REQUEST":
+            break;
+          case "DECLINE_FRIEND_REQUEST":
+            break;
+          case "GET_USERS":
+            handleGetUsers(data.payload);
+            break;
+          case "FRIEND_SEARCH_RESULTS":
+            console.log(data.payload);
+            setSearchResults(data.payload);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, [primus, state.primusConnection, state.user.friends]);
 
   const handleFriendSearch = async (e) => {
     e.preventDefault();
-    try {
-      setIsSearching(true);
-      const response = await axios.get(URL_USERS, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      // console.log(response);
-      let userIds = getReqAndFriendIds();
+    setIsSearching(true);
+    // const response = await axios.get(URL_USERS, {
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // });
+    // let userIds = getReqAndFriendIds();
+    // setSearchResults(response.data);
+    await state.primusConnection.write({
+      userId: state.user.id,
+      action: "FRIEND_SEARCH",
+      searchTerm: document.getElementById("friend-search-input").value
+    });
 
-      setSearchResults(response.data);
-    } catch (err) {
-      console.error(err);
-    }
     setIsSearching(false);
   };
 
@@ -156,12 +190,21 @@ export const Friends = () => {
     setSearchResults([]);
   };
 
-  // console.log('state.user', state.user);
+  let tabLabels = [];
+  users.friends.length > 0 && tabLabels.push("Friends");
+  users.reqsIn.length > 0 && tabLabels.push("Incoming");
+  users.reqsOut.length > 0 && tabLabels.push("Outgoing");
+  tabLabels.push("Search");
 
   return (
-    <div className="w">
+    <div className="w" style={{ display: "relative" }}>
       {isLoading && <LoadingSpinner />}
-      {users.friends.length > 0 && (
+      <Tabs
+        tabLabels={tabLabels}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
+      {activeTab === "Friends" && users.friends.length > 0 && (
         <React.Fragment>
           <SC.CardBodyTitle>FRIENDS</SC.CardBodyTitle>
           <Deck
@@ -171,7 +214,7 @@ export const Friends = () => {
           />
         </React.Fragment>
       )}
-      {users.reqsIn.length > 0 && (
+      {activeTab === "Incoming" && users.reqsIn.length > 0 && (
         <React.Fragment>
           <SC.CardBodyTitle>NEW FRIEND REQUESTS</SC.CardBodyTitle>
           <Deck
@@ -182,7 +225,7 @@ export const Friends = () => {
         </React.Fragment>
       )}
 
-      {users.reqsOut.length > 0 && (
+      {activeTab === "Outgoing" && users.reqsOut.length > 0 && (
         <React.Fragment>
           <SC.CardBodyTitle>PENDING FRIEND REQUESTS</SC.CardBodyTitle>
           <Deck
@@ -193,34 +236,44 @@ export const Friends = () => {
         </React.Fragment>
       )}
 
-      {searchResults && searchResults?.length > 0 && (
+      {activeTab === "Search" && (
         <div>
-          <div>Search Results...</div>
-          <div onClick={handleToggleSearch} className="p-1">
-            <SC.SmallButton style={{ height: "2rem", width: "2rem" }}>
-              X
+          {searchResults && searchResults?.length > 0 && (
+            <div>
+              <div>Search Results...</div>
+
+              <Deck
+                users={searchResults}
+                btnHandler={handleFriendReq}
+                friendStatus="STRANGER"
+              />
+              <div onClick={handleToggleSearch} className="p-1">
+                <SC.SmallButton>Clear results</SC.SmallButton>
+              </div>
+            </div>
+          )}
+
+          <div className="d-flex w c">
+            <input
+              id="friend-search-input"
+              type="text"
+              aria-label="friend search input"
+              placeholder="Friend username or email"
+              className="m-1"
+            />
+            <SC.SmallButton onClick={handleFriendSearch}>
+              Find
+              {isSearching ? (
+                <LoadingSpinner />
+              ) : (
+                <span role="img" aria-label="Find friends">
+                  🔍
+                </span>
+              )}
             </SC.SmallButton>
           </div>
-
-          <Deck
-            users={searchResults}
-            btnHandler={handleFriendReq}
-            friendStatus="STRANGER"
-          />
         </div>
       )}
-      <div>
-        <SC.SmallButton onClick={handleFriendSearch} className="c">
-          Find
-          {isSearching ? (
-            <LoadingSpinner />
-          ) : (
-            <span role="img" aria-label="Find friends">
-              🔍
-            </span>
-          )}
-        </SC.SmallButton>
-      </div>
       {/* <SC.ToolbarMargin /> */}
     </div>
   );

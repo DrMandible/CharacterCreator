@@ -4,6 +4,12 @@ import { store } from "../data/store";
 
 import * as SC from "../styled";
 
+const scrollTo = (ref) => {
+  if (ref /* + other conditions */) {
+    ref.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+};
+
 const modsToStats = {
   STR: "Strength",
   DEX: "Dexterity",
@@ -54,41 +60,70 @@ const initRoll = (state, roll) => {
     roll.modValue = scoreToBonus(roll.statValue);
   }
 
-  console.log(roll);
+  if (roll.description === "") {
+    if (roll.moveName) {
+      roll.description = roll.moveName;
+    } else {
+      roll.description = `My ${roll.statName} was tested.`;
+    }
+  }
   return roll;
 };
 
 export const Roll = (props) => {
   const { state, dispatch } = React.useContext(store);
+  const [primus, setPrimus] = useState(null);
+  const rollModalRef = React.useRef(null);
+
   const [rollResults, setRollResults] = useState(null);
   const [view, setView] = useState("SETUP");
 
   const handleSubmitRoll = async (roll) => {
-    console.log(roll);
-    console.log("handleSubmitRoll", state.user.character);
-    let rollResult =
-      Math.floor(Math.random() * 6) +
-      1 +
-      Math.floor(Math.random() * 6) +
-      1 +
-      roll.modValue +
-      (roll.userModValue || 0);
-    roll["rollResult"] = rollResult;
+    primus.write({
+      action: "NEW_ROLL",
+      userId: state.user.id,
+      userName: state.user.name,
+      roll: roll
+    });
+  };
 
-    setRollResults(roll);
+  const dispatchRoll = async (newRoll) => {
+    await dispatch({
+      type: "ADD_ROLL",
+      payload: newRoll
+    });
+  };
 
-    if (roll.recordToJournal) {
-      await dispatch({
-        type: "ADD_JOURNAL_ENTRY",
-        payload: roll
+  useEffect(() => {
+    if (!primus) {
+      if (state?.primusConnection) {
+        // console.log(state.primusConnection);
+        setPrimus(state.primusConnection);
+      }
+    }
+    if (primus) {
+      primus.on("data", function message(data) {
+        switch (data.action) {
+          case "ROLL_RESULTS":
+            let newRollResults = data.payload;
+            setRollResults(newRollResults);
+            setView("RESULTS");
+            if (data.payload.recordToJournal) {
+              dispatchRoll(data.payload);
+            }
+            break;
+
+          default:
+            break;
+        }
       });
     }
-    setView("RESULTS");
-  };
+  }, [primus, view]);
 
   return (
     <div
-      className="d-flex w c"
+      id="roll-modal"
+      className="d-flex w c f-a-s p-1"
       style={{
         backgroundColor: "rgba(255, 255, 255, 0.95)",
         zIndex: 99999,
@@ -116,12 +151,31 @@ export const Roll = (props) => {
 };
 
 const Results = (props) => {
-  console.log(props.rollResults);
+  console.log("Results", props.rollResults);
 
   return (
-    <div>
-      Roll result:
-      <b>{props.rollResults.rollResult}</b>
+    <div ref={scrollTo} className="w">
+      {props.rollResults.dice.faces.map((faceCount, index) => (
+        <div className="w c" key={index}>
+          <div>
+            Rolled {props.rollResults.dice.numDice[index]}d{faceCount}
+          </div>
+          <div>Modifier: {props.rollResults.modValue}</div>
+          <br />
+          <span />
+          <br />
+          <b>Roll result</b>
+          {props.rollResults.dice.results[index].map((result, i) => (
+            <div key={i}>
+              Dice {i + 1}: {result}
+            </div>
+          ))}
+          <div>
+            Total:
+            {props.rollResults.total}
+          </div>
+        </div>
+      ))}
       <div className="p-1">
         <SC.SmallButton onClick={(e) => props.handleRoll("CANCEL")}>
           OK
@@ -135,7 +189,6 @@ const RollSetup = (props) => {
   const { state, dispatch } = React.useContext(store);
 
   const [userModValue, setUserModValue] = useState(0);
-  const [userModDescription, setUserModDescription] = useState(null);
 
   const [recordToJournal, setRecordToJournal] = useState(true);
 
@@ -162,28 +215,30 @@ const RollSetup = (props) => {
     }
   };
 
-  const handleUserModDescription = (e) => setUserModDescription(e.target.value);
+  const handleRollUpdate = (rollKey, newValue) => {
+    let newRoll = { ...roll, [rollKey]: newValue };
+    setRoll(newRoll);
+  };
 
   const handleSubmitRoll = (e) => {
     e.preventDefault();
     let finalRoll = roll;
-    finalRoll.userModValue = userModValue;
-    finalRoll.userModDescription = userModDescription;
+    finalRoll.modValue = userModValue;
     finalRoll["recordToJournal"] = recordToJournal;
-    // console.log("rolling: ", finalRoll);
+    console.log("rolling: ", finalRoll);
     props.handleSubmitRoll(finalRoll);
   };
 
   return (
-    <div style={{ alignItems: "left", justifyItems: "left" }}>
+    <div ref={scrollTo} style={{ alignItems: "left", justifyItems: "left" }}>
       <div className="d-flex">
-        <div className="p-1">You're rolling</div>
+        <div className="p-1">Rolling</div>
         <div className="p-1">
           <b>{roll.statName}</b>
         </div>
       </div>
       <div className="d-flex">
-        <div className="p-1">You're score: </div>
+        <div className="p-1">Score: </div>
         <div className="p-1">
           <b>{roll.statValue}</b>
         </div>
@@ -219,16 +274,15 @@ const RollSetup = (props) => {
           </div>
         </div>
       </div>
-      {userModValue !== 0 && (
-        <div className="d-flex w" style={{ visible: false }}>
-          <textarea
-            className="d-flex w"
-            type="text"
-            placeholder="Custom modifier description (optional) "
-            onChange={handleUserModDescription}
-          />
-        </div>
-      )}
+
+      <div className="d-flex w" style={{ visible: false }}>
+        <textarea
+          className="d-flex w"
+          type="text"
+          placeholder={roll.description}
+          onChange={(e) => handleRollUpdate("description", e.target.value)}
+        />
+      </div>
 
       {/* *** SOCIAL - SHARE SCOPE *** */}
       {/* <div className="d-flex">

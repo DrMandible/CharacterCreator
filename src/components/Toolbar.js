@@ -2,16 +2,18 @@ import React from "react";
 
 import * as SC from "../styled";
 import { ReactComponent as IconCharacterSheet } from "../assets/doc.svg";
-import { ReactComponent as IconParty } from "../assets/group.svg";
+import { ReactComponent as IconFriends } from "../assets/group.svg";
 import { ReactComponent as IconMenu } from "../assets/menu.svg";
 import { ReactComponent as IconAccount } from "../assets/account.svg";
 import { ReactComponent as IconChat } from "../assets/chat.svg";
+import { ReactComponent as IconConnections } from "../assets/connections.svg";
+import { ReactComponent as IconCompass } from "../assets/compass.svg";
 
 export const Toolbar = (props) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
+
   const handleClick = (e, view) => {
     e.preventDefault();
-    // console.log(props.state.view);
     if (props.state.view.includes(view)) {
       props.dispatch({
         type: "REMOVE_VIEW",
@@ -42,7 +44,13 @@ export const Toolbar = (props) => {
               props.state.view.includes("CHARACTER_SHEET") ? true : false
             }
           >
-            <IconCharacterSheet />
+            <IconCharacterSheet
+              style={{
+                fill: props.state.view.includes("CHARACTER_SHEET")
+                  ? "white"
+                  : "black"
+              }}
+            />
           </SC.ToolbarOption>
 
           <SC.ToolbarOption
@@ -51,15 +59,43 @@ export const Toolbar = (props) => {
               props.state.view.includes("FRIENDS") ? true : false
             }
           >
-            <IconParty />
+            <IconFriends
+              style={{
+                fill: props.state.view.includes("FRIENDS") ? "white" : "black"
+              }}
+            />
           </SC.ToolbarOption>
 
           <SC.ToolbarOption
             onMouseUp={(e) => handleClick(e, "CHAT")}
             currentselection={props.state.view.includes("CHAT") ? true : false}
           >
-            <IconChat />
+            <IconChat
+              style={{
+                fill: props.state.view.includes("CHAT") ? "white" : "black"
+              }}
+            />
           </SC.ToolbarOption>
+
+          <SC.ToolbarOption
+            onMouseUp={(e) => handleClick(e, "CAMPAIGN")}
+            currentselection={
+              props.state.view.includes("CAMPAIGN") ? true : false
+            }
+          >
+            <IconCompass
+              style={{
+                fill: props.state.view.includes("CAMPAIGN") ? "white" : "black"
+              }}
+            />
+          </SC.ToolbarOption>
+
+          {/* <SC.ToolbarOption
+            onMouseUp={(e) => handleClick(e, "PARTY")}
+            currentselection={props.state.view.includes("PARTY") ? true : false}
+          >
+            <IconConnections />
+          </SC.ToolbarOption> */}
 
           <SC.ToolbarOption
             onMouseUp={(e) => handleClick(e, "ACCOUNT")}
@@ -67,7 +103,11 @@ export const Toolbar = (props) => {
               props.state.view.includes("ACCOUNT") ? true : false
             }
           >
-            <IconAccount />
+            <IconAccount
+              style={{
+                fill: props.state.view.includes("ACCOUNT") ? "white" : "black"
+              }}
+            />
           </SC.ToolbarOption>
         </React.Fragment>
       )}
@@ -78,7 +118,6 @@ export const Toolbar = (props) => {
       >
         <IconMenu />
       </SC.ToolbarOption>
-      {/* <SC.ToolbarBG /> */}
     </SC.Toolbar>
   );
 };

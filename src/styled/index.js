@@ -108,6 +108,7 @@ export const CardBorders = styled.div`
   max-width: ${(props) =>
     props.windowwidth < 600 ? "95vw" : props.windowwidth / 3} !important; */
   width: ${(props) => (props.windowwidth < 600 ? "95vw" : "33vw")};
+  min-width: 350px;
   height: 100%;
   max-height: 75vh;
   overflow-y: wrap;
@@ -194,8 +195,8 @@ export const Card = styled.div`
 `;
 
 export const SmallCard = styled(Card)`
-  width: 10rem;
-  overflow-x: hidden;
+  /* width: 10rem; */
+  /* overflow-x: hidden; */
 `;
 
 export const CardHeader = styled.div`
@@ -339,6 +340,8 @@ export const ToolbarOption = styled.div`
   -webkit-animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1)
     both;
   animation: ${slideInTopRight} 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) both;
+  min-height: 3rem;
+  min-width: 3rem;
   height: 3rem;
   width: 3rem;
   &:focus {

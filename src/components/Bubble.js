@@ -36,7 +36,7 @@ export const BubbleWPortrait = (props) => {
   const label = props.label;
   const fullText = props.fullText;
   return (
-    <div className="d-flex w" style={{ zIndex: 999 }}>
+    <div className="d-flex w">
       {image && <Portrait image={image} />}
       <div className={`d-flex w f-w`}>
         <div className={`d-flex w f-sb c`}>

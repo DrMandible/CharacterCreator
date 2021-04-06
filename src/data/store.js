@@ -36,6 +36,13 @@ export const store = createContext(initialState);
 
 const { Provider } = store;
 
+const idInObj = (targetId, obj) => {
+  for (let entry of obj) {
+    if (entry.id === targetId) return true;
+  }
+  return false;
+};
+
 function removeItemOnce(arr, value) {
   var index = arr.indexOf(value);
   if (index > -1) {
@@ -44,9 +51,23 @@ function removeItemOnce(arr, value) {
   return arr;
 }
 
+const addRoll = (currentState, payload) => {
+  if (!currentState.user.character["rolls"]) {
+    currentState.user.character["rolls"] = [payload];
+  } else {
+    if (!idInObj(payload.id, currentState.user.character.rolls)) {
+      currentState.user.character.rolls = [
+        ...currentState.user.character.rolls,
+        payload
+      ];
+    }
+  }
+  return currentState;
+};
+
 export const StateProvider = ({ children }) => {
   const [state, dispatch] = useReducer((state, action) => {
-    console.log(action);
+    // console.log(action);
 
     const currentState = { ...state };
     switch (action.type) {
@@ -108,26 +129,11 @@ export const StateProvider = ({ children }) => {
       case "UPDATE_JOINED_CHATS":
         currentState.joinedChats = action.payload;
         return currentState;
-      case "ADD_JOURNAL_ENTRY":
-        console.log("ADD_JOURNAL_ENTRY");
-        console.log(
-          "currentState.user.character.journalEntries",
-          currentState.user.character.journalEntries
-        );
-        currentState.user.character.journalEntries.push(action.payload);
-        return currentState;
+      case "ADD_ROLL":
+        return addRoll(currentState, action.payload);
       case "SET_PLAYBOOK":
         currentState.character.playbook = action.payload;
         return currentState;
-      // case "SET_HELP_TERM":
-      //   currentState.helpTerm = action.payload;
-      //   return currentState;
-      // case "SET_MODAL":
-      //   currentState.modal.modalType = action.modalType;
-      //   currentState.modal.show = action.payload;
-      //   currentState.modal.key = action.key;
-      //   currentState.modal.value = action.value;
-      //   return currentState;
       case "SET_NAME":
         currentState.user.character.name = action.payload;
         return currentState;
